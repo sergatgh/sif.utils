@@ -6,6 +6,7 @@ public class PsScriptSerializerOptions
 {
     public string Path { get; set; } = string.Empty;
     public bool Uninstall { get; set; } = false;
+    public bool Verbose { get; set; } = false;
     public string? ErrorAction { get; set; } = null;
     public bool Inline { get; set; }
     public string[] IncludeTasks { get; set; } = [];
@@ -13,11 +14,7 @@ public class PsScriptSerializerOptions
 
 public class PsScriptSerializer
 {
-    public async Task SerializeToFile(List<ParameterEditModel> parameters, PsScriptSerializerOptions options)
-    {
-    }
-
-    public string SerializeToString(List<ParameterEditModel> parameters, PsScriptSerializerOptions options)
+    public string SerializeToString(IList<ParameterEditModel> parameters, PsScriptSerializerOptions options)
     {
         var sb = new StringBuilder();
         var filteredParameters = parameters
@@ -65,6 +62,11 @@ public class PsScriptSerializer
         if (options.Uninstall)
         {
             sb.Append(" -Uninstall");
+        }
+
+        if (options.Verbose)
+        {
+            sb.Append(" -Verbose");
         }
 
         if (options.ErrorAction is not null)

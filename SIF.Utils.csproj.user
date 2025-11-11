@@ -4,6 +4,18 @@
     <_LastSelectedProfileId>C:\workspace\trash\sif-viewer\SIF.Utils\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ConfigFunctionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="JsonViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LearnSIF.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SifJsonParsingForm.cs">
       <SubType>Form</SubType>
     </Compile>

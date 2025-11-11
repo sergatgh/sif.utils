@@ -5,7 +5,8 @@ namespace SIF.Utils;
 public class SifBaseProperties
 {
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public JsonProperty Element { get; set; }
+    public string? Description { get; set; }
 }
 
 public class SifJsonTaskParameterModel
@@ -27,10 +28,13 @@ public class SifJsonTaskModel : SifBaseProperties
 
 public class SifJsonParameterModel : SifBaseProperties
 {
-    public string Type { get; set; } = string.Empty;
-    public string DefaultValue { get; set; } = string.Empty;
-    public string Reference { get; set; } = string.Empty;
-    public string Validate { get; set; } = string.Empty;
+    public string? Type { get; set; }
+
+    public string? DefaultValue { get; set; }
+
+    public string? Reference { get; set; }
+
+    public string? Validate { get; set; }
 }
 
 public class SifJsonVariableModel
@@ -41,7 +45,7 @@ public class SifJsonVariableModel
 
 public class SifJsonIncludeModel : SifBaseProperties
 {
-    public string Source { get; set; } = string.Empty;
+    public string? Source { get; set; }
 }
 
 public class SifJsonModuleModel
@@ -76,10 +80,14 @@ public class SifJsonParser
 {
     public async Task<SifJsonParsingResult> Parse(string filePath)
     {
-        JsonDocument jsonDocument;
         try
         {
-            jsonDocument = await JsonDocument.ParseAsync(File.OpenRead(filePath));
+            JsonDocument? jsonDocument;
+            using(var reader = new StreamReader(filePath))
+            {
+                jsonDocument = await JsonDocument.ParseAsync(reader.BaseStream);
+            }
+            return ParseInternal(jsonDocument);
         }
         catch (JsonException jsonEx)
         {
@@ -95,7 +103,10 @@ public class SifJsonParser
                 Error = $"Unexpected error: {ex.Message}",
             };
         }
+    }
 
+    protected SifJsonParsingResult ParseInternal(JsonDocument jsonDocument)
+    {
         if (!jsonDocument.RootElement.TryGetProperty("Tasks", out var tasksElement))
         {
             return new SifJsonParsingResult
@@ -213,6 +224,7 @@ public class SifJsonParser
         return tasksElement.EnumerateObject().Select(parameter =>
         new SifJsonTaskModel
         {
+            Element = parameter,
             Name = parameter.Name,
             Description =
                 parameter.Get("Description"),
@@ -246,12 +258,12 @@ public class SifJsonParser
 
 public static class JsonElementExtensions
 {
-    public static string Get(this JsonProperty element, string propertyName)
+    public static string? Get(this JsonProperty element, string propertyName)
     {
         if (element.Value.TryGetProperty(propertyName, out var prop))
         {
             return prop.GetRawText().Trim('"');
         }
-        return string.Empty;
+        return null;
     }
 }

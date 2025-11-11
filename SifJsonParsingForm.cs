@@ -1,8 +1,4 @@
-using System.Data;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.Design.AxImporter;
+using System.Reflection;
 
 namespace SIF.Utils
 {
@@ -20,14 +16,15 @@ namespace SIF.Utils
     public partial class SifJsonParsingForm : Form
     {
         private readonly SifJsonParsingFormPresenter _presenter;
-        private readonly SifJsonParser _sifJsonParser = new();
+        public SifUtilsContext Context { get; } = new();
 
-        public SifUtilsContext Context { get; } = new SifUtilsContext();
+        private readonly SifJsonService _sifJsonService;
 
         public SifJsonParsingForm()
         {
             InitializeComponent();
             _presenter = new SifJsonParsingFormPresenter(this);
+            _sifJsonService = new SifJsonService(Context);
         }
 
         public void SifJsonParsingForm_Load(object sender, EventArgs e)
@@ -39,8 +36,9 @@ namespace SIF.Utils
         {
             Cursor.Current = Cursors.WaitCursor;
             Context.LastSelectedFile = openFileForViewerDialog.FileName;
+            openFileForViewerDialog.Dispose();
 
-            var parseTask = _sifJsonParser.Parse(Context.LastSelectedFile)
+            var parseTask = _sifJsonService.ParseJson(Context.LastSelectedFile)
                 .ContinueWith(task =>
                 {
                     var result = task.Result;
@@ -93,8 +91,10 @@ namespace SIF.Utils
             _presenter.UpdateView(SifJsonParsingFormState.CreatePowerShellScript);
         }
 
-        private void universalBackButton_Click(object sender, EventArgs e)
+        private void backFromPropertiesButton_Click(object sender, EventArgs e)
         {
+            Context.TasksToExecute = [];
+            Context.ExecuteInUninstallMode = false;
             _presenter.GoBack();
         }
 
@@ -157,7 +157,7 @@ namespace SIF.Utils
 
         private async void exportToFile_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.ShowDialog();
+            saveParametersDialog.ShowDialog();
         }
 
         private void copyToClipboardProperties_Click(object sender, EventArgs e)
@@ -205,15 +205,7 @@ namespace SIF.Utils
 
         private void includeUninstallOption_CheckedChanged(object sender, EventArgs e)
         {
-            if (includeUninstallOption.Checked)
-            {
-                _presenter.ShowUninstallTasksForScript();
-            }
-            else
-            {
-                _presenter.ShowTasksForScript();
-            }
-
+            _presenter.ShowTasksForScript();
             _presenter.GenerateExportScript();
         }
 
@@ -249,16 +241,312 @@ namespace SIF.Utils
             var text = scriptToExport.Text;
             if (string.IsNullOrWhiteSpace(text)) return;
 
-            var argument = $" -NoExit -Command \"{text}\"";
+            var directory = Path.GetDirectoryName(Context.LastSelectedFile);
+            var cdCommand = $"cd \\\"{directory}\\\"";
+
+            var argument = $" -NoExit -Command \"{cdCommand};{text.Replace("\"", "\\\"")}\"";
             System.Diagnostics.Process.Start("powershell.exe", argument);
         }
 
         private async void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var filePath = saveFileDialog1.FileName;
+            var filePath = saveParametersDialog.FileName;
             await File.WriteAllTextAsync(filePath, scriptToExport.Text);
             MessageBox.Show(
                 $"PowerShell script '{filePath}' has been created.", "Script Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private async void downloadTheValues_Click(object sender, EventArgs e)
+        {
+            var result = openSavedValues.ShowDialog();
+            if (result != DialogResult.OK) return;
+
+            var filePath = openSavedValues.FileName;
+            var text = File.ReadLinesAsync(filePath);
+            await foreach (var line in text)
+            {
+                var parts = line.Split('=', 2);
+                if (parts.Length != 2) continue;
+                var paramName = parts[0].Trim();
+                var paramValue = parts[1].Trim();
+
+                var row = propsTableForScript.Rows
+                    .Cast<DataGridViewRow>()
+                    .FirstOrDefault(p => p != null && paramName.Equals(p.Cells["nameDataGridViewTextBoxColumn"].Value?.ToString(), StringComparison.OrdinalIgnoreCase));
+
+                if (row != null) row.Cells["Value"].Value = paramValue;
+            }
+
+        }
+
+        private void reloadPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sifJsonService.ParseJson().ContinueWith(
+                result =>
+                {
+                    var r = result.Result;
+                    Invoke(() =>
+                    {
+                        Context.LastResult = r;
+                        _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
+                    });
+                }
+            );
+        }
+
+        private void propsTableForScript_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == propsTableForScript.Columns["RowAction"]?.Index)
+            {
+                var row = propsTableForScript.Rows[e.RowIndex];
+                var model = (ParameterEditModel)row.DataBoundItem;
+                Context.CurrentEditingParameter = model;
+
+                callActionContextMenu.Show(Cursor.Position);
+            }
+        }
+
+        private void exportParametersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var result = saveParametersDialog.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            var filePath = saveParametersDialog.FileName;
+
+            using var writer = new StreamWriter(filePath);
+            var parameterEditModels = Context.ParametersToEdit;
+            foreach (var param in parameterEditModels)
+            {
+                if (param.Value == param.DefaultValue) continue;
+
+                writer.WriteLine($"{param.Name}={param.Value}");
+            }
+        }
+
+        private void verboseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _presenter.GenerateExportScript();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new AboutWindow().ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            new LearnSIF().ShowDialog();
+        }
+
+        private void tasksViewer_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var list = sender as ListView;
+            var item = list?.HitTest(e.Location).Item;
+            if (item == null) return;
+
+            var taskName = item.Text;
+            var task =
+                list?.Tag?.ToString() == "Tasks" ?
+                Context.LastResult?.Tasks.FirstOrDefault(t => t.Name == taskName) :
+                list?.Tag?.ToString() == "UninstallTasks" ?
+                Context.LastResult?.UninstallTasks.FirstOrDefault(t => t.Name == taskName) :
+                null;
+            if (task == null) return;
+
+            _presenter.ShowJson(task);
+        }
+
+        private void TasksContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var menu = sender as ContextMenuStrip;
+
+            if (menu == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var list = menu.SourceControl as ListView;
+            if (list == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (list.SelectedItems.Count == 1)
+            {
+                viewToolStripMenuItem.Visible = true;
+                copyToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                viewToolStripMenuItem.Visible = false;
+                copyToolStripMenuItem.Visible = false;
+            }
+        }
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+            var menu = menuItem?.Owner as ContextMenuStrip;
+            var list = menu?.SourceControl as ListView;
+
+            if (list == null || list.SelectedItems.Count != 1) return;
+
+            var item = list.SelectedItems[0];
+            var taskName = item.Text;
+
+            var task =
+                list?.Tag?.ToString() == "Tasks" ?
+                    Context.LastResult?.Tasks.FirstOrDefault(t => t.Name == taskName) :
+                    list?.Tag?.ToString() == "UninstallTasks" ?
+                        Context.LastResult?.UninstallTasks.FirstOrDefault(t => t.Name == taskName) :
+                        null;
+
+            if (task == null) return;
+
+            _presenter.ShowJson(task);
+        }
+
+        private void copyTaskName_Click(object sender, EventArgs e)
+        {
+            var menuItem = (sender as ToolStripMenuItem)?.Owner as ToolStripDropDownMenu;
+            var menu = (menuItem?.OwnerItem)?.Owner as ContextMenuStrip;
+            var list = menu?.SourceControl as ListView;
+
+            if (list == null || list.SelectedItems.Count != 1) return;
+
+            var item = list.SelectedItems[0];
+            var taskName = item.Text;
+            Clipboard.SetText(taskName);
+        }
+
+        private void copyTaskDescription_Click(object sender, EventArgs e)
+        {
+
+            var menuItem = (sender as ToolStripMenuItem)?.Owner as ToolStripDropDownMenu;
+            var menu = (menuItem?.OwnerItem)?.Owner as ContextMenuStrip;
+            var list = menu?.SourceControl as ListView;
+
+            if (list == null || list.SelectedItems.Count != 1) return;
+
+            var item = list.SelectedItems[0];
+            var description = item.SubItems[1];
+            Clipboard.SetText(description.Text);
+        }
+
+        private void executeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+            var menu = menuItem?.Owner as ContextMenuStrip;
+            var list = menu?.SourceControl as ListView;
+
+            if (list == null) return;
+
+            Context.ExecuteInUninstallMode = list.Tag?.ToString() == "UninstallTasks";
+            Context.TasksToExecute = list.SelectedItems.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+            _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
+        }
+
+        private async void includesList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var list = sender as ListView;
+            var item = list?.HitTest(e.Location).Item;
+            if (item == null) return;
+
+            if (Context.LastSelectedFile == null) return;
+
+            var directory = Path.GetDirectoryName(Context.LastSelectedFile);
+
+            var includeFileName = item.SubItems[1].Text.Replace("\\\\", "\\");
+            var includeFilePath = Path.Combine(directory!, includeFileName);
+
+            if (!includeFilePath.EndsWith(".json"))
+            {
+                includeFilePath += ".json";
+            }
+
+            if (!File.Exists(includeFilePath)) return;
+
+            FilePathText.Text = Context.LastSelectedFile = includeFilePath;
+            Context.LastResult = await _sifJsonService.ParseJson(includeFilePath);
+
+            _presenter.UpdateView(SifJsonParsingFormState.FileSelected);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            parametersList.DataSource = textBox1.Text.Length == 0
+                ? Context.LastResult?.Parameters
+                : Context.LastResult?.Parameters
+                    .Where(p => p.Name.Contains(textBox1.Text, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+        }
+
+        private void variablesFilter_TextChanged(object sender, EventArgs e)
+        {
+            variablesList.Items.Clear();
+            var text = variablesFilter.Text.Trim().ToLower();
+            var variables = string.IsNullOrWhiteSpace(text)
+                ? Context.LastResult?.Variables ?? []
+                : Context.LastResult?.Variables.Where(x =>
+                    x.Name.ToLower().Contains(text) ||
+                    x.Value.ToLower().Contains(text)) ?? [];
+            variablesList.Items.AddRange(variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            _presenter.FilterPropertiesForScript();
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+            _presenter.FilterPropertiesForScript();
+        }
+
+        private void insertPathToFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Context.CurrentEditingParameter == null) return;
+
+            var result = chooseFolder.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            Context.CurrentEditingParameter.Value = chooseFolder.SelectedPath;
+            propsTableForScript.Refresh();
+        }
+
+        private void resetToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Context.CurrentEditingParameter == null) return;
+
+            Context.CurrentEditingParameter.ResetToDefault();
+            propsTableForScript.Refresh();
+        }
+
+        private void insertFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Context.CurrentEditingParameter == null) return;
+
+            var result = chooseFile.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            Context.CurrentEditingParameter.Value = chooseFile.FileName;
+            propsTableForScript.Refresh();
+        }
+    }
+
+    public class SifJsonService(SifUtilsContext context)
+    {
+        public Task<SifJsonParsingResult> ParseJson(string? fileName = null)
+        {
+            fileName ??= context.LastSelectedFile;
+            return fileName == null
+                ? Task.FromResult(new SifJsonParsingResult { Error = "File is not specified" })
+                : new SifJsonParser().Parse(fileName);
         }
     }
 
@@ -312,9 +600,12 @@ namespace SIF.Utils
                 case SifJsonParsingFormState.ChooseFormat:
                     ShowNavigation("Choose export option", true);
                     view.MainChooseExportFormat.Visible = true;
-                    view.includeTasks.ClearSelected();
-                    GenerateExportScript();
+                    view.includeUninstallOption.Checked = view.Context.ExecuteInUninstallMode;
+                    view.includeVerboseOption.Checked = false;
+                    view.inlineParametersOption.Checked = true;
+                    view.errorActionDropdown.SelectedItem = null;
                     ShowTasksForScript();
+                    GenerateExportScript();
                     break;
 
                 case SifJsonParsingFormState.ErrorText:
@@ -342,7 +633,9 @@ namespace SIF.Utils
             view.filterText.Clear();
             view.tasksViewer.Items.AddRange(_converter.GetGroupItems(result.Tasks).ToArray());
             view.uninstallTasksList.Items.AddRange(_converter.GetGroupItems(result.UninstallTasks).ToArray());
-            view.parametersList.Items.AddRange(_converter.GetGroupItems(result.Parameters).ToArray());
+
+            view.parametersList.DataSource = result.Parameters;
+
             view.variablesList.Items.AddRange(result.Variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
             view.includesList.Items.AddRange(result.Includes.Select(include => new ListViewItem([include.Name, include.Source])).ToArray());
             view.modulesList.Items.AddRange(result.Modules.Select(module => new ListViewItem(module.Path)).ToArray());
@@ -374,11 +667,11 @@ namespace SIF.Utils
 
         public void ShowProperties()
         {
-            view.propsTableForScript.DataSource = view.Context.LastResult?.Parameters.Select(ParameterEditModel.FromSifJsonParameterModel)
+            view.propsTableForScript.DataSource = view.Context.ParametersToEdit = view.Context.LastResult?.Parameters.Select(ParameterEditModel.FromSifJsonParameterModel)
                 .OrderBy(x => x.IsReference)
                 .ThenBy(x => x.HasDefaultValue)
                 .ThenBy(x => x.HasValidation)
-                .ToList();
+                .ToArray() ?? [];
         }
 
         public void GenerateExportScript()
@@ -387,12 +680,17 @@ namespace SIF.Utils
             {
                 Path = view.Context.LastSelectedFile ?? "",
                 Uninstall = view.includeUninstallOption.Checked,
+                Verbose = view.includeVerboseOption.Checked,
                 ErrorAction = view.errorActionDropdown.SelectedItem?.ToString(),
                 Inline = view.inlineParametersOption.Checked,
-                IncludeTasks = view.includeTasks.CheckedItems.Cast<string>().ToArray(),
+                IncludeTasks = view.tasksToolStripMenuItem.DropDownItems
+                    .Cast<ToolStripMenuItem>()
+                    .Where(item => item.Checked)
+                    .Select(item => item.Text)
+                    .ToArray()!,
             };
 
-            var parameterEditModels = (List<ParameterEditModel>)view.propsTableForScript.DataSource;
+            var parameterEditModels = view.Context.ParametersToEdit;
 
             var text = new PsScriptSerializer().SerializeToString(parameterEditModels, options);
 
@@ -407,25 +705,52 @@ namespace SIF.Utils
 
         public void ShowTasksForScript()
         {
-            view.includeTasks.Items.Clear();
-            var tasks = view.Context.LastResult?.Tasks ?? [];
-            view.includeTasks.Items.AddRange(
-                tasks.Select(task => task.Name).ToArray<object>()
+            view.tasksToolStripMenuItem.DropDownItems.Clear();
+
+            var tasks =
+                view.includeUninstallOption.Checked ?
+                view.Context.LastResult?.UninstallTasks ?? [] :
+                view.Context.LastResult?.Tasks ?? [];
+
+            view.tasksToolStripMenuItem.DropDownItems.AddRange(
+                tasks.Select(task =>
+                {
+                    var item = new ToolStripMenuItem(task.Name);
+                    item.CheckOnClick = true;
+                    item.Checked = view.Context.TasksToExecute?.Contains(task.Name) ?? false;
+                    item.CheckStateChanged += (_, _) =>
+                    {
+                        GenerateExportScript();
+                    };
+                    return item;
+                }).ToArray<ToolStripItem>()
             );
         }
 
-        public void ShowUninstallTasksForScript()
+        public void FilterPropertiesForScript()
         {
-            view.includeTasks.Items.Clear();
-            var tasks = view.Context.LastResult?.UninstallTasks ?? [];
-            view.includeTasks.Items.AddRange(
-                tasks.Select(task => task.Name).ToArray<object>()
-            );
+            var filtered = string.IsNullOrWhiteSpace(view.textBox2.Text)
+                ? view.Context.ParametersToEdit
+                : view.Context.ParametersToEdit
+                    .Where(p => p.Name.Contains(view.textBox2.Text, StringComparison.OrdinalIgnoreCase))
+                    .ToArray();
+
+            filtered = view.checkBox1.Checked
+                ? filtered
+                : filtered.Where(p => !p.IsReference).ToArray();
+
+            view.propsTableForScript.DataSource = filtered;
+        }
+
+        public void ShowJson(SifBaseProperties element)
+        {
+            var detailsForm = new JsonViewer(element.Name, element.Element);
+            detailsForm.ShowDialog();
         }
 
         public void ClearAllTabs()
         {
-            view.parametersList.Items.Clear();
+            view.parametersList.DataSource = null;
             view.variablesList.Items.Clear();
             view.uninstallTasksList.Items.Clear();
             view.includesList.Items.Clear();
