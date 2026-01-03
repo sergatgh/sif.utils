@@ -2,6 +2,9 @@ using System.Reflection;
 
 namespace SIF.Utils
 {
+    using SIF.Utils.ConfigFunctionParser;
+    using SIF.Utils.JsonParser;
+
     public enum SifJsonParsingFormState
     {
         None,
@@ -11,6 +14,7 @@ namespace SIF.Utils
         SetPropertiesForNewPsScript,
         ChooseFormat,
         ErrorText,
+        JsonBuilder,
     }
 
     public partial class SifJsonParsingForm : Form
@@ -193,7 +197,7 @@ namespace SIF.Utils
             System.Diagnostics.Process.Start("explorer.exe", argument);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void back_Click(object sender, EventArgs e)
         {
             _presenter.GoBack();
         }
@@ -537,6 +541,30 @@ namespace SIF.Utils
             Context.CurrentEditingParameter.Value = chooseFile.FileName;
             propsTableForScript.Refresh();
         }
+
+        private async void variablesList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var list = sender as ListView;
+            var item = list?.HitTest(e.Location).Item;
+            if (item == null) return;
+
+            await new ConfigFunctionViewer(item.SubItems[1].Text).ShowDialogAsync();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            _presenter.UpdateView(SifJsonParsingFormState.JsonBuilder);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var result = saveSifJson.ShowDialog();
+            if (result != DialogResult.OK) return;
+
+            string json = jsonBuilderPanel1.BuildJson();
+            File.WriteAllText(saveSifJson.FileName, json);
+        }
+
     }
 
     public class SifJsonService(SifUtilsContext context)
@@ -612,6 +640,10 @@ namespace SIF.Utils
                     view.MainFileParsingError.Visible = true;
                     break;
 
+                case SifJsonParsingFormState.JsonBuilder:
+                    view.MainJsonBuilder.Visible = true;
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
@@ -639,6 +671,8 @@ namespace SIF.Utils
             view.variablesList.Items.AddRange(result.Variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
             view.includesList.Items.AddRange(result.Includes.Select(include => new ListViewItem([include.Name, include.Source])).ToArray());
             view.modulesList.Items.AddRange(result.Modules.Select(module => new ListViewItem(module.Path)).ToArray());
+            view.registeredTasksList.Items.AddRange(result.RegisteredTasks.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
+            view.registeredConfigFunctionsList.Items.AddRange(result.RegisteredConfigFunctions.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
         }
 
         public void FilterTasks(string text)
@@ -756,6 +790,8 @@ namespace SIF.Utils
             view.includesList.Items.Clear();
             view.modulesList.Items.Clear();
             view.tasksViewer.Items.Clear();
+            view.registeredTasksList.Items.Clear();
+            view.registeredConfigFunctionsList.Items.Clear();
         }
     }
 

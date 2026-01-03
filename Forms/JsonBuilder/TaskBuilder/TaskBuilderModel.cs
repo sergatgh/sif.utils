@@ -1,0 +1,79 @@
+﻿using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+using System.Text.Json.Nodes;
+
+namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
+
+public class TaskBuilderModel
+{
+    public required TaskInfo Info { get; set; }
+
+    public required Control EditorControl { get; set; }
+
+    public (string, JsonObject) ToJson()
+    {
+
+        if (EditorControl is TaskEditor editor)
+        {
+            var name = !string.IsNullOrWhiteSpace(editor.nameInput.TextInput) ? editor.nameInput.TextInput : Info.Name;
+            var jsonObject = GetJsonFromTaskEditor(editor);
+            jsonObject["Type"] = Info.Name;
+            return (name, jsonObject);
+        }
+
+        if (EditorControl is IAdvancedTask webSiteTask)
+        {
+            var name = !string.IsNullOrWhiteSpace(webSiteTask.TaskEditor.nameInput.TextInput) ? webSiteTask.TaskEditor.nameInput.TextInput : webSiteTask.GetDefaultName();
+            var baseJson = GetJsonFromTaskEditor(webSiteTask.TaskEditor);
+            var parametersNode = baseJson["Params"]!.AsObject();
+            foreach (var (key, value) in webSiteTask.GetAdditionalJsonProperties())
+            {
+                parametersNode[key] = value;
+            }
+
+            baseJson["Type"] = Info.Name;
+
+            if (baseJson["Description"] == null || string.IsNullOrWhiteSpace(baseJson["Description"]!.GetValue<string>()))
+            {
+                baseJson["Description"] = webSiteTask.GetDefaultDescription();
+            }
+
+            return (name, baseJson);
+        }
+
+        return ("", new JsonObject());
+    }
+
+    public JsonObject GetJsonFromTaskEditor(TaskEditor editor)
+    {
+        var json = new JsonObject();
+        var parameters = new JsonObject();
+        foreach (DataGridViewRow row in editor.parametersDataGrid.Rows)
+        {
+            if (row.IsNewRow) continue;
+            var keyCell = row.Cells[0].Value?.ToString() ?? string.Empty;
+            var valueCell = row.Cells[1].Value?.ToString() ?? string.Empty;
+            if (!string.IsNullOrEmpty(keyCell))
+            {
+                parameters[keyCell] = valueCell;
+            }
+        }
+        json["Params"] = parameters;
+
+        if (!string.IsNullOrWhiteSpace(editor.descriptionInput.TextInput))
+        {
+            json["Description"] = editor.descriptionInput.TextInput;
+        }
+
+        if (!string.IsNullOrWhiteSpace(editor.skipInput.TextInput))
+        {
+            json["Skip"] = editor.skipInput.TextInput;
+        }
+
+        if (!string.IsNullOrWhiteSpace(editor.requiresInput.TextInput))
+        {
+            json["Requires"] = editor.requiresInput.TextInput;
+        }
+
+        return json;
+    }
+}

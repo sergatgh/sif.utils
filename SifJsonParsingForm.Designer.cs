@@ -1,5 +1,7 @@
 ﻿namespace SIF.Utils
 {
+    using SIF.Utils.JsonParser;
+
     partial class SifJsonParsingForm
     {
         /// <summary>
@@ -32,6 +34,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SifJsonParsingForm));
             openFileForViewerDialog = new OpenFileDialog();
             MainSelectFilePanel = new Panel();
+            label1 = new Label();
             flowLayoutPanel7 = new FlowLayoutPanel();
             button3 = new Button();
             button4 = new Button();
@@ -40,7 +43,7 @@
             welcomeWhatDoWeDo = new Label();
             welcomeLabel = new Label();
             MainJsonActionsPanel = new Panel();
-            tabControl1 = new TabControl();
+            viewJsonTabs = new TabControl();
             viewJsonTasks = new TabPage();
             tasksViewer = new ListView();
             tasksTabNameColumn = new ColumnHeader();
@@ -81,8 +84,16 @@
             viewJsonModules = new TabPage();
             modulesList = new ListView();
             columnHeader9 = new ColumnHeader();
-            tabPage1 = new TabPage();
-            label1 = new Label();
+            viewJsonRegisteredTasks = new TabPage();
+            registeredTasksList = new ListView();
+            customTask = new ColumnHeader();
+            powershellTask = new ColumnHeader();
+            viewJsonRegisteredConfigFunctions = new TabPage();
+            registeredConfigFunctionsList = new ListView();
+            customFunction = new ColumnHeader();
+            powershellFunction = new ColumnHeader();
+            viewJsonSettings = new TabPage();
+            viewJsonWarnings = new TabPage();
             filePathInformationLayout = new FlowLayoutPanel();
             button2 = new Button();
             FilePathText = new TextBox();
@@ -99,6 +110,12 @@
             creatingPsTitle = new Label();
             MainChooseProperties = new Panel();
             propsTableForScript = new DataGridView();
+            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            HasDefaultValue = new DataGridViewCheckBoxColumn();
+            IsReference = new DataGridViewCheckBoxColumn();
+            HasValidation = new DataGridViewCheckBoxColumn();
+            Value = new DataGridViewTextBoxColumn();
+            RowAction = new DataGridViewButtonColumn();
             parameterEditModelBindingSource = new BindingSource(components);
             flowLayoutPanel10 = new FlowLayoutPanel();
             textBox2 = new TextBox();
@@ -142,23 +159,22 @@
             label2 = new Label();
             saveParametersDialog = new SaveFileDialog();
             openSavedValues = new OpenFileDialog();
-            saveFileDialog2 = new SaveFileDialog();
+            saveSifJson = new SaveFileDialog();
             callActionContextMenu = new ContextMenuStrip(components);
             resetToDefaultToolStripMenuItem = new ToolStripMenuItem();
             insertPathToFolderToolStripMenuItem = new ToolStripMenuItem();
             insertFileToolStripMenuItem = new ToolStripMenuItem();
             chooseFolder = new FolderBrowserDialog();
             chooseFile = new OpenFileDialog();
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            HasDefaultValue = new DataGridViewCheckBoxColumn();
-            IsReference = new DataGridViewCheckBoxColumn();
-            HasValidation = new DataGridViewCheckBoxColumn();
-            Value = new DataGridViewTextBoxColumn();
-            RowAction = new DataGridViewButtonColumn();
+            MainJsonBuilder = new Panel();
+            button5 = new Button();
+            jsonBuilderPanel1 = new SIF.Utils.Forms.JsonBuilder.JsonBuilderPanel();
+            navigationPanel1 = new SIF.Utils.Forms.Common.NavigationPanel();
+            saveFileDialog1 = new SaveFileDialog();
             MainSelectFilePanel.SuspendLayout();
             flowLayoutPanel7.SuspendLayout();
             MainJsonActionsPanel.SuspendLayout();
-            tabControl1.SuspendLayout();
+            viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
             TasksContextMenu.SuspendLayout();
             tasksFilters.SuspendLayout();
@@ -171,7 +187,8 @@
             flowLayoutPanel8.SuspendLayout();
             viewJsonIncludes.SuspendLayout();
             viewJsonModules.SuspendLayout();
-            tabPage1.SuspendLayout();
+            viewJsonRegisteredTasks.SuspendLayout();
+            viewJsonRegisteredConfigFunctions.SuspendLayout();
             filePathInformationLayout.SuspendLayout();
             fileOptions.SuspendLayout();
             MainCreatePowershell.SuspendLayout();
@@ -193,6 +210,7 @@
             MainFileParsingError.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             callActionContextMenu.SuspendLayout();
+            MainJsonBuilder.SuspendLayout();
             SuspendLayout();
             // 
             // openFileForViewerDialog
@@ -206,6 +224,7 @@
             // 
             // MainSelectFilePanel
             // 
+            MainSelectFilePanel.Controls.Add(label1);
             MainSelectFilePanel.Controls.Add(flowLayoutPanel7);
             MainSelectFilePanel.Controls.Add(createPsScriptLabel);
             MainSelectFilePanel.Controls.Add(viewJsonLabel);
@@ -217,6 +236,21 @@
             MainSelectFilePanel.Size = new Size(800, 450);
             MainSelectFilePanel.TabIndex = 1;
             MainSelectFilePanel.Visible = false;
+            // 
+            // label1
+            // 
+            label1.Cursor = Cursors.Hand;
+            label1.Dock = DockStyle.Top;
+            label1.Font = new Font("Segoe UI", 15F);
+            label1.Location = new Point(0, 290);
+            label1.Name = "label1";
+            label1.Padding = new Padding(20);
+            label1.Size = new Size(800, 75);
+            label1.TabIndex = 8;
+            label1.Text = "👉 SIF Builder";
+            label1.Click += label1_Click;
+            label1.MouseLeave += labelButton_MouseLeave;
+            label1.MouseHover += labelButton_MouseHover;
             // 
             // flowLayoutPanel7
             // 
@@ -304,7 +338,7 @@
             // 
             // MainJsonActionsPanel
             // 
-            MainJsonActionsPanel.Controls.Add(tabControl1);
+            MainJsonActionsPanel.Controls.Add(viewJsonTabs);
             MainJsonActionsPanel.Controls.Add(filePathInformationLayout);
             MainJsonActionsPanel.Dock = DockStyle.Fill;
             MainJsonActionsPanel.Location = new Point(0, 0);
@@ -313,21 +347,24 @@
             MainJsonActionsPanel.TabIndex = 2;
             MainJsonActionsPanel.Visible = false;
             // 
-            // tabControl1
+            // viewJsonTabs
             // 
-            tabControl1.Controls.Add(viewJsonTasks);
-            tabControl1.Controls.Add(viewJsonUninstallTasks);
-            tabControl1.Controls.Add(viewJsonParameters);
-            tabControl1.Controls.Add(viewJsonVariables);
-            tabControl1.Controls.Add(viewJsonIncludes);
-            tabControl1.Controls.Add(viewJsonModules);
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 76);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(800, 374);
-            tabControl1.TabIndex = 3;
+            viewJsonTabs.Controls.Add(viewJsonTasks);
+            viewJsonTabs.Controls.Add(viewJsonUninstallTasks);
+            viewJsonTabs.Controls.Add(viewJsonParameters);
+            viewJsonTabs.Controls.Add(viewJsonVariables);
+            viewJsonTabs.Controls.Add(viewJsonIncludes);
+            viewJsonTabs.Controls.Add(viewJsonModules);
+            viewJsonTabs.Controls.Add(viewJsonRegisteredTasks);
+            viewJsonTabs.Controls.Add(viewJsonRegisteredConfigFunctions);
+            viewJsonTabs.Controls.Add(viewJsonSettings);
+            viewJsonTabs.Controls.Add(viewJsonWarnings);
+            viewJsonTabs.Dock = DockStyle.Fill;
+            viewJsonTabs.Location = new Point(0, 76);
+            viewJsonTabs.Name = "viewJsonTabs";
+            viewJsonTabs.SelectedIndex = 0;
+            viewJsonTabs.Size = new Size(800, 374);
+            viewJsonTabs.TabIndex = 3;
             // 
             // viewJsonTasks
             // 
@@ -424,6 +461,7 @@
             // 
             // filterText
             // 
+            filterText.Dock = DockStyle.Top;
             filterText.Location = new Point(3, 3);
             filterText.Name = "filterText";
             filterText.PlaceholderText = "Filter";
@@ -566,6 +604,7 @@
             // 
             // textBox1
             // 
+            textBox1.Dock = DockStyle.Top;
             textBox1.Location = new Point(3, 3);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Filter";
@@ -588,13 +627,17 @@
             // 
             variablesList.Columns.AddRange(new ColumnHeader[] { columnHeader5, columnHeader6 });
             variablesList.Dock = DockStyle.Fill;
+            variablesList.FullRowSelect = true;
+            variablesList.GridLines = true;
             variablesList.Location = new Point(0, 40);
+            variablesList.MultiSelect = false;
             variablesList.Name = "variablesList";
             variablesList.Size = new Size(792, 298);
             variablesList.TabIndex = 1;
             variablesList.Tag = "Variables";
             variablesList.UseCompatibleStateImageBehavior = false;
             variablesList.View = View.Details;
+            variablesList.MouseDoubleClick += variablesList_MouseDoubleClick;
             // 
             // columnHeader5
             // 
@@ -617,6 +660,7 @@
             // 
             // variablesFilter
             // 
+            variablesFilter.Dock = DockStyle.Top;
             variablesFilter.Location = new Point(3, 3);
             variablesFilter.Name = "variablesFilter";
             variablesFilter.PlaceholderText = "Filter";
@@ -685,27 +729,95 @@
             columnHeader9.Text = "Path";
             columnHeader9.Width = 700;
             // 
-            // tabPage1
+            // viewJsonRegisteredTasks
             // 
-            tabPage1.Controls.Add(label1);
-            tabPage1.Location = new Point(4, 32);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 338);
-            tabPage1.TabIndex = 7;
-            tabPage1.Text = "Register";
-            tabPage1.UseVisualStyleBackColor = true;
+            viewJsonRegisteredTasks.Controls.Add(registeredTasksList);
+            viewJsonRegisteredTasks.Location = new Point(4, 32);
+            viewJsonRegisteredTasks.Name = "viewJsonRegisteredTasks";
+            viewJsonRegisteredTasks.Padding = new Padding(3);
+            viewJsonRegisteredTasks.Size = new Size(792, 338);
+            viewJsonRegisteredTasks.TabIndex = 7;
+            viewJsonRegisteredTasks.Text = "Registered Tasks";
+            viewJsonRegisteredTasks.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // registeredTasksList
             // 
-            label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Segoe UI", 24F);
-            label1.Location = new Point(3, 3);
-            label1.Name = "label1";
-            label1.Size = new Size(786, 332);
-            label1.TabIndex = 0;
-            label1.Text = "Coming Soon!";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            registeredTasksList.Columns.AddRange(new ColumnHeader[] { customTask, powershellTask });
+            registeredTasksList.Dock = DockStyle.Fill;
+            registeredTasksList.FullRowSelect = true;
+            registeredTasksList.GridLines = true;
+            registeredTasksList.Location = new Point(3, 3);
+            registeredTasksList.MultiSelect = false;
+            registeredTasksList.Name = "registeredTasksList";
+            registeredTasksList.Size = new Size(786, 332);
+            registeredTasksList.TabIndex = 2;
+            registeredTasksList.UseCompatibleStateImageBehavior = false;
+            registeredTasksList.View = View.Details;
+            // 
+            // customTask
+            // 
+            customTask.Text = "Custom Task";
+            customTask.Width = 200;
+            // 
+            // powershellTask
+            // 
+            powershellTask.Text = "PowerShell Task";
+            powershellTask.Width = 600;
+            // 
+            // viewJsonRegisteredConfigFunctions
+            // 
+            viewJsonRegisteredConfigFunctions.Controls.Add(registeredConfigFunctionsList);
+            viewJsonRegisteredConfigFunctions.Location = new Point(4, 32);
+            viewJsonRegisteredConfigFunctions.Name = "viewJsonRegisteredConfigFunctions";
+            viewJsonRegisteredConfigFunctions.Padding = new Padding(3);
+            viewJsonRegisteredConfigFunctions.Size = new Size(792, 338);
+            viewJsonRegisteredConfigFunctions.TabIndex = 8;
+            viewJsonRegisteredConfigFunctions.Text = "Registered Functions";
+            viewJsonRegisteredConfigFunctions.UseVisualStyleBackColor = true;
+            // 
+            // registeredConfigFunctionsList
+            // 
+            registeredConfigFunctionsList.Columns.AddRange(new ColumnHeader[] { customFunction, powershellFunction });
+            registeredConfigFunctionsList.Dock = DockStyle.Fill;
+            registeredConfigFunctionsList.FullRowSelect = true;
+            registeredConfigFunctionsList.GridLines = true;
+            registeredConfigFunctionsList.Location = new Point(3, 3);
+            registeredConfigFunctionsList.MultiSelect = false;
+            registeredConfigFunctionsList.Name = "registeredConfigFunctionsList";
+            registeredConfigFunctionsList.Size = new Size(786, 332);
+            registeredConfigFunctionsList.TabIndex = 2;
+            registeredConfigFunctionsList.UseCompatibleStateImageBehavior = false;
+            registeredConfigFunctionsList.View = View.Details;
+            // 
+            // customFunction
+            // 
+            customFunction.Text = "Custom Function";
+            customFunction.Width = 200;
+            // 
+            // powershellFunction
+            // 
+            powershellFunction.Text = "PowerShell Function";
+            powershellFunction.Width = 600;
+            // 
+            // viewJsonSettings
+            // 
+            viewJsonSettings.Location = new Point(4, 32);
+            viewJsonSettings.Name = "viewJsonSettings";
+            viewJsonSettings.Padding = new Padding(3);
+            viewJsonSettings.Size = new Size(792, 338);
+            viewJsonSettings.TabIndex = 9;
+            viewJsonSettings.Text = "Settings";
+            viewJsonSettings.UseVisualStyleBackColor = true;
+            // 
+            // viewJsonWarnings
+            // 
+            viewJsonWarnings.Location = new Point(4, 32);
+            viewJsonWarnings.Name = "viewJsonWarnings";
+            viewJsonWarnings.Padding = new Padding(3);
+            viewJsonWarnings.Size = new Size(792, 338);
+            viewJsonWarnings.TabIndex = 10;
+            viewJsonWarnings.Text = "ℹ️ Parse Warnings";
+            viewJsonWarnings.UseVisualStyleBackColor = true;
             // 
             // filePathInformationLayout
             // 
@@ -731,7 +843,7 @@
             button2.TabIndex = 4;
             button2.Text = "<";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button2.Click += back_Click;
             // 
             // FilePathText
             // 
@@ -884,6 +996,67 @@
             propsTableForScript.TabIndex = 2;
             propsTableForScript.CellContentClick += propsTableForScript_CellContentClick;
             propsTableForScript.CellValidating += propsTableForScript_CellValidating;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn.MinimumWidth = 6;
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.ReadOnly = true;
+            nameDataGridViewTextBoxColumn.Resizable = DataGridViewTriState.False;
+            nameDataGridViewTextBoxColumn.Width = 85;
+            // 
+            // HasDefaultValue
+            // 
+            HasDefaultValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            HasDefaultValue.DataPropertyName = "HasDefaultValue";
+            HasDefaultValue.HeaderText = "Has Default";
+            HasDefaultValue.MinimumWidth = 6;
+            HasDefaultValue.Name = "HasDefaultValue";
+            HasDefaultValue.ReadOnly = true;
+            HasDefaultValue.SortMode = DataGridViewColumnSortMode.Automatic;
+            HasDefaultValue.Width = 127;
+            // 
+            // IsReference
+            // 
+            IsReference.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            IsReference.DataPropertyName = "IsReference";
+            IsReference.HeaderText = "Ref";
+            IsReference.MinimumWidth = 6;
+            IsReference.Name = "IsReference";
+            IsReference.ReadOnly = true;
+            IsReference.Width = 40;
+            // 
+            // HasValidation
+            // 
+            HasValidation.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            HasValidation.DataPropertyName = "HasValidation";
+            HasValidation.HeaderText = "Validate";
+            HasValidation.MinimumWidth = 6;
+            HasValidation.Name = "HasValidation";
+            HasValidation.ReadOnly = true;
+            HasValidation.SortMode = DataGridViewColumnSortMode.Programmatic;
+            // 
+            // Value
+            // 
+            Value.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            Value.DataPropertyName = "Value";
+            Value.HeaderText = "Value";
+            Value.MinimumWidth = 6;
+            Value.Name = "Value";
+            Value.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Value.Width = 58;
+            // 
+            // RowAction
+            // 
+            RowAction.HeaderText = "Action";
+            RowAction.MinimumWidth = 6;
+            RowAction.Name = "RowAction";
+            RowAction.Text = "Modify";
+            RowAction.UseColumnTextForButtonValue = true;
+            RowAction.Width = 125;
             // 
             // parameterEditModelBindingSource
             // 
@@ -1325,13 +1498,13 @@
             openSavedValues.ReadOnlyChecked = true;
             openSavedValues.RestoreDirectory = true;
             // 
-            // saveFileDialog2
+            // saveSifJson
             // 
-            saveFileDialog2.AddToRecent = false;
-            saveFileDialog2.DefaultExt = "ps1";
-            saveFileDialog2.FileName = "run-script";
-            saveFileDialog2.Filter = "PowerShell|*.ps1";
-            saveFileDialog2.RestoreDirectory = true;
+            saveSifJson.AddToRecent = false;
+            saveSifJson.DefaultExt = "json";
+            saveSifJson.FileName = "my-flow";
+            saveSifJson.Filter = "SIF JSON|*.json";
+            saveSifJson.RestoreDirectory = true;
             // 
             // callActionContextMenu
             // 
@@ -1365,75 +1538,66 @@
             // 
             chooseFolder.RootFolder = Environment.SpecialFolder.MyComputer;
             // 
-            // nameDataGridViewTextBoxColumn
+            // MainJsonBuilder
             // 
-            nameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            nameDataGridViewTextBoxColumn.ReadOnly = true;
-            nameDataGridViewTextBoxColumn.Resizable = DataGridViewTriState.False;
-            nameDataGridViewTextBoxColumn.Width = 85;
+            MainJsonBuilder.Controls.Add(button5);
+            MainJsonBuilder.Controls.Add(jsonBuilderPanel1);
+            MainJsonBuilder.Controls.Add(navigationPanel1);
+            MainJsonBuilder.Dock = DockStyle.Fill;
+            MainJsonBuilder.Location = new Point(0, 0);
+            MainJsonBuilder.Name = "MainJsonBuilder";
+            MainJsonBuilder.Size = new Size(800, 450);
+            MainJsonBuilder.TabIndex = 1;
             // 
-            // HasDefaultValue
+            // button5
             // 
-            HasDefaultValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            HasDefaultValue.DataPropertyName = "HasDefaultValue";
-            HasDefaultValue.HeaderText = "Has Default";
-            HasDefaultValue.MinimumWidth = 6;
-            HasDefaultValue.Name = "HasDefaultValue";
-            HasDefaultValue.ReadOnly = true;
-            HasDefaultValue.SortMode = DataGridViewColumnSortMode.Automatic;
-            HasDefaultValue.Width = 127;
+            button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button5.BackColor = Color.Transparent;
+            button5.Font = new Font("Segoe UI", 22F);
+            button5.Location = new Point(715, 8);
+            button5.Margin = new Padding(0);
+            button5.Name = "button5";
+            button5.Size = new Size(73, 56);
+            button5.TabIndex = 3;
+            button5.Text = "💾";
+            button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
             // 
-            // IsReference
+            // jsonBuilderPanel1
             // 
-            IsReference.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            IsReference.DataPropertyName = "IsReference";
-            IsReference.HeaderText = "Ref";
-            IsReference.MinimumWidth = 6;
-            IsReference.Name = "IsReference";
-            IsReference.ReadOnly = true;
-            IsReference.Width = 40;
+            jsonBuilderPanel1.Dock = DockStyle.Fill;
+            jsonBuilderPanel1.Location = new Point(0, 76);
+            jsonBuilderPanel1.Name = "jsonBuilderPanel1";
+            jsonBuilderPanel1.Size = new Size(800, 374);
+            jsonBuilderPanel1.TabIndex = 0;
             // 
-            // HasValidation
+            // navigationPanel1
             // 
-            HasValidation.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            HasValidation.DataPropertyName = "HasValidation";
-            HasValidation.HeaderText = "Validate";
-            HasValidation.MinimumWidth = 6;
-            HasValidation.Name = "HasValidation";
-            HasValidation.ReadOnly = true;
-            HasValidation.SortMode = DataGridViewColumnSortMode.Programmatic;
+            navigationPanel1.Dock = DockStyle.Top;
+            navigationPanel1.Location = new Point(0, 0);
+            navigationPanel1.Name = "navigationPanel1";
+            navigationPanel1.Size = new Size(800, 76);
+            navigationPanel1.TabIndex = 1;
+            navigationPanel1.Title = "JSON Builder";
+            navigationPanel1.OnBackClicked += back_Click;
             // 
-            // Value
+            // saveFileDialog1
             // 
-            Value.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            Value.DataPropertyName = "Value";
-            Value.HeaderText = "Value";
-            Value.MinimumWidth = 6;
-            Value.Name = "Value";
-            Value.SortMode = DataGridViewColumnSortMode.NotSortable;
-            Value.Width = 58;
-            // 
-            // RowAction
-            // 
-            RowAction.HeaderText = "Action";
-            RowAction.MinimumWidth = 6;
-            RowAction.Name = "RowAction";
-            RowAction.Text = "Modify";
-            RowAction.UseColumnTextForButtonValue = true;
-            RowAction.Width = 125;
+            saveFileDialog1.AddToRecent = false;
+            saveFileDialog1.DefaultExt = "ps1";
+            saveFileDialog1.FileName = "run-script";
+            saveFileDialog1.Filter = "PowerShell|*.ps1";
+            saveFileDialog1.RestoreDirectory = true;
             // 
             // SifJsonParsingForm
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(MainChooseProperties);
-            Controls.Add(MainJsonActionsPanel);
+            Controls.Add(MainJsonBuilder);
             Controls.Add(MainSelectFilePanel);
+            Controls.Add(MainJsonActionsPanel);
+            Controls.Add(MainChooseProperties);
             Controls.Add(MainChooseExportFormat);
             Controls.Add(MainFileParsingError);
             Controls.Add(MainCreatePowershell);
@@ -1446,7 +1610,7 @@
             flowLayoutPanel7.ResumeLayout(false);
             MainJsonActionsPanel.ResumeLayout(false);
             MainJsonActionsPanel.PerformLayout();
-            tabControl1.ResumeLayout(false);
+            viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
             TasksContextMenu.ResumeLayout(false);
             tasksFilters.ResumeLayout(false);
@@ -1462,7 +1626,8 @@
             flowLayoutPanel8.PerformLayout();
             viewJsonIncludes.ResumeLayout(false);
             viewJsonModules.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
+            viewJsonRegisteredTasks.ResumeLayout(false);
+            viewJsonRegisteredConfigFunctions.ResumeLayout(false);
             filePathInformationLayout.ResumeLayout(false);
             filePathInformationLayout.PerformLayout();
             fileOptions.ResumeLayout(false);
@@ -1497,6 +1662,7 @@
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             callActionContextMenu.ResumeLayout(false);
+            MainJsonBuilder.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1528,7 +1694,7 @@
         private Label copyToClipboardProperties;
         private Label exportToFileProperties;
         internal Panel MainChooseExportFormat;
-        private TabControl tabControl1;
+        private TabControl viewJsonTabs;
         private TabPage viewJsonTasks;
         private TabPage viewJsonUninstallTasks;
         private TabPage viewJsonParameters;
@@ -1561,8 +1727,6 @@
         private ColumnHeader columnHeader8;
         internal ListView modulesList;
         private ColumnHeader columnHeader9;
-        private TabPage tabPage1;
-        private Label label1;
         private FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
         private Label label2;
@@ -1592,7 +1756,7 @@
         private ToolStripMenuItem reloadPropertiesToolStripMenuItem;
         private ToolStripMenuItem importParametersToolStripMenuItem;
         private ToolStripMenuItem exportParametersToolStripMenuItem;
-        private SaveFileDialog saveFileDialog2;
+        private SaveFileDialog saveSifJson;
         private MenuStrip scriptMenu;
         private ToolStripMenuItem optionsToolStripMenuItem;
         internal ToolStripMenuItem scriptOptionsToolStripMenuItem;
@@ -1627,5 +1791,21 @@
         private DataGridViewCheckBoxColumn HasValidation;
         private DataGridViewTextBoxColumn Value;
         private DataGridViewButtonColumn RowAction;
+        private TabPage viewJsonSettings;
+        private TabPage viewJsonRegisteredConfigFunctions;
+        internal ListView registeredConfigFunctionsList;
+        private ColumnHeader customFunction;
+        private ColumnHeader powershellFunction;
+        private ColumnHeader customTask;
+        private ColumnHeader powershellTask;
+        public ListView registeredTasksList;
+        public TabPage viewJsonWarnings;
+        internal TabPage viewJsonRegisteredTasks;
+        private Label label1;
+        internal Panel MainJsonBuilder;
+        private Forms.JsonBuilder.JsonBuilderPanel jsonBuilderPanel1;
+        private Forms.Common.NavigationPanel navigationPanel1;
+        internal Button button5;
+        private SaveFileDialog saveFileDialog1;
     }
 }

@@ -1,5 +1,7 @@
 namespace SIF.Utils;
 
+using SIF.Utils.JsonParser;
+
 public class SifUtilsContext
 {
     public string? LastSelectedFile { get; set; }

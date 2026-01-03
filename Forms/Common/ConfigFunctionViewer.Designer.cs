@@ -37,14 +37,15 @@
             TreeNode treeNode7 = new TreeNode("IISRootFolder");
             TreeNode treeNode8 = new TreeNode("getPath", new TreeNode[] { treeNode7 });
             TreeNode treeNode9 = new TreeNode("If", new TreeNode[] { treeNode4, treeNode6, treeNode8 });
-            treeView1 = new TreeView();
+            configFunctionTree = new TreeView();
+            errorParsingConfigFunctionLabel = new Label();
             SuspendLayout();
             // 
-            // treeView1
+            // configFunctionTree
             // 
-            treeView1.Dock = DockStyle.Fill;
-            treeView1.Location = new Point(0, 0);
-            treeView1.Name = "treeView1";
+            configFunctionTree.Dock = DockStyle.Fill;
+            configFunctionTree.Location = new Point(0, 0);
+            configFunctionTree.Name = "configFunctionTree";
             treeNode1.Name = "Node4";
             treeNode1.Text = "IISRootFolder";
             treeNode2.Name = "Node3";
@@ -63,23 +64,38 @@
             treeNode8.Text = "getPath";
             treeNode9.Name = "ifNode";
             treeNode9.Text = "If";
-            treeView1.Nodes.AddRange(new TreeNode[] { treeNode9 });
-            treeView1.Size = new Size(800, 450);
-            treeView1.TabIndex = 0;
+            configFunctionTree.Nodes.AddRange(new TreeNode[] { treeNode9 });
+            configFunctionTree.Size = new Size(800, 450);
+            configFunctionTree.TabIndex = 0;
+            // 
+            // errorParsingConfigFunctionLabel
+            // 
+            errorParsingConfigFunctionLabel.Dock = DockStyle.Fill;
+            errorParsingConfigFunctionLabel.Font = new Font("Segoe UI", 16F);
+            errorParsingConfigFunctionLabel.Location = new Point(0, 0);
+            errorParsingConfigFunctionLabel.Name = "errorParsingConfigFunctionLabel";
+            errorParsingConfigFunctionLabel.Size = new Size(800, 450);
+            errorParsingConfigFunctionLabel.TabIndex = 1;
+            errorParsingConfigFunctionLabel.Text = "There was an error parsing ConfigFunction";
+            errorParsingConfigFunctionLabel.TextAlign = ContentAlignment.MiddleCenter;
+            errorParsingConfigFunctionLabel.Visible = false;
             // 
             // ConfigFunctionViewer
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(treeView1);
+            Controls.Add(configFunctionTree);
+            Controls.Add(errorParsingConfigFunctionLabel);
             Name = "ConfigFunctionViewer";
             Text = "ConfigFunctionViewer";
+            Load += ConfigFunctionViewer_Load;
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TreeView treeView1;
+        private TreeView configFunctionTree;
+        private Label errorParsingConfigFunctionLabel;
     }
 }
