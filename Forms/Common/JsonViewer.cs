@@ -14,7 +14,7 @@ namespace SIF.Utils
 
     public partial class JsonViewer : Form
     {
-        public JsonViewer(string name, JsonProperty property)
+        public JsonViewer(string name, JsonElement property)
         {
             InitializeComponent();
 
@@ -26,9 +26,18 @@ namespace SIF.Utils
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
 
-            var text = JsonSerializer.Serialize(property.Value, options);
+            var text = JsonSerializer.Serialize(property, options);
 
             textBox1.Text = text;
+        }
+
+        public JsonViewer(string name, string json)
+        {
+            InitializeComponent();
+
+            this.Text = $"Json Viewer - {name}";
+
+            textBox1.Text = json;
         }
 
         protected override bool ProcessDialogKey(Keys keyData)

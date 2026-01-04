@@ -28,43 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            textBox1 = new TextBox();
+            labelText = new Label();
+            textBox = new TextBox();
+            panel1 = new Panel();
+            pathSelectButton = new Button();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // labelText
             // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Top;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(55, 23);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
+            labelText.AutoSize = true;
+            labelText.Dock = DockStyle.Top;
+            labelText.Location = new Point(0, 0);
+            labelText.Name = "labelText";
+            labelText.Size = new Size(46, 23);
+            labelText.TabIndex = 0;
+            labelText.Text = "label";
             // 
-            // textBox1
+            // textBox
             // 
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Location = new Point(0, 23);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(203, 30);
-            textBox1.TabIndex = 1;
+            textBox.Dock = DockStyle.Fill;
+            textBox.Location = new Point(0, 0);
+            textBox.Name = "textBox";
+            textBox.Size = new Size(257, 30);
+            textBox.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(textBox);
+            panel1.Controls.Add(pathSelectButton);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 23);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(293, 32);
+            panel1.TabIndex = 2;
+            // 
+            // pathSelectButton
+            // 
+            pathSelectButton.Dock = DockStyle.Right;
+            pathSelectButton.Location = new Point(257, 0);
+            pathSelectButton.Name = "pathSelectButton";
+            pathSelectButton.Size = new Size(36, 32);
+            pathSelectButton.TabIndex = 2;
+            pathSelectButton.Text = "...";
+            pathSelectButton.UseVisualStyleBackColor = true;
+            pathSelectButton.Visible = false;
+            pathSelectButton.Click += pathSelectButton_Click;
             // 
             // LabeledTextbox
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox1);
-            Controls.Add(label1);
+            Controls.Add(panel1);
+            Controls.Add(labelText);
             Name = "LabeledTextbox";
-            Size = new Size(203, 56);
+            Size = new Size(293, 55);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private TextBox textBox1;
+        private Label labelText;
+        private TextBox textBox;
+        private Panel panel1;
+        private Button pathSelectButton;
     }
 }

@@ -22,10 +22,34 @@
     <Compile Update="Forms\JsonBuilder\LabeledTextbox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\Modules\ModulesControlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\AppPoolTask.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\CommandTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\CopyTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\CreateServiceTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\DownloadFileTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\EnsurePathTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\AdvancedTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\FilePermissionsTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\InsertXmlTask.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\WebSiteTask.cs">

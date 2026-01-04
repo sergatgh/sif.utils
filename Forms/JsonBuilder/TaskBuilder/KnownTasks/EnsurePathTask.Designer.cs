@@ -102,7 +102,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(610, 356);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "Website";
+            tabPage1.Text = "Paths";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2

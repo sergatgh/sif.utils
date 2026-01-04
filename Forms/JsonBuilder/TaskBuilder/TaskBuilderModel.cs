@@ -15,65 +15,21 @@ public class TaskBuilderModel
         if (EditorControl is TaskEditor editor)
         {
             var name = !string.IsNullOrWhiteSpace(editor.nameInput.TextInput) ? editor.nameInput.TextInput : Info.Name;
-            var jsonObject = GetJsonFromTaskEditor(editor);
+            var jsonObject = editor.GetJson();
             jsonObject["Type"] = Info.Name;
             return (name, jsonObject);
         }
 
-        if (EditorControl is IAdvancedTask webSiteTask)
+        if (EditorControl is AdvancedTask task)
         {
-            var name = !string.IsNullOrWhiteSpace(webSiteTask.TaskEditor.nameInput.TextInput) ? webSiteTask.TaskEditor.nameInput.TextInput : webSiteTask.GetDefaultName();
-            var baseJson = GetJsonFromTaskEditor(webSiteTask.TaskEditor);
-            var parametersNode = baseJson["Params"]!.AsObject();
-            foreach (var (key, value) in webSiteTask.GetAdditionalJsonProperties())
-            {
-                parametersNode[key] = value;
-            }
+            var name = !string.IsNullOrWhiteSpace(task.TaskEditor.nameInput.TextInput) ? task.TaskEditor.nameInput.TextInput : task.GetDefaultName();
 
+            var baseJson = task.GetJson();
             baseJson["Type"] = Info.Name;
-
-            if (baseJson["Description"] == null || string.IsNullOrWhiteSpace(baseJson["Description"]!.GetValue<string>()))
-            {
-                baseJson["Description"] = webSiteTask.GetDefaultDescription();
-            }
 
             return (name, baseJson);
         }
 
         return ("", new JsonObject());
-    }
-
-    public JsonObject GetJsonFromTaskEditor(TaskEditor editor)
-    {
-        var json = new JsonObject();
-        var parameters = new JsonObject();
-        foreach (DataGridViewRow row in editor.parametersDataGrid.Rows)
-        {
-            if (row.IsNewRow) continue;
-            var keyCell = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var valueCell = row.Cells[1].Value?.ToString() ?? string.Empty;
-            if (!string.IsNullOrEmpty(keyCell))
-            {
-                parameters[keyCell] = valueCell;
-            }
-        }
-        json["Params"] = parameters;
-
-        if (!string.IsNullOrWhiteSpace(editor.descriptionInput.TextInput))
-        {
-            json["Description"] = editor.descriptionInput.TextInput;
-        }
-
-        if (!string.IsNullOrWhiteSpace(editor.skipInput.TextInput))
-        {
-            json["Skip"] = editor.skipInput.TextInput;
-        }
-
-        if (!string.IsNullOrWhiteSpace(editor.requiresInput.TextInput))
-        {
-            json["Requires"] = editor.requiresInput.TextInput;
-        }
-
-        return json;
     }
 }

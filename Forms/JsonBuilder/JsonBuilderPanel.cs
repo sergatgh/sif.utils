@@ -28,7 +28,19 @@ namespace SIF.Utils.Forms.JsonBuilder
                 tasksJson[taskName] = taskJson;
             }
 
-            var resultJson = new JsonObject() { ["Settings"] = settingsJson, ["Tasks"] = tasksJson };
+            var modulePaths = new JsonArray(modulesControlPanel1.ModulePaths.Select<string, JsonNode>(x => x).ToArray());
+
+            var resultJson = new JsonObject { ["Tasks"] = tasksJson };
+
+            if (modulePaths.Count > 0)
+            {
+                resultJson["Modules"] = modulePaths;
+            }
+
+            if (settingsJson.Count > 0)
+            {
+                resultJson["Settings"] = settingsJson;
+            }
 
             return resultJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
         }

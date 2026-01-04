@@ -2,15 +2,16 @@
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks
 {
-    public partial class EnsurePathTask : UserControl, IAdvancedTask
+    public partial class EnsurePathTask : AdvancedTask
     {
         public EnsurePathTask()
         {
             InitializeComponent();
+            InitializeBase();
         }
 
-        public TaskEditor TaskEditor => taskEditor1;
-        public Dictionary<string, JsonNode> GetAdditionalJsonProperties()
+        public override TaskEditor TaskEditor => taskEditor1;
+        public override Dictionary<string, JsonNode> GetAdditionalJsonProperties()
         {
             var dict = new Dictionary<string, JsonNode>();
             if (this.cleanText.Lines.Length > 0)
@@ -26,12 +27,12 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks
             return dict;
         }
 
-        public string GetDefaultName()
+        public override string GetDefaultName()
         {
             return "EnsurePath";
         }
 
-        public string GetDefaultDescription()
+        public override string GetDefaultDescription()
         {
             if (this.ensureText.Lines.Length <= 0 && this.cleanText.Lines.Length <= 0)
             {

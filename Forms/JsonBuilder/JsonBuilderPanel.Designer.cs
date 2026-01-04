@@ -42,8 +42,10 @@
             viewJsonRegisteredConfigFunctions = new TabPage();
             viewJsonSettings = new TabPage();
             autoRegisterExtensionsSetting = new CheckBox();
+            modulesControlPanel1 = new SIF.Utils.Forms.JsonBuilder.Modules.ModulesControlPanel();
             viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
+            viewJsonModules.SuspendLayout();
             viewJsonSettings.SuspendLayout();
             SuspendLayout();
             // 
@@ -133,6 +135,7 @@
             // viewJsonModules
             // 
             viewJsonModules.BackColor = Color.FromArgb(224, 224, 224);
+            viewJsonModules.Controls.Add(modulesControlPanel1);
             viewJsonModules.Location = new Point(4, 32);
             viewJsonModules.Name = "viewJsonModules";
             viewJsonModules.Size = new Size(927, 324);
@@ -186,6 +189,14 @@
             autoRegisterExtensionsSetting.Text = "Auto Register Extensions";
             autoRegisterExtensionsSetting.UseVisualStyleBackColor = true;
             // 
+            // modulesControlPanel1
+            // 
+            modulesControlPanel1.Dock = DockStyle.Fill;
+            modulesControlPanel1.Location = new Point(0, 0);
+            modulesControlPanel1.Name = "modulesControlPanel1";
+            modulesControlPanel1.Size = new Size(927, 324);
+            modulesControlPanel1.TabIndex = 0;
+            // 
             // JsonBuilderPanel
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
@@ -195,6 +206,7 @@
             Size = new Size(935, 360);
             viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
+            viewJsonModules.ResumeLayout(false);
             viewJsonSettings.ResumeLayout(false);
             viewJsonSettings.PerformLayout();
             ResumeLayout(false);
@@ -214,5 +226,6 @@
         private TabPage viewJsonVariables;
         private TaskBuilderPanel taskBuilderPanel1;
         private CheckBox autoRegisterExtensionsSetting;
+        private Modules.ModulesControlPanel modulesControlPanel1;
     }
 }

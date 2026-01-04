@@ -68,7 +68,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(649, 468);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "Website";
+            tabPage1.Text = "Write";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // backgroundColorInput
@@ -76,7 +76,7 @@
             backgroundColorInput.Dock = DockStyle.Top;
             backgroundColorInput.FormattingEnabled = true;
             backgroundColorInput.Items.AddRange(new object[] { "Black", "DarkBlue", "DarkGreen", "DarkCyan", "DarkRed", "DarkMagenta", "DarkYellow", "Gray", "DarkGray", "Blue", "Green", "Cyan", "Red", "Magenta", "Yellow", "White" });
-            backgroundColorInput.Location = new Point(3, 150);
+            backgroundColorInput.Location = new Point(3, 133);
             backgroundColorInput.Name = "backgroundColorInput";
             backgroundColorInput.Size = new Size(643, 31);
             backgroundColorInput.TabIndex = 8;
@@ -85,7 +85,7 @@
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Top;
-            label2.Location = new Point(3, 127);
+            label2.Location = new Point(3, 110);
             label2.Name = "label2";
             label2.Size = new Size(151, 23);
             label2.TabIndex = 9;
@@ -96,7 +96,7 @@
             colorSelector.Dock = DockStyle.Top;
             colorSelector.FormattingEnabled = true;
             colorSelector.Items.AddRange(new object[] { "Black", "DarkBlue", "DarkGreen", "DarkCyan", "DarkRed", "DarkMagenta", "DarkYellow", "Gray", "DarkGray", "Blue", "Green", "Cyan", "Red", "Magenta", "Yellow", "White" });
-            colorSelector.Location = new Point(3, 96);
+            colorSelector.Location = new Point(3, 79);
             colorSelector.Name = "colorSelector";
             colorSelector.Size = new Size(643, 31);
             colorSelector.TabIndex = 6;
@@ -105,7 +105,7 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 73);
+            label1.Location = new Point(3, 56);
             label1.Name = "label1";
             label1.Size = new Size(90, 23);
             label1.TabIndex = 7;
@@ -128,7 +128,9 @@
             nameInput.Location = new Point(3, 3);
             nameInput.Multiline = false;
             nameInput.Name = "nameInput";
-            nameInput.Size = new Size(643, 70);
+            nameInput.PathSelectMode = PathSelectMode.Folder;
+            nameInput.ShowPathSelector = false;
+            nameInput.Size = new Size(643, 53);
             nameInput.TabIndex = 0;
             nameInput.TextInput = "Hello World!";
             nameInput.TextLabel = "Message *";

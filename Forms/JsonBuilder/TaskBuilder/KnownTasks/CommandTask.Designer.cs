@@ -1,6 +1,6 @@
 ﻿namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks
 {
-    partial class AppPoolTask
+    partial class CommandTask
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,8 +30,10 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            button1 = new Button();
-            nameInput = new LabeledTextbox();
+            propertiesText = new TextBox();
+            cleanLabel = new Label();
+            commandPathText = new TextBox();
+            labelEnsure = new Label();
             tabPage2 = new TabPage();
             taskEditor1 = new TaskEditor();
             tabControl1.SuspendLayout();
@@ -47,46 +49,62 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(688, 470);
-            tabControl1.TabIndex = 1;
+            tabControl1.Size = new Size(499, 401);
+            tabControl1.TabIndex = 5;
             // 
             // tabPage1
             // 
             tabPage1.AutoScroll = true;
-            tabPage1.Controls.Add(button1);
-            tabPage1.Controls.Add(nameInput);
+            tabPage1.Controls.Add(propertiesText);
+            tabPage1.Controls.Add(cleanLabel);
+            tabPage1.Controls.Add(commandPathText);
+            tabPage1.Controls.Add(labelEnsure);
             tabPage1.Location = new Point(4, 32);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(680, 434);
+            tabPage1.Size = new Size(491, 365);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "App Pool";
+            tabPage1.Text = "Command";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // propertiesText
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(1048, 100);
-            button1.Margin = new Padding(0);
-            button1.Name = "button1";
-            button1.Size = new Size(33, 29);
-            button1.TabIndex = 5;
-            button1.Text = "...";
-            button1.UseVisualStyleBackColor = true;
+            propertiesText.Dock = DockStyle.Fill;
+            propertiesText.Location = new Point(3, 79);
+            propertiesText.Multiline = true;
+            propertiesText.Name = "propertiesText";
+            propertiesText.Size = new Size(485, 283);
+            propertiesText.TabIndex = 3;
+            propertiesText.Text = "/W\r\nC:\\certificates\\README";
             // 
-            // nameInput
+            // cleanLabel
             // 
-            nameInput.Dock = DockStyle.Top;
-            nameInput.Location = new Point(3, 3);
-            nameInput.Multiline = false;
-            nameInput.Name = "nameInput";
-            nameInput.PathSelectMode = PathSelectMode.Folder;
-            nameInput.ShowPathSelector = false;
-            nameInput.Size = new Size(674, 70);
-            nameInput.TabIndex = 0;
-            nameInput.TextInput = "sc10.local";
-            nameInput.TextLabel = "Name *";
-            nameInput.Vertical = true;
+            cleanLabel.AutoSize = true;
+            cleanLabel.Dock = DockStyle.Top;
+            cleanLabel.Location = new Point(3, 56);
+            cleanLabel.Name = "cleanLabel";
+            cleanLabel.Size = new Size(366, 23);
+            cleanLabel.TabIndex = 1;
+            cleanLabel.Text = "Parameters passed to executable (one per line)";
+            // 
+            // commandPathText
+            // 
+            commandPathText.Dock = DockStyle.Top;
+            commandPathText.Location = new Point(3, 26);
+            commandPathText.Name = "commandPathText";
+            commandPathText.Size = new Size(485, 30);
+            commandPathText.TabIndex = 2;
+            commandPathText.Text = "notepad";
+            // 
+            // labelEnsure
+            // 
+            labelEnsure.AutoSize = true;
+            labelEnsure.Dock = DockStyle.Top;
+            labelEnsure.Location = new Point(3, 3);
+            labelEnsure.Name = "labelEnsure";
+            labelEnsure.Size = new Size(152, 23);
+            labelEnsure.TabIndex = 0;
+            labelEnsure.Text = "Path to executable";
             // 
             // tabPage2
             // 
@@ -94,7 +112,7 @@
             tabPage2.Location = new Point(4, 32);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(680, 434);
+            tabPage2.Size = new Size(192, 64);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -106,18 +124,19 @@
             taskEditor1.Location = new Point(3, 3);
             taskEditor1.MinimumSize = new Size(50, 50);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(674, 428);
+            taskEditor1.Size = new Size(186, 58);
             taskEditor1.TabIndex = 0;
             // 
-            // AppPoolTask
+            // CommandTask
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
-            Name = "AppPoolTask";
-            Size = new Size(688, 470);
+            Name = "CommandTask";
+            Size = new Size(499, 401);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -126,8 +145,10 @@
 
         private TabControl tabControl1;
         private TabPage tabPage1;
-        private Button button1;
-        private LabeledTextbox nameInput;
+        private TextBox propertiesText;
+        private Label cleanLabel;
+        private TextBox commandPathText;
+        private Label labelEnsure;
         private TabPage tabPage2;
         internal TaskEditor taskEditor1;
     }

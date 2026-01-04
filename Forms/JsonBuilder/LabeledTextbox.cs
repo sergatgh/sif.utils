@@ -12,15 +12,15 @@ namespace SIF.Utils.Forms.JsonBuilder
 {
     public partial class LabeledTextbox : UserControl
     {
-        private bool vertical;
+        private bool vertical = true;
 
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public string TextLabel { get => label1.Text; set => label1.Text = value; }
+        public string TextLabel { get => labelText.Text; set => labelText.Text = value; }
 
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public string TextInput { get => textBox1.Text; set => textBox1.Text = value; }
+        public string TextInput { get => textBox.Text; set => textBox.Text = value; }
 
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -30,7 +30,7 @@ namespace SIF.Utils.Forms.JsonBuilder
             set
             {
                 vertical = value;
-                label1.Dock = value ? DockStyle.Top : DockStyle.Left;
+                labelText.Dock = value ? DockStyle.Top : DockStyle.Left;
             }
         }
 
@@ -38,13 +38,13 @@ namespace SIF.Utils.Forms.JsonBuilder
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool Multiline
         {
-            get => textBox1.Multiline;
+            get => textBox.Multiline;
             set
             {
-                textBox1.Multiline = value;
+                textBox.Multiline = value;
                 if (value)
                 {
-                    textBox1.Height = 60;
+                    textBox.Height = 60;
                 }
             }
         }
@@ -52,21 +52,102 @@ namespace SIF.Utils.Forms.JsonBuilder
         [Browsable(true)]
         public event EventHandler? TextChanged
         {
-            add => textBox1.TextChanged += value;
-            remove => textBox1.TextChanged -= value;
+            add => textBox.TextChanged += value;
+            remove => textBox.TextChanged -= value;
         }
 
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public new event KeyEventHandler? KeyDown
         {
-            add => textBox1.KeyDown += value;
-            remove => textBox1.KeyDown -= value;
+            add => textBox.KeyDown += value;
+            remove => textBox.KeyDown -= value;
         }
+
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool ShowPathSelector
+        {
+            get => pathSelectButton.Visible;
+            set => pathSelectButton.Visible = value;
+        }
+
+
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public PathSelectMode PathSelectMode { get; set; } = PathSelectMode.Folder;
+
+        public string[] Lines => textBox.Lines;
+
+        public bool HasText => !string.IsNullOrWhiteSpace(this.TextInput);
 
         public LabeledTextbox()
         {
             InitializeComponent();
         }
+
+        private void pathSelectButton_Click(object sender, EventArgs e)
+        {
+            if (PathSelectMode == PathSelectMode.File)
+            {
+                var openFileDialog1 = new OpenFileDialog();
+                // Set initial directory (optional)
+                openFileDialog1.InitialDirectory = @"C:\";
+                // Show the dialog and check if the user clicked OK
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the path of the selected file
+                    textBox.Text = openFileDialog1.FileName;
+                }
+                return;
+            }
+
+            if (PathSelectMode == PathSelectMode.Folder)
+            {
+                // Create an instance of the FolderBrowserDialog
+                var folderBrowserDialog1 = new FolderBrowserDialog();
+
+                // Set the initial directory (optional)
+                folderBrowserDialog1.InitialDirectory = @"C:\";
+
+                // Allow the user to create new folders (optional, default is true)
+                folderBrowserDialog1.ShowNewFolderButton = true;
+
+                // Show the dialog and check if the user clicked OK
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the path of the selected folder
+                    textBox.Text = folderBrowserDialog1.SelectedPath;
+                }
+                return;
+            }
+
+            if (PathSelectMode == PathSelectMode.All)
+            {
+                var openFileDialog1 = new OpenFileDialog
+                {
+                    ValidateNames = false,
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    FileName = "Select a file or folder"
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    var selectedPath = openFileDialog1.FileName;
+                    if (System.IO.Path.GetFileName(selectedPath) == "Select a file or folder")
+                    {
+                        selectedPath = System.IO.Path.GetDirectoryName(selectedPath) ?? selectedPath;
+                    }
+                    textBox.Text = selectedPath;
+                }
+            }
+        }
     }
+}
+
+public enum PathSelectMode
+{
+    Folder,
+    File,
+    All,
 }

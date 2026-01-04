@@ -3,7 +3,7 @@
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
-public partial class WebSiteTask : UserControl, IAdvancedTask
+public partial class WebSiteTask : AdvancedTask
 {
     private bool pathIsDirty = false;
     private bool appPoolIsDirty = false;
@@ -37,9 +37,9 @@ public partial class WebSiteTask : UserControl, IAdvancedTask
         pathInput.TextInput = selectWebsiteFolder.SelectedPath;
     }
 
-    public TaskEditor TaskEditor => taskEditor1;
+    public override TaskEditor TaskEditor => taskEditor1;
 
-    public Dictionary<string, JsonNode> GetAdditionalJsonProperties()
+    public override Dictionary<string, JsonNode> GetAdditionalJsonProperties()
     {
         var dict = new Dictionary<string, JsonNode>
         {
@@ -62,7 +62,7 @@ public partial class WebSiteTask : UserControl, IAdvancedTask
         return dict;
     }
 
-    public virtual string GetDefaultName()
+    public override string GetDefaultName()
     {
         if (nameInput.TextInput.Length == 0) return "Create_Website";
 
@@ -70,7 +70,7 @@ public partial class WebSiteTask : UserControl, IAdvancedTask
         return $"Create_{name}_Website";
     }
 
-    public virtual string GetDefaultDescription()
+    public override string GetDefaultDescription()
     {
         return nameInput.TextInput.Length == 0 ? "" : $"Create Web Site [{nameInput.TextInput}]";
     }

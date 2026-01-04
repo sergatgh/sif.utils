@@ -565,6 +565,11 @@ namespace SIF.Utils
             File.WriteAllText(saveSifJson.FileName, json);
         }
 
+        private void previewJsonButton_Click(object sender, EventArgs e)
+        {
+            string json = jsonBuilderPanel1.BuildJson();
+            new JsonViewer("SIF JSON Preview", json).ShowDialog();
+        }
     }
 
     public class SifJsonService(SifUtilsContext context)
@@ -778,7 +783,7 @@ namespace SIF.Utils
 
         public void ShowJson(SifBaseProperties element)
         {
-            var detailsForm = new JsonViewer(element.Name, element.Element);
+            var detailsForm = new JsonViewer(element.Name, element.Element.Value);
             detailsForm.ShowDialog();
         }
 

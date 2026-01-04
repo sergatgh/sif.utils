@@ -2,17 +2,16 @@
 {
     using System.Text.Json.Nodes;
 
-    public partial class AppPoolTask : UserControl, IAdvancedTask
+    public partial class AppPoolTask : AdvancedTask
     {
         public AppPoolTask()
         {
             InitializeComponent();
-            taskEditor1.nameInput.TextInput = GetDefaultName();
-            taskEditor1.descriptionInput.TextInput = GetDefaultDescription();
+            InitializeBase();
         }
 
-        public TaskEditor TaskEditor => taskEditor1;
-        public Dictionary<string, JsonNode> GetAdditionalJsonProperties()
+        public override TaskEditor TaskEditor => taskEditor1;
+        public override Dictionary<string, JsonNode> GetAdditionalJsonProperties()
         {
             var dict = new Dictionary<string, JsonNode>();
 
@@ -22,7 +21,7 @@
             return dict;
         }
 
-        public string GetDefaultName()
+        public override string GetDefaultName()
         {
             if (!string.IsNullOrWhiteSpace(nameInput.TextInput))
             {
@@ -31,7 +30,7 @@
             return "CreateAppPool";
         }
 
-        public string GetDefaultDescription()
+        public override string GetDefaultDescription()
         {
             if (!string.IsNullOrWhiteSpace(nameInput.TextInput))
             {

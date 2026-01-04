@@ -3,19 +3,19 @@
     using System.Text.Json.Nodes;
     using System.Text.RegularExpressions;
 
-    public partial class WriteHostTask : UserControl, IAdvancedTask
+    public partial class WriteHostTask : AdvancedTask
     {
         public WriteHostTask()
         {
             InitializeComponent();
         }
 
-        public TaskEditor TaskEditor => taskEditor1;
-        public Dictionary<string, JsonNode> GetAdditionalJsonProperties()
+        public override TaskEditor TaskEditor => taskEditor1;
+        public override Dictionary<string, JsonNode> GetAdditionalJsonProperties()
         {
             var dict = new Dictionary<string, JsonNode>
             {
-                { "Message", nameInput.TextInput },
+                { "Object", nameInput.TextInput },
             };
 
             if (!string.IsNullOrEmpty(backgroundColorInput.Text))
@@ -31,7 +31,7 @@
             return dict;
         }
 
-        public string GetDefaultName()
+        public override string GetDefaultName()
         {
             string name = Regex.Replace(nameInput.TextInput, "[^a-zA-Z0-9]", "");
             if (!string.IsNullOrWhiteSpace(nameInput.TextInput))
@@ -42,7 +42,7 @@
             return "WriteMessage";
         }
 
-        public string GetDefaultDescription()
+        public override string GetDefaultDescription()
         {
             if (!string.IsNullOrWhiteSpace(nameInput.TextInput))
             {

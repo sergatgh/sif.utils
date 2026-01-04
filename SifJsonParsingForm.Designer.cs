@@ -167,7 +167,8 @@
             chooseFolder = new FolderBrowserDialog();
             chooseFile = new OpenFileDialog();
             MainJsonBuilder = new Panel();
-            button5 = new Button();
+            previewJsonButton = new Button();
+            saveJsonToFileButton = new Button();
             jsonBuilderPanel1 = new SIF.Utils.Forms.JsonBuilder.JsonBuilderPanel();
             navigationPanel1 = new SIF.Utils.Forms.Common.NavigationPanel();
             saveFileDialog1 = new SaveFileDialog();
@@ -1540,7 +1541,8 @@
             // 
             // MainJsonBuilder
             // 
-            MainJsonBuilder.Controls.Add(button5);
+            MainJsonBuilder.Controls.Add(previewJsonButton);
+            MainJsonBuilder.Controls.Add(saveJsonToFileButton);
             MainJsonBuilder.Controls.Add(jsonBuilderPanel1);
             MainJsonBuilder.Controls.Add(navigationPanel1);
             MainJsonBuilder.Dock = DockStyle.Fill;
@@ -1549,19 +1551,33 @@
             MainJsonBuilder.Size = new Size(800, 450);
             MainJsonBuilder.TabIndex = 1;
             // 
-            // button5
+            // previewJsonButton
             // 
-            button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button5.BackColor = Color.Transparent;
-            button5.Font = new Font("Segoe UI", 22F);
-            button5.Location = new Point(715, 8);
-            button5.Margin = new Padding(0);
-            button5.Name = "button5";
-            button5.Size = new Size(73, 56);
-            button5.TabIndex = 3;
-            button5.Text = "💾";
-            button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click;
+            previewJsonButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            previewJsonButton.BackColor = Color.Transparent;
+            previewJsonButton.Font = new Font("Segoe UI", 22F);
+            previewJsonButton.Location = new Point(633, 8);
+            previewJsonButton.Margin = new Padding(0);
+            previewJsonButton.Name = "previewJsonButton";
+            previewJsonButton.Size = new Size(73, 56);
+            previewJsonButton.TabIndex = 4;
+            previewJsonButton.Text = "📄";
+            previewJsonButton.UseVisualStyleBackColor = false;
+            previewJsonButton.Click += previewJsonButton_Click;
+            // 
+            // saveJsonToFileButton
+            // 
+            saveJsonToFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            saveJsonToFileButton.BackColor = Color.Transparent;
+            saveJsonToFileButton.Font = new Font("Segoe UI", 22F);
+            saveJsonToFileButton.Location = new Point(715, 8);
+            saveJsonToFileButton.Margin = new Padding(0);
+            saveJsonToFileButton.Name = "saveJsonToFileButton";
+            saveJsonToFileButton.Size = new Size(73, 56);
+            saveJsonToFileButton.TabIndex = 3;
+            saveJsonToFileButton.Text = "💾";
+            saveJsonToFileButton.UseVisualStyleBackColor = false;
+            saveJsonToFileButton.Click += button5_Click;
             // 
             // jsonBuilderPanel1
             // 
@@ -1805,7 +1821,8 @@
         internal Panel MainJsonBuilder;
         private Forms.JsonBuilder.JsonBuilderPanel jsonBuilderPanel1;
         private Forms.Common.NavigationPanel navigationPanel1;
-        internal Button button5;
+        internal Button saveJsonToFileButton;
         private SaveFileDialog saveFileDialog1;
+        internal Button previewJsonButton;
     }
 }
