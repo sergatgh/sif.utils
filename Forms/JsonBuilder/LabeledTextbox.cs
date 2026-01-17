@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace SIF.Utils.Forms.JsonBuilder
 {
@@ -72,10 +64,13 @@ namespace SIF.Utils.Forms.JsonBuilder
             set => pathSelectButton.Visible = value;
         }
 
-
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public PathSelectMode PathSelectMode { get; set; } = PathSelectMode.Folder;
+
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public string PathSelectionFilter { get; set; } = "";
 
         public string[] Lines => textBox.Lines;
 
@@ -93,6 +88,10 @@ namespace SIF.Utils.Forms.JsonBuilder
                 var openFileDialog1 = new OpenFileDialog();
                 // Set initial directory (optional)
                 openFileDialog1.InitialDirectory = @"C:\";
+
+                openFileDialog1.Filter = PathSelectionFilter;
+                openFileDialog1.FilterIndex = 1;
+
                 // Show the dialog and check if the user clicked OK
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {

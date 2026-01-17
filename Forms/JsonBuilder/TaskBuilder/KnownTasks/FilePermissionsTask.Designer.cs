@@ -30,18 +30,19 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            accessRightsList = new ListView();
+            columnHeader1 = new ColumnHeader();
             filePathInput = new LabeledTextbox();
-            tabPage2 = new TabPage();
-            taskEditor1 = new TaskEditor();
-            listView1 = new ListView();
             menuStrip1 = new MenuStrip();
             addAccessRightToolStripMenuItem = new ToolStripMenuItem();
             removeAccessRightToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
+            tabPage2 = new TabPage();
+            taskEditor1 = new TaskEditor();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
             menuStrip1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -58,7 +59,7 @@
             // tabPage1
             // 
             tabPage1.AutoScroll = true;
-            tabPage1.Controls.Add(listView1);
+            tabPage1.Controls.Add(accessRightsList);
             tabPage1.Controls.Add(filePathInput);
             tabPage1.Controls.Add(menuStrip1);
             tabPage1.Location = new Point(4, 32);
@@ -68,6 +69,24 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "File Permissions";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // accessRightsList
+            // 
+            accessRightsList.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            accessRightsList.Dock = DockStyle.Fill;
+            accessRightsList.Location = new Point(3, 61);
+            accessRightsList.MultiSelect = false;
+            accessRightsList.Name = "accessRightsList";
+            accessRightsList.Size = new Size(567, 323);
+            accessRightsList.TabIndex = 1;
+            accessRightsList.UseCompatibleStateImageBehavior = false;
+            accessRightsList.View = View.Details;
+            accessRightsList.SelectedIndexChanged += accessRightsList_SelectedIndexChanged;
+            // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "Name";
+            columnHeader1.Width = 300;
             // 
             // filePathInput
             // 
@@ -79,9 +98,43 @@
             filePathInput.ShowPathSelector = true;
             filePathInput.Size = new Size(567, 58);
             filePathInput.TabIndex = 0;
-            filePathInput.TextInput = "C:\\inetpub\\wwwroot\\sc1041.sc\\App_Config\\ConnectionStrings.config";
+            filePathInput.TextInput = "C:\\inetpub\\wwwroot\\sc1041.sc\\App_Config";
             filePathInput.TextLabel = "File Path *";
             filePathInput.Vertical = true;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Dock = DockStyle.Bottom;
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { addAccessRightToolStripMenuItem, removeAccessRightToolStripMenuItem, editToolStripMenuItem });
+            menuStrip1.Location = new Point(3, 384);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(567, 31);
+            menuStrip1.TabIndex = 2;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // addAccessRightToolStripMenuItem
+            // 
+            addAccessRightToolStripMenuItem.Name = "addAccessRightToolStripMenuItem";
+            addAccessRightToolStripMenuItem.Size = new Size(55, 27);
+            addAccessRightToolStripMenuItem.Text = "Add";
+            addAccessRightToolStripMenuItem.Click += addAccessRightToolStripMenuItem_Click;
+            // 
+            // removeAccessRightToolStripMenuItem
+            // 
+            removeAccessRightToolStripMenuItem.Enabled = false;
+            removeAccessRightToolStripMenuItem.Name = "removeAccessRightToolStripMenuItem";
+            removeAccessRightToolStripMenuItem.Size = new Size(85, 27);
+            removeAccessRightToolStripMenuItem.Text = "Remove";
+            removeAccessRightToolStripMenuItem.Click += removeAccessRightToolStripMenuItem_Click;
+            // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.Enabled = false;
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(53, 27);
+            editToolStripMenuItem.Text = "Edit";
+            editToolStripMenuItem.Click += editToolStripMenuItem_Click;
             // 
             // tabPage2
             // 
@@ -104,44 +157,6 @@
             taskEditor1.Size = new Size(186, 58);
             taskEditor1.TabIndex = 0;
             // 
-            // listView1
-            // 
-            listView1.Dock = DockStyle.Fill;
-            listView1.Location = new Point(3, 61);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(567, 323);
-            listView1.TabIndex = 1;
-            listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.Dock = DockStyle.Bottom;
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { addAccessRightToolStripMenuItem, removeAccessRightToolStripMenuItem, editToolStripMenuItem });
-            menuStrip1.Location = new Point(3, 384);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(567, 31);
-            menuStrip1.TabIndex = 2;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // addAccessRightToolStripMenuItem
-            // 
-            addAccessRightToolStripMenuItem.Name = "addAccessRightToolStripMenuItem";
-            addAccessRightToolStripMenuItem.Size = new Size(55, 27);
-            addAccessRightToolStripMenuItem.Text = "Add";
-            // 
-            // removeAccessRightToolStripMenuItem
-            // 
-            removeAccessRightToolStripMenuItem.Name = "removeAccessRightToolStripMenuItem";
-            removeAccessRightToolStripMenuItem.Size = new Size(85, 27);
-            removeAccessRightToolStripMenuItem.Text = "Remove";
-            // 
-            // editToolStripMenuItem
-            // 
-            editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(53, 27);
-            editToolStripMenuItem.Text = "Edit";
-            // 
             // FilePermissionsTask
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
@@ -152,9 +167,9 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            tabPage2.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -165,10 +180,11 @@
         private LabeledTextbox filePathInput;
         private TabPage tabPage2;
         internal TaskEditor taskEditor1;
-        private ListView listView1;
+        private ListView accessRightsList;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem addAccessRightToolStripMenuItem;
         private ToolStripMenuItem removeAccessRightToolStripMenuItem;
         private ToolStripMenuItem editToolStripMenuItem;
+        private ColumnHeader columnHeader1;
     }
 }

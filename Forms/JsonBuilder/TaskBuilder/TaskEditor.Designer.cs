@@ -49,6 +49,9 @@
             descriptionInput.Margin = new Padding(0, 0, 0, 10);
             descriptionInput.Multiline = true;
             descriptionInput.Name = "descriptionInput";
+            descriptionInput.PathSelectionFilter = "";
+            descriptionInput.PathSelectMode = PathSelectMode.Folder;
+            descriptionInput.ShowPathSelector = false;
             descriptionInput.Size = new Size(706, 95);
             descriptionInput.TabIndex = 4;
             descriptionInput.TextInput = "";
@@ -61,6 +64,9 @@
             skipInput.Location = new Point(0, 235);
             skipInput.Multiline = false;
             skipInput.Name = "skipInput";
+            skipInput.PathSelectionFilter = "";
+            skipInput.PathSelectMode = PathSelectMode.Folder;
+            skipInput.ShowPathSelector = false;
             skipInput.Size = new Size(706, 59);
             skipInput.TabIndex = 5;
             skipInput.TextInput = "";
@@ -73,6 +79,9 @@
             nameInput.Location = new Point(0, 0);
             nameInput.Multiline = false;
             nameInput.Name = "nameInput";
+            nameInput.PathSelectionFilter = "";
+            nameInput.PathSelectMode = PathSelectMode.Folder;
+            nameInput.ShowPathSelector = false;
             nameInput.Size = new Size(706, 58);
             nameInput.TabIndex = 3;
             nameInput.TextInput = "";
@@ -85,6 +94,9 @@
             requiresInput.Location = new Point(0, 294);
             requiresInput.Multiline = false;
             requiresInput.Name = "requiresInput";
+            requiresInput.PathSelectionFilter = "";
+            requiresInput.PathSelectMode = PathSelectMode.Folder;
+            requiresInput.ShowPathSelector = false;
             requiresInput.Size = new Size(706, 59);
             requiresInput.TabIndex = 6;
             requiresInput.TextInput = "";

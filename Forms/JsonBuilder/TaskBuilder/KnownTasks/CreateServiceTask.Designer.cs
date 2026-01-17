@@ -79,6 +79,7 @@
             serviceDescription.Location = new Point(3, 364);
             serviceDescription.Multiline = false;
             serviceDescription.Name = "serviceDescription";
+            serviceDescription.PathSelectionFilter = "";
             serviceDescription.PathSelectMode = PathSelectMode.Folder;
             serviceDescription.ShowPathSelector = false;
             serviceDescription.Size = new Size(576, 51);
@@ -113,6 +114,7 @@
             displayNameInput.Location = new Point(3, 259);
             displayNameInput.Multiline = false;
             displayNameInput.Name = "displayNameInput";
+            displayNameInput.PathSelectionFilter = "";
             displayNameInput.PathSelectMode = PathSelectMode.Folder;
             displayNameInput.ShowPathSelector = false;
             displayNameInput.Size = new Size(576, 51);
@@ -127,6 +129,7 @@
             executableParameters.Location = new Point(3, 106);
             executableParameters.Multiline = true;
             executableParameters.Name = "executableParameters";
+            executableParameters.PathSelectionFilter = "";
             executableParameters.PathSelectMode = PathSelectMode.Folder;
             executableParameters.ShowPathSelector = false;
             executableParameters.Size = new Size(576, 153);
@@ -141,6 +144,7 @@
             executablePath.Location = new Point(3, 54);
             executablePath.Multiline = false;
             executablePath.Name = "executablePath";
+            executablePath.PathSelectionFilter = "";
             executablePath.PathSelectMode = PathSelectMode.File;
             executablePath.ShowPathSelector = true;
             executablePath.Size = new Size(576, 52);
@@ -155,6 +159,7 @@
             serviceNameInput.Location = new Point(3, 3);
             serviceNameInput.Multiline = false;
             serviceNameInput.Name = "serviceNameInput";
+            serviceNameInput.PathSelectionFilter = "";
             serviceNameInput.PathSelectMode = PathSelectMode.Folder;
             serviceNameInput.ShowPathSelector = false;
             serviceNameInput.Size = new Size(576, 51);

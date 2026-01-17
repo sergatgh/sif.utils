@@ -1,9 +1,8 @@
-using System.Reflection;
-
 namespace SIF.Utils
 {
-    using SIF.Utils.ConfigFunctionParser;
     using SIF.Utils.JsonParser;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
 
     public enum SifJsonParsingFormState
     {
@@ -24,11 +23,25 @@ namespace SIF.Utils
 
         private readonly SifJsonService _sifJsonService;
 
-        public SifJsonParsingForm()
+        public SifJsonParsingForm(string[]? args)
         {
             InitializeComponent();
             _presenter = new SifJsonParsingFormPresenter(this);
-            _sifJsonService = new SifJsonService(Context);
+            _sifJsonService = new SifJsonService();
+
+            if (args is { Length: > 0 })
+            {
+                string filePath = args[0];
+                if (File.Exists(filePath) && filePath.EndsWith(".json"))
+                {
+                    MainJsonViewer.ProcessFile(openFileForViewerDialog.FileName).Wait();
+                    _presenter.UpdateView(SifJsonParsingFormState.FileSelected);
+                }
+                else
+                {
+                    MessageBox.Show($"The specified file '{filePath}' must be a valid JSON.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         public void SifJsonParsingForm_Load(object sender, EventArgs e)
@@ -36,47 +49,22 @@ namespace SIF.Utils
             _presenter.UpdateView(SifJsonParsingFormState.Initial);
         }
 
-        private void OpenFileForViewerDialogFileForViewerOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private async Task PrepareFile(string file)
         {
             Cursor.Current = Cursors.WaitCursor;
-            Context.LastSelectedFile = openFileForViewerDialog.FileName;
-            openFileForViewerDialog.Dispose();
+            var result = await _sifJsonService.ParseJson(file);
 
-            var parseTask = _sifJsonService.ParseJson(Context.LastSelectedFile)
-                .ContinueWith(task =>
-                {
-                    var result = task.Result;
-                    Invoke(() =>
-                    {
-                        if (result.HasError)
-                        {
-                            errorDescription.Text = result.Error;
-                            documentText.Text = File.ReadAllText(Context.LastSelectedFile!);
-                            _presenter.UpdateView(SifJsonParsingFormState.ErrorText);
-                        }
-
-                        Context.LastResult = result;
-                    });
-
-                    return !result.HasError;
-                });
-
-            parseTask.ContinueWith(next =>
+            if (result.HasError)
             {
-                if (!next.Result) return;
+                errorDescription.Text = result.Error;
+                documentText.Text = await File.ReadAllTextAsync(file);
+                _presenter.UpdateView(SifJsonParsingFormState.ErrorText);
+                return;
+            }
 
-                Invoke(() =>
-                {
-                    _presenter.UpdateView(Context.FileChooseMode == FileChooseMode.View ? SifJsonParsingFormState.FileSelected : SifJsonParsingFormState.SetPropertiesForNewPsScript);
-                    Cursor.Current = Cursors.Default;
-                    FilePathText.Text = Context.LastSelectedFile;
-                });
-            });
-        }
+            Context.LastResult = result;
 
-        private void chooseAnotherJsonButton_Click(object sender, EventArgs e)
-        {
-            openFileForViewerDialog.ShowDialog();
+            Cursor.Current = Cursors.Default;
         }
 
         private void backFromPsCreation_Click(object sender, EventArgs e)
@@ -84,15 +72,14 @@ namespace SIF.Utils
             _presenter.GoBack();
         }
 
-        private void openFileDialog_Click(object sender, EventArgs e)
+        private async void openFileDialog_Click(object sender, EventArgs e)
         {
-            Context.FileChooseMode = FileChooseMode.View;
-            openFileForViewerDialog.ShowDialog();
-        }
+            var result = openFileForViewerDialog.ShowDialog();
 
-        private void composePsScript_Click(object sender, EventArgs e)
-        {
-            _presenter.UpdateView(SifJsonParsingFormState.CreatePowerShellScript);
+            if (result != DialogResult.OK) return;
+
+            await MainJsonViewer.ProcessFile(openFileForViewerDialog.FileName);
+            _presenter.UpdateView(SifJsonParsingFormState.FileSelected);
         }
 
         private void backFromPropertiesButton_Click(object sender, EventArgs e)
@@ -107,10 +94,15 @@ namespace SIF.Utils
             _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
         }
 
-        private void customFileOpenDialog_Click(object sender, EventArgs e)
+        private async void customFileOpenDialog_Click(object sender, EventArgs e)
         {
-            Context.FileChooseMode = FileChooseMode.Script;
-            openFileForViewerDialog.ShowDialog();
+            var result = openFileForViewerDialog.ShowDialog();
+
+            if (result != DialogResult.OK) return;
+
+            await PrepareFile(openFileForViewerDialog.FileName);
+
+            _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
         }
 
         private void finishSettingProperties_Click(object sender, EventArgs e)
@@ -134,7 +126,7 @@ namespace SIF.Utils
 
         private void propsTableForScript_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            var grid = ((DataGridView)sender);
+            var grid = (DataGridView)sender;
             if (grid.DataSource is not List<ParameterEditModel> list)
             {
                 return;
@@ -184,19 +176,6 @@ namespace SIF.Utils
             if (sender is Label label) label.ForeColor = SystemColors.ControlText;
         }
 
-        private void executeJson_Click(object sender, EventArgs e)
-        {
-            _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
-        }
-
-        private void openContainingFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var filePath = Context.LastSelectedFile;
-            if (string.IsNullOrWhiteSpace(filePath)) return;
-            var argument = "/select, \"" + filePath + "\"";
-            System.Diagnostics.Process.Start("explorer.exe", argument);
-        }
-
         private void back_Click(object sender, EventArgs e)
         {
             _presenter.GoBack();
@@ -213,31 +192,10 @@ namespace SIF.Utils
             _presenter.GenerateExportScript();
         }
 
-        private void includeUpdateOption_CheckedChanged(object sender, EventArgs e)
-        {
-            _presenter.GenerateExportScript();
-        }
-
-        private void filterText_TextChanged(object sender, EventArgs e)
-        {
-            _presenter.FilterTasks(filterText.Text);
-        }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             executeInShell.Enabled = inlineParametersOption.Checked;
             _presenter.GenerateExportScript();
-        }
-
-        private void includeTasks_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Task.Delay(100).ContinueWith(x =>
-            {
-                Invoke(() =>
-                {
-                    _presenter.GenerateExportScript();
-                });
-            });
         }
 
         private void executeScriptInPowershell_Click(object sender, EventArgs e)
@@ -245,7 +203,7 @@ namespace SIF.Utils
             var text = scriptToExport.Text;
             if (string.IsNullOrWhiteSpace(text)) return;
 
-            var directory = Path.GetDirectoryName(Context.LastSelectedFile);
+            var directory = Context.LastResult?.Folder;
             var cdCommand = $"cd \\\"{directory}\\\"";
 
             var argument = $" -NoExit -Command \"{cdCommand};{text.Replace("\"", "\\\"")}\"";
@@ -303,7 +261,7 @@ namespace SIF.Utils
             if (e.ColumnIndex == propsTableForScript.Columns["RowAction"]?.Index)
             {
                 var row = propsTableForScript.Rows[e.RowIndex];
-                var model = (ParameterEditModel)row.DataBoundItem;
+                var model = (ParameterEditModel)row.DataBoundItem!;
                 Context.CurrentEditingParameter = model;
 
                 callActionContextMenu.Show(Cursor.Position);
@@ -341,24 +299,6 @@ namespace SIF.Utils
         private void button4_Click(object sender, EventArgs e)
         {
             new LearnSIF().ShowDialog();
-        }
-
-        private void tasksViewer_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var list = sender as ListView;
-            var item = list?.HitTest(e.Location).Item;
-            if (item == null) return;
-
-            var taskName = item.Text;
-            var task =
-                list?.Tag?.ToString() == "Tasks" ?
-                Context.LastResult?.Tasks.FirstOrDefault(t => t.Name == taskName) :
-                list?.Tag?.ToString() == "UninstallTasks" ?
-                Context.LastResult?.UninstallTasks.FirstOrDefault(t => t.Name == taskName) :
-                null;
-            if (task == null) return;
-
-            _presenter.ShowJson(task);
         }
 
         private void TasksContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -453,53 +393,6 @@ namespace SIF.Utils
             _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
         }
 
-        private async void includesList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var list = sender as ListView;
-            var item = list?.HitTest(e.Location).Item;
-            if (item == null) return;
-
-            if (Context.LastSelectedFile == null) return;
-
-            var directory = Path.GetDirectoryName(Context.LastSelectedFile);
-
-            var includeFileName = item.SubItems[1].Text.Replace("\\\\", "\\");
-            var includeFilePath = Path.Combine(directory!, includeFileName);
-
-            if (!includeFilePath.EndsWith(".json"))
-            {
-                includeFilePath += ".json";
-            }
-
-            if (!File.Exists(includeFilePath)) return;
-
-            FilePathText.Text = Context.LastSelectedFile = includeFilePath;
-            Context.LastResult = await _sifJsonService.ParseJson(includeFilePath);
-
-            _presenter.UpdateView(SifJsonParsingFormState.FileSelected);
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            parametersList.DataSource = textBox1.Text.Length == 0
-                ? Context.LastResult?.Parameters
-                : Context.LastResult?.Parameters
-                    .Where(p => p.Name.Contains(textBox1.Text, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-        }
-
-        private void variablesFilter_TextChanged(object sender, EventArgs e)
-        {
-            variablesList.Items.Clear();
-            var text = variablesFilter.Text.Trim().ToLower();
-            var variables = string.IsNullOrWhiteSpace(text)
-                ? Context.LastResult?.Variables ?? []
-                : Context.LastResult?.Variables.Where(x =>
-                    x.Name.ToLower().Contains(text) ||
-                    x.Value.ToLower().Contains(text)) ?? [];
-            variablesList.Items.AddRange(variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
-        }
-
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             _presenter.FilterPropertiesForScript();
@@ -542,41 +435,22 @@ namespace SIF.Utils
             propsTableForScript.Refresh();
         }
 
-        private async void variablesList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var list = sender as ListView;
-            var item = list?.HitTest(e.Location).Item;
-            if (item == null) return;
-
-            await new ConfigFunctionViewer(item.SubItems[1].Text).ShowDialogAsync();
-        }
-
         private void label1_Click(object sender, EventArgs e)
         {
             _presenter.UpdateView(SifJsonParsingFormState.JsonBuilder);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void MainJsonViewer_OnPlay(object sender, SIF.Utils.Forms.Common.ResultEventArgs<SIF.Utils.JsonParser.SifJsonParsingResult> e)
         {
-            var result = saveSifJson.ShowDialog();
-            if (result != DialogResult.OK) return;
-
-            string json = jsonBuilderPanel1.BuildJson();
-            File.WriteAllText(saveSifJson.FileName, json);
-        }
-
-        private void previewJsonButton_Click(object sender, EventArgs e)
-        {
-            string json = jsonBuilderPanel1.BuildJson();
-            new JsonViewer("SIF JSON Preview", json).ShowDialog();
+            Context.LastResult = e.Result;
+            _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
         }
     }
 
-    public class SifJsonService(SifUtilsContext context)
+    public class SifJsonService
     {
         public Task<SifJsonParsingResult> ParseJson(string? fileName = null)
         {
-            fileName ??= context.LastSelectedFile;
             return fileName == null
                 ? Task.FromResult(new SifJsonParsingResult { Error = "File is not specified" })
                 : new SifJsonParser().Parse(fileName);
@@ -610,14 +484,11 @@ namespace SIF.Utils
             switch (state)
             {
                 case SifJsonParsingFormState.Initial:
-                    ClearAllTabs();
                     view.MainSelectFilePanel.Visible = true;
                     break;
 
                 case SifJsonParsingFormState.FileSelected:
-                    ClearAllTabs();
-                    ShowParsingResult();
-                    view.MainJsonActionsPanel.Visible = true;
+                    view.MainJsonViewer.Visible = true;
                     break;
 
                 case SifJsonParsingFormState.CreatePowerShellScript:
@@ -664,44 +535,9 @@ namespace SIF.Utils
             ShowState(previousState, true);
         }
 
-        public void ShowParsingResult()
-        {
-            var result = view.Context.LastResult!;
-            view.filterText.Clear();
-            view.tasksViewer.Items.AddRange(_converter.GetGroupItems(result.Tasks).ToArray());
-            view.uninstallTasksList.Items.AddRange(_converter.GetGroupItems(result.UninstallTasks).ToArray());
-
-            view.parametersList.DataSource = result.Parameters;
-
-            view.variablesList.Items.AddRange(result.Variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
-            view.includesList.Items.AddRange(result.Includes.Select(include => new ListViewItem([include.Name, include.Source])).ToArray());
-            view.modulesList.Items.AddRange(result.Modules.Select(module => new ListViewItem(module.Path)).ToArray());
-            view.registeredTasksList.Items.AddRange(result.RegisteredTasks.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
-            view.registeredConfigFunctionsList.Items.AddRange(result.RegisteredConfigFunctions.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
-        }
-
-        public void FilterTasks(string text)
-        {
-            var filterText = text.Trim().ToLower();
-
-            view.tasksViewer.Items.Clear();
-            var tasks = string.IsNullOrWhiteSpace(filterText)
-                ? view.Context.LastResult?.Tasks ?? []
-                : view.Context.LastResult?.Tasks.Where(x =>
-                    x.Name.ToLower().Contains(filterText) ||
-                    x.Description.ToLower().Contains(filterText)) ?? [];
-
-            var listItems = _converter.GetGroupItems(
-                tasks
-            ).ToArray();
-
-            view.tasksViewer.Items.AddRange(listItems);
-
-        }
-
         public void HideAllPanels()
         {
-            view.Controls.OfType<Panel>().Where(x => x.Name.StartsWith("Main")).ToList().ForEach(panel => panel.Visible = false);
+            view.Controls.OfType<Control>().Where(x => x.Name.StartsWith("Main")).ToList().ForEach(panel => panel.Visible = false);
         }
 
         public void ShowProperties()
@@ -717,7 +553,7 @@ namespace SIF.Utils
         {
             var options = new PsScriptSerializerOptions
             {
-                Path = view.Context.LastSelectedFile ?? "",
+                Path = view.Context.LastResult?.FilePath ?? "",
                 Uninstall = view.includeUninstallOption.Checked,
                 Verbose = view.includeVerboseOption.Checked,
                 ErrorAction = view.errorActionDropdown.SelectedItem?.ToString(),
@@ -787,17 +623,6 @@ namespace SIF.Utils
             detailsForm.ShowDialog();
         }
 
-        public void ClearAllTabs()
-        {
-            view.parametersList.DataSource = null;
-            view.variablesList.Items.Clear();
-            view.uninstallTasksList.Items.Clear();
-            view.includesList.Items.Clear();
-            view.modulesList.Items.Clear();
-            view.tasksViewer.Items.Clear();
-            view.registeredTasksList.Items.Clear();
-            view.registeredConfigFunctionsList.Items.Clear();
-        }
     }
 
     public class ResultToListItemsConverter

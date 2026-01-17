@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             setPropsNavPanel = new Panel();
-            flowLayoutPanel6 = new FlowLayoutPanel();
-            flowLayoutPanel5 = new FlowLayoutPanel();
+            controlsPanel = new FlowLayoutPanel();
+            titlePanel = new FlowLayoutPanel();
             backButton = new Button();
             titleLabel = new Label();
             setPropsNavPanel.SuspendLayout();
-            flowLayoutPanel5.SuspendLayout();
+            titlePanel.SuspendLayout();
             SuspendLayout();
             // 
             // setPropsNavPanel
             // 
-            setPropsNavPanel.Controls.Add(flowLayoutPanel6);
-            setPropsNavPanel.Controls.Add(flowLayoutPanel5);
+            setPropsNavPanel.Controls.Add(controlsPanel);
+            setPropsNavPanel.Controls.Add(titlePanel);
             setPropsNavPanel.Dock = DockStyle.Top;
             setPropsNavPanel.Location = new Point(0, 0);
             setPropsNavPanel.Margin = new Padding(0);
@@ -48,28 +48,28 @@
             setPropsNavPanel.Size = new Size(920, 76);
             setPropsNavPanel.TabIndex = 4;
             // 
-            // flowLayoutPanel6
+            // controlsPanel
             // 
-            flowLayoutPanel6.Dock = DockStyle.Fill;
-            flowLayoutPanel6.Location = new Point(398, 0);
-            flowLayoutPanel6.Margin = new Padding(0);
-            flowLayoutPanel6.Name = "flowLayoutPanel6";
-            flowLayoutPanel6.Padding = new Padding(10);
-            flowLayoutPanel6.RightToLeft = RightToLeft.Yes;
-            flowLayoutPanel6.Size = new Size(522, 76);
-            flowLayoutPanel6.TabIndex = 4;
+            controlsPanel.Dock = DockStyle.Fill;
+            controlsPanel.Location = new Point(398, 0);
+            controlsPanel.Margin = new Padding(0);
+            controlsPanel.Name = "controlsPanel";
+            controlsPanel.Padding = new Padding(10);
+            controlsPanel.RightToLeft = RightToLeft.Yes;
+            controlsPanel.Size = new Size(522, 76);
+            controlsPanel.TabIndex = 4;
             // 
-            // flowLayoutPanel5
+            // titlePanel
             // 
-            flowLayoutPanel5.Controls.Add(backButton);
-            flowLayoutPanel5.Controls.Add(titleLabel);
-            flowLayoutPanel5.Dock = DockStyle.Left;
-            flowLayoutPanel5.Location = new Point(0, 0);
-            flowLayoutPanel5.Margin = new Padding(0);
-            flowLayoutPanel5.Name = "flowLayoutPanel5";
-            flowLayoutPanel5.Padding = new Padding(10);
-            flowLayoutPanel5.Size = new Size(398, 76);
-            flowLayoutPanel5.TabIndex = 3;
+            titlePanel.Controls.Add(backButton);
+            titlePanel.Controls.Add(titleLabel);
+            titlePanel.Dock = DockStyle.Left;
+            titlePanel.Location = new Point(0, 0);
+            titlePanel.Margin = new Padding(0);
+            titlePanel.Name = "titlePanel";
+            titlePanel.Padding = new Padding(10);
+            titlePanel.Size = new Size(398, 76);
+            titlePanel.TabIndex = 3;
             // 
             // backButton
             // 
@@ -109,17 +109,17 @@
             Name = "NavigationPanel";
             Size = new Size(920, 80);
             setPropsNavPanel.ResumeLayout(false);
-            flowLayoutPanel5.ResumeLayout(false);
-            flowLayoutPanel5.PerformLayout();
+            titlePanel.ResumeLayout(false);
+            titlePanel.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel setPropsNavPanel;
-        private FlowLayoutPanel flowLayoutPanel6;
-        private FlowLayoutPanel flowLayoutPanel5;
+        public FlowLayoutPanel controlsPanel;
         private Button backButton;
         private Label titleLabel;
+        public FlowLayoutPanel titlePanel;
     }
 }

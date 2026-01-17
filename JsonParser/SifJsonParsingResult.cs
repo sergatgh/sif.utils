@@ -2,6 +2,10 @@
 
 public class SifJsonParsingResult
 {
+    public string Folder { get; set; }
+
+    public string FilePath { get; set; }
+
     public string? Error { get; set; }
 
     public bool HasError => !string.IsNullOrWhiteSpace(Error);

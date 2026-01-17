@@ -5,6 +5,11 @@ using System.Text.Json;
 
 public class SifJsonParserProcessor : AutoProcessor
 {
+    public string GetFolder([Required(Halt = true)] string filePath)
+    {
+        return Path.GetDirectoryName(filePath) ?? string.Empty;
+    }
+
     public async Task<object> GetJsonDocument([Required(Halt = true)] string filePath)
     {
         try
