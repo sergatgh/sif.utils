@@ -18,7 +18,7 @@ public class PsScriptSerializer
     {
         var sb = new StringBuilder();
         var filteredParameters = parameters
-            .Where(p => !p.HasDefaultValue || (p.HasDefaultValue && p.DefaultValue != p.Value))
+            .Where(p => !p.HasDefaultValue || (p.HasDefaultValue && !p.IsDefaultValueSet()))
             .Where(p => !p.IsReference || (p.IsReference && !string.IsNullOrWhiteSpace(p.Value)))
             .ToList();
 

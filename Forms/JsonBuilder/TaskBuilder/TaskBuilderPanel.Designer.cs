@@ -38,6 +38,7 @@
             addToolStripMenuItem = new ToolStripMenuItem();
             powerShellToolStripMenuItem = new ToolStripMenuItem();
             defaultToolStripMenuItem = new ToolStripMenuItem();
+            customToolStripMenuItem = new ToolStripMenuItem();
             removeToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -102,7 +103,7 @@
             // 
             // addToolStripMenuItem
             // 
-            addToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { powerShellToolStripMenuItem, defaultToolStripMenuItem });
+            addToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { powerShellToolStripMenuItem, defaultToolStripMenuItem, customToolStripMenuItem });
             addToolStripMenuItem.Name = "addToolStripMenuItem";
             addToolStripMenuItem.Size = new Size(130, 27);
             addToolStripMenuItem.Text = "Add New Task";
@@ -117,7 +118,13 @@
             // 
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
             defaultToolStripMenuItem.Size = new Size(224, 28);
-            defaultToolStripMenuItem.Text = "Default";
+            defaultToolStripMenuItem.Text = "SIF Default";
+            // 
+            // customToolStripMenuItem
+            // 
+            customToolStripMenuItem.Name = "customToolStripMenuItem";
+            customToolStripMenuItem.Size = new Size(224, 28);
+            customToolStripMenuItem.Text = "Custom";
             // 
             // removeToolStripMenuItem
             // 
@@ -154,5 +161,6 @@
         private ToolStripMenuItem removeToolStripMenuItem;
         private ToolStripMenuItem powerShellToolStripMenuItem;
         private ToolStripMenuItem defaultToolStripMenuItem;
+        private ToolStripMenuItem customToolStripMenuItem;
     }
 }

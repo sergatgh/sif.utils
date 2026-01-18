@@ -1,5 +1,6 @@
 namespace SIF.Utils
 {
+    using SIF.Utils.Forms.Common;
     using SIF.Utils.JsonParser;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -9,7 +10,6 @@ namespace SIF.Utils
         None,
         Initial,
         FileSelected,
-        CreatePowerShellScript,
         SetPropertiesForNewPsScript,
         ChooseFormat,
         ErrorText,
@@ -44,6 +44,11 @@ namespace SIF.Utils
             }
         }
 
+        public void NavigateBack()
+        {
+            _presenter.GoBack();
+        }
+
         public void SifJsonParsingForm_Load(object sender, EventArgs e)
         {
             _presenter.UpdateView(SifJsonParsingFormState.Initial);
@@ -56,6 +61,7 @@ namespace SIF.Utils
 
             if (result.HasError)
             {
+                Context.LastResult = null;
                 errorDescription.Text = result.Error;
                 documentText.Text = await File.ReadAllTextAsync(file);
                 _presenter.UpdateView(SifJsonParsingFormState.ErrorText);
@@ -105,55 +111,9 @@ namespace SIF.Utils
             _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
         }
 
-        private void finishSettingProperties_Click(object sender, EventArgs e)
-        {
-            bool hasErrors = false;
-            propsTableForScript.EndEdit();
-            for (var i = 0; i < propsTableForScript.Rows.Count; i++)
-            {
-                var error = ((ParameterEditModel)propsTableForScript.Rows[i].DataBoundItem).GetErrorText();
-                if (error.Length != 0)
-                {
-                    propsTableForScript["Value", i].ErrorText = error;
-                    hasErrors = true;
-                }
-            }
-
-            if (hasErrors) return;
-
-            _presenter.UpdateView(SifJsonParsingFormState.ChooseFormat);
-        }
-
-        private void propsTableForScript_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            var grid = (DataGridView)sender;
-            if (grid.DataSource is not List<ParameterEditModel> list)
-            {
-                return;
-            }
-
-            if (e.RowIndex < 0 || e.RowIndex >= list.Count)
-            {
-                return;
-            }
-
-            if (grid.Columns[e.ColumnIndex].DataPropertyName != "Value")
-            {
-                return;
-            }
-
-            var error = ((ParameterEditModel)grid.Rows[e.RowIndex].DataBoundItem).GetErrorText(e.FormattedValue?.ToString());
-            grid[e.ColumnIndex, e.RowIndex].ErrorText = error;
-        }
-
         private void label3_Click(object sender, EventArgs e)
         {
             _presenter.GoHome();
-        }
-
-        private async void exportToFile_Click(object sender, EventArgs e)
-        {
-            saveParametersDialog.ShowDialog();
         }
 
         private void copyToClipboardProperties_Click(object sender, EventArgs e)
@@ -210,82 +170,6 @@ namespace SIF.Utils
             System.Diagnostics.Process.Start("powershell.exe", argument);
         }
 
-        private async void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var filePath = saveParametersDialog.FileName;
-            await File.WriteAllTextAsync(filePath, scriptToExport.Text);
-            MessageBox.Show(
-                $"PowerShell script '{filePath}' has been created.", "Script Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private async void downloadTheValues_Click(object sender, EventArgs e)
-        {
-            var result = openSavedValues.ShowDialog();
-            if (result != DialogResult.OK) return;
-
-            var filePath = openSavedValues.FileName;
-            var text = File.ReadLinesAsync(filePath);
-            await foreach (var line in text)
-            {
-                var parts = line.Split('=', 2);
-                if (parts.Length != 2) continue;
-                var paramName = parts[0].Trim();
-                var paramValue = parts[1].Trim();
-
-                var row = propsTableForScript.Rows
-                    .Cast<DataGridViewRow>()
-                    .FirstOrDefault(p => p != null && paramName.Equals(p.Cells["nameDataGridViewTextBoxColumn"].Value?.ToString(), StringComparison.OrdinalIgnoreCase));
-
-                if (row != null) row.Cells["Value"].Value = paramValue;
-            }
-
-        }
-
-        private void reloadPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _sifJsonService.ParseJson().ContinueWith(
-                result =>
-                {
-                    var r = result.Result;
-                    Invoke(() =>
-                    {
-                        Context.LastResult = r;
-                        _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
-                    });
-                }
-            );
-        }
-
-        private void propsTableForScript_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == propsTableForScript.Columns["RowAction"]?.Index)
-            {
-                var row = propsTableForScript.Rows[e.RowIndex];
-                var model = (ParameterEditModel)row.DataBoundItem!;
-                Context.CurrentEditingParameter = model;
-
-                callActionContextMenu.Show(Cursor.Position);
-            }
-        }
-
-        private void exportParametersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var result = saveParametersDialog.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            var filePath = saveParametersDialog.FileName;
-
-            using var writer = new StreamWriter(filePath);
-            var parameterEditModels = Context.ParametersToEdit;
-            foreach (var param in parameterEditModels)
-            {
-                if (param.Value == param.DefaultValue) continue;
-
-                writer.WriteLine($"{param.Name}={param.Value}");
-            }
-        }
-
         private void verboseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _presenter.GenerateExportScript();
@@ -301,138 +185,11 @@ namespace SIF.Utils
             new LearnSIF().ShowDialog();
         }
 
-        private void TasksContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void executeToolStripMenuItem_Click(object sender, ResultEventArgs<(bool, string[])> e)
         {
-            var menu = sender as ContextMenuStrip;
-
-            if (menu == null)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            var list = menu.SourceControl as ListView;
-            if (list == null)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            if (list.SelectedItems.Count == 1)
-            {
-                viewToolStripMenuItem.Visible = true;
-                copyToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                viewToolStripMenuItem.Visible = false;
-                copyToolStripMenuItem.Visible = false;
-            }
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var menuItem = sender as ToolStripMenuItem;
-            var menu = menuItem?.Owner as ContextMenuStrip;
-            var list = menu?.SourceControl as ListView;
-
-            if (list == null || list.SelectedItems.Count != 1) return;
-
-            var item = list.SelectedItems[0];
-            var taskName = item.Text;
-
-            var task =
-                list?.Tag?.ToString() == "Tasks" ?
-                    Context.LastResult?.Tasks.FirstOrDefault(t => t.Name == taskName) :
-                    list?.Tag?.ToString() == "UninstallTasks" ?
-                        Context.LastResult?.UninstallTasks.FirstOrDefault(t => t.Name == taskName) :
-                        null;
-
-            if (task == null) return;
-
-            _presenter.ShowJson(task);
-        }
-
-        private void copyTaskName_Click(object sender, EventArgs e)
-        {
-            var menuItem = (sender as ToolStripMenuItem)?.Owner as ToolStripDropDownMenu;
-            var menu = (menuItem?.OwnerItem)?.Owner as ContextMenuStrip;
-            var list = menu?.SourceControl as ListView;
-
-            if (list == null || list.SelectedItems.Count != 1) return;
-
-            var item = list.SelectedItems[0];
-            var taskName = item.Text;
-            Clipboard.SetText(taskName);
-        }
-
-        private void copyTaskDescription_Click(object sender, EventArgs e)
-        {
-
-            var menuItem = (sender as ToolStripMenuItem)?.Owner as ToolStripDropDownMenu;
-            var menu = (menuItem?.OwnerItem)?.Owner as ContextMenuStrip;
-            var list = menu?.SourceControl as ListView;
-
-            if (list == null || list.SelectedItems.Count != 1) return;
-
-            var item = list.SelectedItems[0];
-            var description = item.SubItems[1];
-            Clipboard.SetText(description.Text);
-        }
-
-        private void executeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var menuItem = sender as ToolStripMenuItem;
-            var menu = menuItem?.Owner as ContextMenuStrip;
-            var list = menu?.SourceControl as ListView;
-
-            if (list == null) return;
-
-            Context.ExecuteInUninstallMode = list.Tag?.ToString() == "UninstallTasks";
-            Context.TasksToExecute = list.SelectedItems.Cast<ListViewItem>().Select(x => x.Text).ToArray();
+            Context.ExecuteInUninstallMode = e.Result.Item1;
+            Context.TasksToExecute = e.Result.Item2;
             _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            _presenter.FilterPropertiesForScript();
-        }
-
-        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
-        {
-            _presenter.FilterPropertiesForScript();
-        }
-
-        private void insertPathToFolderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Context.CurrentEditingParameter == null) return;
-
-            var result = chooseFolder.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            Context.CurrentEditingParameter.Value = chooseFolder.SelectedPath;
-            propsTableForScript.Refresh();
-        }
-
-        private void resetToDefaultToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Context.CurrentEditingParameter == null) return;
-
-            Context.CurrentEditingParameter.ResetToDefault();
-            propsTableForScript.Refresh();
-        }
-
-        private void insertFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Context.CurrentEditingParameter == null) return;
-
-            var result = chooseFile.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            Context.CurrentEditingParameter.Value = chooseFile.FileName;
-            propsTableForScript.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -444,6 +201,37 @@ namespace SIF.Utils
         {
             Context.LastResult = e.Result;
             _presenter.UpdateView(SifJsonParsingFormState.SetPropertiesForNewPsScript);
+        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Check if the pressed key is the Left arrow key AND the Alt key is held down
+            if (e is { KeyCode: Keys.Left, Alt: true })
+            {
+                // Prevent the default system action for Alt+Left (usually GoBack)
+                e.Handled = true;
+                e.SuppressKeyPress = true; // Stops the key from being processed further
+
+                // Trigger the click event of your specific button
+                // Replace "myButton" with the actual name of your button
+                _presenter.GoBack();
+
+                Trace.WriteLine("Back");
+            }
+        }
+
+        private void MainScriptRunnerForm_ExecuteClicked(object sender, SIF.Utils.Forms.Common.ResultEventArgs<SIF.Utils.ParameterEditModel[]> e)
+        {
+            Context.ParametersToEdit = e.Result;
+            _presenter.UpdateView(SifJsonParsingFormState.ChooseFormat);
+        }
+
+        private async void MainScriptRunnerForm_RefreshClicked(object sender, EventArgs e)
+        {
+            await PrepareFile(openFileForViewerDialog.FileName);
+            if (Context.LastResult == null) return;
+
+            MainJsonViewer.ProcessResult(Context.LastResult);
+            MainScriptRunnerForm.ShowProperties(Context.LastResult.Parameters);
         }
     }
 
@@ -491,14 +279,17 @@ namespace SIF.Utils
                     view.MainJsonViewer.Visible = true;
                     break;
 
-                case SifJsonParsingFormState.CreatePowerShellScript:
-                    ShowNavigation("Choose export option", true);
-                    view.MainCreatePowershell.Visible = true;
-                    break;
-
                 case SifJsonParsingFormState.SetPropertiesForNewPsScript:
-                    if (!back) ShowProperties();
-                    view.MainChooseProperties.Visible = true;
+                    if (view.Context.LastResult?.Parameters.Count > 0)
+                    {
+                        if (!back) view.MainScriptRunnerForm.ShowProperties(view.Context.LastResult.Parameters);
+                        view.MainScriptRunnerForm.Visible = true;
+                    }
+                    else
+                    {
+                        UpdateView(SifJsonParsingFormState.ChooseFormat);
+                    }
+
                     break;
 
                 case SifJsonParsingFormState.ChooseFormat:
@@ -538,15 +329,6 @@ namespace SIF.Utils
         public void HideAllPanels()
         {
             view.Controls.OfType<Control>().Where(x => x.Name.StartsWith("Main")).ToList().ForEach(panel => panel.Visible = false);
-        }
-
-        public void ShowProperties()
-        {
-            view.propsTableForScript.DataSource = view.Context.ParametersToEdit = view.Context.LastResult?.Parameters.Select(ParameterEditModel.FromSifJsonParameterModel)
-                .OrderBy(x => x.IsReference)
-                .ThenBy(x => x.HasDefaultValue)
-                .ThenBy(x => x.HasValidation)
-                .ToArray() ?? [];
         }
 
         public void GenerateExportScript()
@@ -600,21 +382,6 @@ namespace SIF.Utils
                     return item;
                 }).ToArray<ToolStripItem>()
             );
-        }
-
-        public void FilterPropertiesForScript()
-        {
-            var filtered = string.IsNullOrWhiteSpace(view.textBox2.Text)
-                ? view.Context.ParametersToEdit
-                : view.Context.ParametersToEdit
-                    .Where(p => p.Name.Contains(view.textBox2.Text, StringComparison.OrdinalIgnoreCase))
-                    .ToArray();
-
-            filtered = view.checkBox1.Checked
-                ? filtered
-                : filtered.Where(p => !p.IsReference).ToArray();
-
-            view.propsTableForScript.DataSource = filtered;
         }
 
         public void ShowJson(SifBaseProperties element)

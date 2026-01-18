@@ -42,17 +42,12 @@ namespace SIF.Utils
 
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            if (keyData == Keys.Escape)
+            if (keyData is Keys.Escape or (Keys.Control | Keys.F4) or (Keys.Control | Keys.W))
             {
                 this.Close();
                 return true; // Indicate that the key has been handled
             }
             return base.ProcessDialogKey(keyData);
-        }
-
-        private void JsonViewer_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -53,7 +53,6 @@
             KeyPreview = true;
             Name = "JsonViewer";
             Text = "Json Viewer";
-            Load += JsonViewer_Load;
             ResumeLayout(false);
             PerformLayout();
         }

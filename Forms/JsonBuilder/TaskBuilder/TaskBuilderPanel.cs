@@ -32,7 +32,7 @@ public partial class TaskBuilderPanel : UserControl
             imageList1.Images.Add(task.DisplayName, task.Image);
         });
 
-        PowerShellTasks.Tasks.ForEach(task =>
+        PowershellTasks.Tasks.ForEach(task =>
         {
             powerShellToolStripMenuItem.DropDownItems.Add(task.DisplayName, task.Image, (_, _) => TaskClicked(task));
             

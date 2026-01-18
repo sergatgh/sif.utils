@@ -9,7 +9,7 @@ public class ParameterEditModel : INotifyPropertyChanged
 {
     public string Name { get; set; } = string.Empty;
 
-    public string? DefaultValue { get; set; }
+    public string? DefaultValue { protected get; set; }
 
     public string Value { get; set; } = string.Empty;
 
@@ -43,9 +43,9 @@ public class ParameterEditModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    public virtual bool IsDefaultValueSet()
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return HasDefaultValue && Value == DefaultValue;
     }
 
     public void ResetToDefault()
