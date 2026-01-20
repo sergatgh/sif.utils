@@ -16,6 +16,9 @@
     <Compile Update="Forms\JsonBuilder\Expander.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\Includes\IncludeFiles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\JsonBuilderForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -28,11 +31,20 @@
     <Compile Update="Forms\JsonBuilder\Modules\ModulesControlPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\Parameters\ParametersForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\Register\RegisterMethodTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\Register\RegisterMethodWindow.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\Settings\SettingsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\CustomTask.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AccessRightBuilderWindow.cs">
       <SubType>Form</SubType>
@@ -132,6 +144,9 @@
     </Compile>
     <Compile Update="Forms\Common\JsonViewer.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\Variables\VariablesForm.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonViewer\SifJsonViewerForm.cs">
       <SubType>UserControl</SubType>

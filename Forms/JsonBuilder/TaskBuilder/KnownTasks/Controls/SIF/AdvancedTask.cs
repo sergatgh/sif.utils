@@ -1,10 +1,13 @@
 ﻿using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 
+using global::SIF.Utils.Helpers;
+
 public interface IAdvancedTask
 {
-    public JsonObject GetJson();
+    public (string, JsonObject) GetJson();
     string GetDefaultName();
     string GetDefaultDescription();
 }
@@ -19,9 +22,11 @@ public class AdvancedTask : UserControl, IAdvancedTask
 
     public virtual TaskEditor TaskEditor { get; }
 
-    public JsonObject GetJson()
+    public (string, JsonObject) GetJson()
     {
-        var baseJson = TaskEditor.GetJson();
+        var result = TaskEditor.GetJson();
+        var baseJson = result.Item2;
+
         var parametersNode = baseJson["Params"]!.AsObject();
         foreach (var (key, value) in GetAdditionalJsonProperties())
         {
@@ -33,7 +38,7 @@ public class AdvancedTask : UserControl, IAdvancedTask
             baseJson["Description"] = GetDefaultDescription();
         }
 
-        return baseJson;
+        return (result.Item1.Or(GetDefaultName()), baseJson);
     }
 
     public virtual string GetDefaultName() { return GetType().Name; }

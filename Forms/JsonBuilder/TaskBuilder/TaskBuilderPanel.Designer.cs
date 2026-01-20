@@ -111,20 +111,21 @@
             // powerShellToolStripMenuItem
             // 
             powerShellToolStripMenuItem.Name = "powerShellToolStripMenuItem";
-            powerShellToolStripMenuItem.Size = new Size(224, 28);
+            powerShellToolStripMenuItem.Size = new Size(176, 28);
             powerShellToolStripMenuItem.Text = "PowerShell";
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(224, 28);
+            defaultToolStripMenuItem.Size = new Size(176, 28);
             defaultToolStripMenuItem.Text = "SIF Default";
             // 
             // customToolStripMenuItem
             // 
             customToolStripMenuItem.Name = "customToolStripMenuItem";
-            customToolStripMenuItem.Size = new Size(224, 28);
+            customToolStripMenuItem.Size = new Size(176, 28);
             customToolStripMenuItem.Text = "Custom";
+            customToolStripMenuItem.Click += customToolStripMenuItem_Click;
             // 
             // removeToolStripMenuItem
             // 

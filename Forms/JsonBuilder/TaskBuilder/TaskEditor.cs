@@ -3,6 +3,7 @@
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
 using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+using SIF.Utils.Helpers;
 
 public partial class TaskEditor : UserControl
 {
@@ -46,7 +47,7 @@ public partial class TaskEditor : UserControl
         AdjustDataGridViewHeight((DataGridView)sender);
     }
 
-    public JsonObject GetJson()
+    public (string, JsonObject) GetJson()
     {
         var editor = this;
         var json = new JsonObject();
@@ -55,7 +56,7 @@ public partial class TaskEditor : UserControl
         {
             if (row.IsNewRow) continue;
             var keyCell = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var valueCell = row.Cells[1].Value?.ToString() ?? string.Empty;
+            var valueCell = JsonHelper.ParseValue(row.Cells[1].Value?.ToString() ?? string.Empty);
             if (!string.IsNullOrEmpty(keyCell))
             {
                 parameters[keyCell] = valueCell;
@@ -78,9 +79,8 @@ public partial class TaskEditor : UserControl
             json["Requires"] = editor.requiresInput.TextInput;
         }
 
-        return json;
+        return (editor.nameInput.TextInput, json);
     }
-
 }
 
 public class TaskParameterModel

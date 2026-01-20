@@ -1,11 +1,17 @@
 ﻿namespace SIF.Utils.Forms.JsonBuilder.Register;
 
-using System.Collections;
-using System.Reflection;
+using SIF.Utils.Forms.Common;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 
 public partial class RegisterMethodTable : UserControl
 {
+    [Browsable(true)]
+    public event ResultEventHandler<string>? MethodAdded;
+
+    [Browsable(true)]
+    public event ResultEventHandler<string>? MethodRemoved;
+
     public List<RegisterMethodModel> RegisterMethods { get; } = [];
 
     public RegisterMethodTable()
@@ -42,8 +48,10 @@ public partial class RegisterMethodTable : UserControl
     {
         if (listView1.SelectedIndices.Count != 1) return;
 
+        var removedMethod = RegisterMethods[listView1.SelectedIndices[0]].RegisterAs;
         RegisterMethods.RemoveAt(listView1.SelectedIndices[0]);
         listView1.Items.RemoveAt(listView1.SelectedIndices[0]);
+        MethodRemoved?.Invoke(this, removedMethod);
     }
 
     private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -74,5 +82,6 @@ public partial class RegisterMethodTable : UserControl
     {
         listView1.Items.Add(model.RegisterAs);
         RegisterMethods.Add(model);
+        MethodAdded?.Invoke(this, model.RegisterAs);
     }
 }

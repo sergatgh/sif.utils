@@ -4,6 +4,9 @@ using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
+using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls;
+using SIF.Utils.Helpers;
+
 public class TaskBuilderModel
 {
     public required TaskInfo Info { get; set; }
@@ -12,23 +15,24 @@ public class TaskBuilderModel
 
     public (string, JsonObject) ToJson()
     {
+        if (EditorControl is CustomTask customTask)
+        {
+            return customTask.GetJson();
+        }
 
         if (EditorControl is TaskEditor editor)
         {
-            var name = !string.IsNullOrWhiteSpace(editor.nameInput.TextInput) ? editor.nameInput.TextInput : Info.Name;
             var jsonObject = editor.GetJson();
-            jsonObject["Type"] = Info.Name;
-            return (name, jsonObject);
+            jsonObject.Item2["Type"] = Info.Name;
+            return (jsonObject.Item1.Or(Info.Name), jsonObject.Item2);
         }
 
         if (EditorControl is AdvancedTask task)
         {
-            var name = !string.IsNullOrWhiteSpace(task.TaskEditor.nameInput.TextInput) ? task.TaskEditor.nameInput.TextInput : task.GetDefaultName();
-
             var baseJson = task.GetJson();
-            baseJson["Type"] = Info.Name;
+            baseJson.Item2["Type"] = Info.Name;
 
-            return (name, baseJson);
+            return baseJson;
         }
 
         return ("", new JsonObject());

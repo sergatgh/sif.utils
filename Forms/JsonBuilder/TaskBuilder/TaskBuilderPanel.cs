@@ -3,8 +3,13 @@ using System.ComponentModel;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
+using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls;
+using SIF.Utils.Properties;
+
 public partial class TaskBuilderPanel : UserControl
 {
+    protected List<string> TaskSuggestions { get; } = [];
+
     public List<TaskBuilderModel> SelectedTasks { get; } = [];
 
     [Browsable(true)]
@@ -15,12 +20,39 @@ public partial class TaskBuilderPanel : UserControl
         InitializeComponent();
     }
 
+    public void AddTypeSuggestion(string type)
+    {
+        TaskSuggestions.Add(type);
+
+        foreach (var task in SelectedTasks)
+        {
+            if (task.EditorControl is CustomTask customTask)
+            {
+                customTask.AddSuggestions(type);
+            }
+        }
+    }
+
+    public void RemoveTypeSuggestion(string type)
+    {
+        TaskSuggestions.Remove(type);
+
+        foreach (var task in SelectedTasks)
+        {
+            if (task.EditorControl is CustomTask customTask)
+            {
+                customTask.RemoveSuggestions(type);
+            }
+        }
+    }
+
     public void TaskBuilderPanel_Load(object sender, EventArgs e)
     {
         listView1.Items.Clear();
         defaultToolStripMenuItem.DropDownItems.Clear();
         powerShellToolStripMenuItem.DropDownItems.Clear();
         imageList1.Images.Clear();
+        imageList1.Images.Add("Custom Task", Resources.DefaultTaskIcon);
 
         SifFrameworkTasks.Tasks.ForEach(task =>
         {
@@ -35,7 +67,7 @@ public partial class TaskBuilderPanel : UserControl
         PowershellTasks.Tasks.ForEach(task =>
         {
             powerShellToolStripMenuItem.DropDownItems.Add(task.DisplayName, task.Image, (_, _) => TaskClicked(task));
-            
+
             if (imageList1.Images.ContainsKey(task.DisplayName))
                 return;
 
@@ -86,10 +118,20 @@ public partial class TaskBuilderPanel : UserControl
 
     private void removeToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        if (listView1.SelectedItems.Count > 0)
+        if (listView1.SelectedItems.Count == 1)
         {
-            SelectedTasks.RemoveAt(listView1.SelectedItems[0].Index);
+            var index = listView1.SelectedItems[0].Index;
+            var nextIndex = index;
+            if (nextIndex + 1 >= listView1.Items.Count)
+                nextIndex = index - 1;
+
+            SelectedTasks.RemoveAt(index);
             listView1.Items.Remove(listView1.SelectedItems[0]);
+
+            if (nextIndex >= 0)
+            {
+                listView1.Items[nextIndex].Selected = true;
+            }
         }
     }
 
@@ -110,5 +152,14 @@ public partial class TaskBuilderPanel : UserControl
         {
             splitContainer1.Panel2.Controls.Clear();
         }
+    }
+
+    private void customToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        TaskClicked(new TaskInfo
+        {
+            DisplayName = "Custom Task",
+            ControlFactory = () => new KnownTasks.Controls.CustomTask(TaskSuggestions.ToArray()),
+        });
     }
 }

@@ -30,7 +30,7 @@ public partial class JsonBuilderForm : UserControl
         var result = saveSifJson.ShowDialog();
         if (result != DialogResult.OK) return;
 
-        string json = jsonBuilderPanel.BuildJson();
+        string json = jsonBuilderPanel.BuildJson(saveSifJson.FileName);
         File.WriteAllText(saveSifJson.FileName, json);
     }
 

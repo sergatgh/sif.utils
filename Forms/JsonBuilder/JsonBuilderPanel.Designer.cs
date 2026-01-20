@@ -34,9 +34,13 @@
             viewJsonTasks = new TabPage();
             taskBuilderPanel1 = new TaskBuilderPanel();
             viewJsonUninstallTasks = new TabPage();
+            uninstallTaskBuilderPanel = new TaskBuilderPanel();
             viewJsonParameters = new TabPage();
+            parametersForm1 = new SIF.Utils.Forms.JsonBuilder.Parameters.ParametersForm();
             viewJsonVariables = new TabPage();
+            variablesForm1 = new SIF.Utils.Forms.JsonBuilder.Variables.VariablesForm();
             viewJsonIncludes = new TabPage();
+            includeFiles1 = new SIF.Utils.Forms.JsonBuilder.Includes.IncludeFiles();
             viewJsonModules = new TabPage();
             modulesControlPanel1 = new SIF.Utils.Forms.JsonBuilder.Modules.ModulesControlPanel();
             viewJsonRegisteredTasks = new TabPage();
@@ -44,11 +48,13 @@
             viewJsonRegisteredConfigFunctions = new TabPage();
             registerFunctions = new SIF.Utils.Forms.JsonBuilder.Register.RegisterMethodTable();
             viewJsonSettings = new TabPage();
-            autoRegisterExtensionsSetting = new CheckBox();
-            uninstallTaskBuilderPanel = new TaskBuilderPanel();
+            settingsForm1 = new SIF.Utils.Forms.JsonBuilder.Settings.SettingsForm();
             viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
             viewJsonUninstallTasks.SuspendLayout();
+            viewJsonParameters.SuspendLayout();
+            viewJsonVariables.SuspendLayout();
+            viewJsonIncludes.SuspendLayout();
             viewJsonModules.SuspendLayout();
             viewJsonRegisteredTasks.SuspendLayout();
             viewJsonRegisteredConfigFunctions.SuspendLayout();
@@ -99,44 +105,80 @@
             viewJsonUninstallTasks.Location = new Point(4, 32);
             viewJsonUninstallTasks.Name = "viewJsonUninstallTasks";
             viewJsonUninstallTasks.Padding = new Padding(3);
-            viewJsonUninstallTasks.Size = new Size(927, 324);
+            viewJsonUninstallTasks.Size = new Size(192, 64);
             viewJsonUninstallTasks.TabIndex = 2;
             viewJsonUninstallTasks.Text = "UninstallTasks";
             viewJsonUninstallTasks.ToolTipText = "Coming Soon";
             viewJsonUninstallTasks.UseVisualStyleBackColor = true;
             // 
+            // uninstallTaskBuilderPanel
+            // 
+            uninstallTaskBuilderPanel.Dock = DockStyle.Fill;
+            uninstallTaskBuilderPanel.Location = new Point(3, 3);
+            uninstallTaskBuilderPanel.Name = "uninstallTaskBuilderPanel";
+            uninstallTaskBuilderPanel.Size = new Size(186, 58);
+            uninstallTaskBuilderPanel.TabIndex = 1;
+            // 
             // viewJsonParameters
             // 
             viewJsonParameters.BackColor = Color.FromArgb(224, 224, 224);
+            viewJsonParameters.Controls.Add(parametersForm1);
             viewJsonParameters.Location = new Point(4, 32);
             viewJsonParameters.Name = "viewJsonParameters";
-            viewJsonParameters.Size = new Size(927, 324);
+            viewJsonParameters.Size = new Size(192, 64);
             viewJsonParameters.TabIndex = 3;
             viewJsonParameters.Text = "Parameters";
             viewJsonParameters.ToolTipText = "Coming Soon";
             viewJsonParameters.UseVisualStyleBackColor = true;
             // 
+            // parametersForm1
+            // 
+            parametersForm1.BackColor = Color.Transparent;
+            parametersForm1.Dock = DockStyle.Fill;
+            parametersForm1.Location = new Point(0, 0);
+            parametersForm1.Name = "parametersForm1";
+            parametersForm1.Size = new Size(192, 64);
+            parametersForm1.TabIndex = 0;
+            // 
             // viewJsonVariables
             // 
             viewJsonVariables.BackColor = Color.FromArgb(224, 224, 224);
+            viewJsonVariables.Controls.Add(variablesForm1);
             viewJsonVariables.Location = new Point(4, 32);
             viewJsonVariables.Name = "viewJsonVariables";
-            viewJsonVariables.Size = new Size(927, 324);
+            viewJsonVariables.Size = new Size(192, 64);
             viewJsonVariables.TabIndex = 4;
             viewJsonVariables.Text = "Variables";
             viewJsonVariables.ToolTipText = "Coming Soon";
             viewJsonVariables.UseVisualStyleBackColor = true;
             // 
+            // variablesForm1
+            // 
+            variablesForm1.Dock = DockStyle.Fill;
+            variablesForm1.Location = new Point(0, 0);
+            variablesForm1.Name = "variablesForm1";
+            variablesForm1.Size = new Size(192, 64);
+            variablesForm1.TabIndex = 0;
+            // 
             // viewJsonIncludes
             // 
             viewJsonIncludes.BackColor = Color.FromArgb(224, 224, 224);
+            viewJsonIncludes.Controls.Add(includeFiles1);
             viewJsonIncludes.Location = new Point(4, 32);
             viewJsonIncludes.Name = "viewJsonIncludes";
-            viewJsonIncludes.Size = new Size(927, 324);
+            viewJsonIncludes.Size = new Size(192, 64);
             viewJsonIncludes.TabIndex = 5;
             viewJsonIncludes.Text = "Includes";
             viewJsonIncludes.ToolTipText = "Coming Soon";
             viewJsonIncludes.UseVisualStyleBackColor = true;
+            // 
+            // includeFiles1
+            // 
+            includeFiles1.Dock = DockStyle.Fill;
+            includeFiles1.Location = new Point(0, 0);
+            includeFiles1.Name = "includeFiles1";
+            includeFiles1.Size = new Size(192, 64);
+            includeFiles1.TabIndex = 0;
             // 
             // viewJsonModules
             // 
@@ -144,7 +186,7 @@
             viewJsonModules.Controls.Add(modulesControlPanel1);
             viewJsonModules.Location = new Point(4, 32);
             viewJsonModules.Name = "viewJsonModules";
-            viewJsonModules.Size = new Size(927, 324);
+            viewJsonModules.Size = new Size(192, 64);
             viewJsonModules.TabIndex = 6;
             viewJsonModules.Text = "Modules";
             viewJsonModules.ToolTipText = "Coming Soon";
@@ -155,7 +197,7 @@
             modulesControlPanel1.Dock = DockStyle.Fill;
             modulesControlPanel1.Location = new Point(0, 0);
             modulesControlPanel1.Name = "modulesControlPanel1";
-            modulesControlPanel1.Size = new Size(927, 324);
+            modulesControlPanel1.Size = new Size(192, 64);
             modulesControlPanel1.TabIndex = 0;
             // 
             // viewJsonRegisteredTasks
@@ -165,7 +207,7 @@
             viewJsonRegisteredTasks.Location = new Point(4, 32);
             viewJsonRegisteredTasks.Name = "viewJsonRegisteredTasks";
             viewJsonRegisteredTasks.Padding = new Padding(3);
-            viewJsonRegisteredTasks.Size = new Size(927, 324);
+            viewJsonRegisteredTasks.Size = new Size(192, 64);
             viewJsonRegisteredTasks.TabIndex = 7;
             viewJsonRegisteredTasks.Text = "Registered Tasks";
             viewJsonRegisteredTasks.ToolTipText = "Coming Soon";
@@ -176,8 +218,10 @@
             registerTasks.Dock = DockStyle.Fill;
             registerTasks.Location = new Point(3, 3);
             registerTasks.Name = "registerTasks";
-            registerTasks.Size = new Size(921, 318);
+            registerTasks.Size = new Size(186, 58);
             registerTasks.TabIndex = 0;
+            registerTasks.MethodAdded += registerTasks_MethodAdded;
+            registerTasks.MethodRemoved += registerTasks_MethodRemoved;
             // 
             // viewJsonRegisteredConfigFunctions
             // 
@@ -186,7 +230,7 @@
             viewJsonRegisteredConfigFunctions.Location = new Point(4, 32);
             viewJsonRegisteredConfigFunctions.Name = "viewJsonRegisteredConfigFunctions";
             viewJsonRegisteredConfigFunctions.Padding = new Padding(3);
-            viewJsonRegisteredConfigFunctions.Size = new Size(927, 324);
+            viewJsonRegisteredConfigFunctions.Size = new Size(192, 64);
             viewJsonRegisteredConfigFunctions.TabIndex = 8;
             viewJsonRegisteredConfigFunctions.Text = "Registered Functions";
             viewJsonRegisteredConfigFunctions.ToolTipText = "Coming Soon";
@@ -197,12 +241,12 @@
             registerFunctions.Dock = DockStyle.Fill;
             registerFunctions.Location = new Point(3, 3);
             registerFunctions.Name = "registerFunctions";
-            registerFunctions.Size = new Size(921, 318);
+            registerFunctions.Size = new Size(186, 58);
             registerFunctions.TabIndex = 1;
             // 
             // viewJsonSettings
             // 
-            viewJsonSettings.Controls.Add(autoRegisterExtensionsSetting);
+            viewJsonSettings.Controls.Add(settingsForm1);
             viewJsonSettings.Location = new Point(4, 32);
             viewJsonSettings.Name = "viewJsonSettings";
             viewJsonSettings.Padding = new Padding(3);
@@ -211,23 +255,13 @@
             viewJsonSettings.Text = "Settings";
             viewJsonSettings.UseVisualStyleBackColor = true;
             // 
-            // autoRegisterExtensionsSetting
+            // settingsForm1
             // 
-            autoRegisterExtensionsSetting.AutoSize = true;
-            autoRegisterExtensionsSetting.Location = new Point(6, 6);
-            autoRegisterExtensionsSetting.Name = "autoRegisterExtensionsSetting";
-            autoRegisterExtensionsSetting.Size = new Size(220, 27);
-            autoRegisterExtensionsSetting.TabIndex = 0;
-            autoRegisterExtensionsSetting.Text = "Auto Register Extensions";
-            autoRegisterExtensionsSetting.UseVisualStyleBackColor = true;
-            // 
-            // uninstallTaskBuilderPanel
-            // 
-            uninstallTaskBuilderPanel.Dock = DockStyle.Fill;
-            uninstallTaskBuilderPanel.Location = new Point(3, 3);
-            uninstallTaskBuilderPanel.Name = "uninstallTaskBuilderPanel";
-            uninstallTaskBuilderPanel.Size = new Size(921, 318);
-            uninstallTaskBuilderPanel.TabIndex = 1;
+            settingsForm1.Dock = DockStyle.Fill;
+            settingsForm1.Location = new Point(3, 3);
+            settingsForm1.Name = "settingsForm1";
+            settingsForm1.Size = new Size(921, 318);
+            settingsForm1.TabIndex = 0;
             // 
             // JsonBuilderPanel
             // 
@@ -239,11 +273,13 @@
             viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
             viewJsonUninstallTasks.ResumeLayout(false);
+            viewJsonParameters.ResumeLayout(false);
+            viewJsonVariables.ResumeLayout(false);
+            viewJsonIncludes.ResumeLayout(false);
             viewJsonModules.ResumeLayout(false);
             viewJsonRegisteredTasks.ResumeLayout(false);
             viewJsonRegisteredConfigFunctions.ResumeLayout(false);
             viewJsonSettings.ResumeLayout(false);
-            viewJsonSettings.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -257,13 +293,16 @@
         private TabPage viewJsonModules;
         internal TabPage viewJsonRegisteredTasks;
         private TabPage viewJsonRegisteredConfigFunctions;
-        private TabPage viewJsonSettings;
         private TabPage viewJsonVariables;
         private TaskBuilderPanel taskBuilderPanel1;
-        private CheckBox autoRegisterExtensionsSetting;
         private Modules.ModulesControlPanel modulesControlPanel1;
         private Register.RegisterMethodTable registerTasks;
         private Register.RegisterMethodTable registerFunctions;
         private TaskBuilderPanel uninstallTaskBuilderPanel;
+        private Parameters.ParametersForm parametersForm1;
+        private Variables.VariablesForm variablesForm1;
+        private Includes.IncludeFiles includeFiles1;
+        private TabPage viewJsonSettings;
+        private Settings.SettingsForm settingsForm1;
     }
 }

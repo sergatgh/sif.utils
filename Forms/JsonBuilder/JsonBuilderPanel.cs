@@ -13,15 +13,8 @@ namespace SIF.Utils.Forms.JsonBuilder
             InitializeComponent();
         }
 
-        public string BuildJson()
+        public string BuildJson(string? filePath = null)
         {
-            var settingsJson = new JsonObject();
-
-            if (autoRegisterExtensionsSetting.Checked)
-            {
-                settingsJson["AutoRegisterExtensions"] = autoRegisterExtensionsSetting.Checked;
-            }
-
             var taskObjects = taskBuilderPanel1.SelectedTasks;
             var tasksJson = new JsonObject();
             foreach (var task in taskObjects)
@@ -33,6 +26,16 @@ namespace SIF.Utils.Forms.JsonBuilder
             var modulePaths = new JsonArray(modulesControlPanel1.ModulePaths.Select<string, JsonNode>(x => x).ToArray());
 
             var resultJson = new JsonObject { ["Tasks"] = tasksJson };
+
+            if (parametersForm1.HasParameters())
+            {
+                resultJson["Parameters"] = parametersForm1.GetJson();
+            }
+
+            if (variablesForm1.HasVariables())
+            {
+                resultJson["Variables"] = variablesForm1.GetJson();
+            }
 
             if (uninstallTaskBuilderPanel.SelectedTasks.Count > 0)
             {
@@ -50,9 +53,9 @@ namespace SIF.Utils.Forms.JsonBuilder
                 resultJson["Modules"] = modulePaths;
             }
 
-            if (settingsJson.Count > 0)
+            if (includeFiles1.Count > 0)
             {
-                resultJson["Settings"] = settingsJson;
+                resultJson["Includes"] = includeFiles1.GetJson(filePath);
             }
 
             if (registerTasks.HasRegisterMethods || registerFunctions.HasRegisterMethods)
@@ -69,7 +72,14 @@ namespace SIF.Utils.Forms.JsonBuilder
                 }
             }
 
-            return resultJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+            var settingsJson = settingsForm1.GetJson();
+
+            if (settingsJson.Count > 0)
+            {
+                resultJson["Settings"] = settingsJson;
+            }
+
+            return resultJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
         }
 
         private void taskBuilderPanel1_TaskAdded(object sender, EventArgs e)
@@ -78,7 +88,7 @@ namespace SIF.Utils.Forms.JsonBuilder
             {
                 if (taskInfo.Source == "PS")
                 {
-                    autoRegisterExtensionsSetting.Checked = true;
+                    settingsForm1.SetAutoRegisterExtensions(true);
                 }
 
                 if (taskInfo.Name == "InstallPSModule")
@@ -92,9 +102,16 @@ namespace SIF.Utils.Forms.JsonBuilder
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void registerTasks_MethodAdded(object sender, SIF.Utils.Forms.Common.ResultEventArgs<string> e)
         {
+            this.taskBuilderPanel1.AddTypeSuggestion(e.Result);
+            this.uninstallTaskBuilderPanel.AddTypeSuggestion(e.Result);
+        }
 
+        private void registerTasks_MethodRemoved(object sender, SIF.Utils.Forms.Common.ResultEventArgs<string> e)
+        {
+            this.taskBuilderPanel1.RemoveTypeSuggestion(e.Result);
+            this.uninstallTaskBuilderPanel.RemoveTypeSuggestion(e.Result);
         }
     }
 }
