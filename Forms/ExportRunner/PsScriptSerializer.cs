@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿using SIF.Utils.Forms.Common;
+using System.Text;
 
-namespace SIF.Utils;
+namespace SIF.Utils.Forms.ExportRunner;
 
 public class PsScriptSerializerOptions
 {
@@ -18,8 +19,8 @@ public class PsScriptSerializer
     {
         var sb = new StringBuilder();
         var filteredParameters = parameters
-            .Where(p => !p.HasDefaultValue || (p.HasDefaultValue && !p.IsDefaultValueSet()))
-            .Where(p => !p.IsReference || (p.IsReference && !string.IsNullOrWhiteSpace(p.Value)))
+            .Where(p => !p.HasDefaultValue || p.HasDefaultValue && !p.IsDefaultValueSet())
+            .Where(p => !p.IsReference || p.IsReference && !string.IsNullOrWhiteSpace(p.Value))
             .ToList();
 
         if (!options.Inline)

@@ -4,7 +4,7 @@ namespace SIF.Utils.Forms.JsonBuilder
 {
     public partial class LabeledTextbox : UserControl
     {
-        private bool vertical = true;
+        private bool _vertical = true;
 
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -18,10 +18,10 @@ namespace SIF.Utils.Forms.JsonBuilder
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool Vertical
         {
-            get => vertical;
+            get => _vertical;
             set
             {
-                vertical = value;
+                _vertical = value;
                 labelText.Dock = value ? DockStyle.Top : DockStyle.Left;
             }
         }
@@ -42,7 +42,7 @@ namespace SIF.Utils.Forms.JsonBuilder
         }
 
         [Browsable(true)]
-        public event EventHandler? TextChanged
+        public new event EventHandler? TextChanged
         {
             add => textBox.TextChanged += value;
             remove => textBox.TextChanged -= value;

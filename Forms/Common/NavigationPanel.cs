@@ -9,7 +9,6 @@ using System.Xml.Linq;
 namespace SIF.Utils.Forms.Common;
 
 [ComVisible(true)]
-[Designer(typeof(NavigationPanelDesigner))]
 public partial class NavigationPanel : UserControl
 {
     [Browsable(true)]
@@ -26,17 +25,5 @@ public partial class NavigationPanel : UserControl
     public NavigationPanel()
     {
         InitializeComponent();
-    }
-}
-
-public class NavigationPanelDesigner : ParentControlDesigner
-{
-    public override void Initialize(IComponent component)
-    {
-        base.Initialize(component);
-
-        var container = (NavigationPanel)Component;
-        EnableDesignMode(container.controlsPanel, "InnerPanel");
-
     }
 }

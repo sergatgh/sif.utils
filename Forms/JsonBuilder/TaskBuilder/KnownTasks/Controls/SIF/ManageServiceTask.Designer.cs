@@ -221,8 +221,6 @@
 
         private TabControl tabControl1;
         private TabPage tabPage1;
-        private LabeledTextbox xpathTextInput;
-        private LabeledTextbox folderPathInput;
         private TabPage tabPage2;
         internal TaskEditor taskEditor1;
         private LabeledTextbox displayNameText;

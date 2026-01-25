@@ -2,17 +2,14 @@
 {
     public class LongOperationState : IDisposable
     {
-        private readonly UserControl _control;
-
-        public LongOperationState(UserControl control)
+        public LongOperationState()
         {
-            _control = control;
-            control.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
         }
 
         public void Dispose()
         {
-            _control.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
     }
 }

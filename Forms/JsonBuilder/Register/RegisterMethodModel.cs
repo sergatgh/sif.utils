@@ -4,7 +4,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Register;
 
 public class RegisterMethodModel
 {
-    public string PowershellFunction { get; set; }
+    public string PowershellFunction { get; set; } = string.Empty;
 
-    public string RegisterAs { get; set; }
+    public string RegisterAs { get; set; } = string.Empty;
 }

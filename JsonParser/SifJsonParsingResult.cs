@@ -2,9 +2,14 @@
 
 public class SifJsonParsingResult
 {
-    public string Folder { get; set; }
+    public static SifJsonParsingResult Empty = new SifJsonParsingResult()
+    {
+        Error = "Empty"
+    };
 
-    public string FilePath { get; set; }
+    public string Folder { get; set; } = string.Empty;
+
+    public string FilePath { get; set; } = string.Empty;
 
     public string? Error { get; set; }
 

@@ -9,11 +9,15 @@ namespace SIF.Utils.Forms.ScriptRunner
         private ParameterEditModel? _currentEditingParameter;
         protected ParameterEditModel[] ParametersToEdit { get; set; } = [];
 
-        [Browsable(true)]
-        public event ResultEventHandler<ParameterEditModel[]>? ExecuteClicked;
+        protected SifJsonParsingResult CurrentResult { get; set; } = SifJsonParsingResult.Empty;
+        protected string[] Tasks { get; set; } = [];
+        protected bool UninstallMode { get; set; }
 
         [Browsable(true)]
-        public event EventHandler RefreshClicked;
+        public event ResultEventHandler<(SifJsonParsingResult Json, ParameterEditModel[] Parameters, string[] Tasks, bool Uninstall)>? ExecuteClicked;
+
+        [Browsable(true)]
+        public event EventHandler? RefreshClicked;
 
         [Browsable(true)]
         public event EventHandler? BackClicked
@@ -25,6 +29,11 @@ namespace SIF.Utils.Forms.ScriptRunner
         public ScriptRunnerForm()
         {
             InitializeComponent();
+
+            toolTip1.SetToolTip(executeButton, "Select execution options");
+            toolTip1.SetToolTip(reloadPropertiesButton, "Reload parameters from SIF JSON file");
+            toolTip1.SetToolTip(importParametersButton, "Import parameters from *.ini file");
+            toolTip1.SetToolTip(exportParametersButton, "Export parameters to *.ini file");
         }
 
         public void FilterPropertiesForScript()
@@ -68,7 +77,7 @@ namespace SIF.Utils.Forms.ScriptRunner
 
             if (hasErrors) return;
 
-            ExecuteClicked?.Invoke(this, ParametersToEdit);
+            ExecuteClicked?.Invoke(this, (this.CurrentResult, ParametersToEdit, Tasks, UninstallMode));
         }
 
         private async void reloadPropertiesButton_Click(object sender, EventArgs e)
@@ -160,13 +169,26 @@ namespace SIF.Utils.Forms.ScriptRunner
             propsTableForScript.Refresh();
         }
 
-        public void ShowProperties(IList<SifJsonParameterModel> parameterModels)
+        public void LoadForm(SifJsonParsingResult result, string[]? tasksToExecute = null, bool uninstall = false)
         {
-            propsTableForScript.DataSource = ParametersToEdit = parameterModels.Select(ParameterEditModel.FromSifJsonParameterModel)
+            Clear();
+            CurrentResult = result;
+            Tasks = tasksToExecute ?? [];
+            UninstallMode = uninstall;
+
+            propsTableForScript.DataSource = ParametersToEdit = result.Parameters.Select(ParameterEditModel.FromSifJsonParameterModel)
                 .OrderBy(x => x.IsReference)
                 .ThenBy(x => x.HasDefaultValue)
                 .ThenBy(x => x.HasValidation)
                 .ToArray();
+        }
+
+        public void Clear()
+        {
+            CurrentResult = SifJsonParsingResult.Empty;
+            Tasks = [];
+            UninstallMode = false;
+            propsTableForScript.DataSource = Array.Empty<ParameterEditModel>();
         }
 
         private void propsTableForScript_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)

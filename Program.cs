@@ -2,6 +2,8 @@ using System.Diagnostics;
 
 namespace SIF.Utils
 {
+    using SIF.Utils.Forms.Main;
+
     internal static class Program
     {
         /// <summary>

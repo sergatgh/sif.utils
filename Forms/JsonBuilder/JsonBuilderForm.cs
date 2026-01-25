@@ -23,6 +23,9 @@ public partial class JsonBuilderForm : UserControl
     public JsonBuilderForm()
     {
         InitializeComponent();
+
+        toolTip1.SetToolTip(previewButton, "Preview JSON");
+        toolTip1.SetToolTip(saveJsonToFileButton, "Save as a JSON");
     }
 
     private void saveJsonButton_Click(object sender, EventArgs e)

@@ -5,8 +5,8 @@ namespace SIF.Utils.ConfigFunctionParser.ParseFunction
 {
     public class ParseFunctionProcessor : AutoProcessor
     {
-        Regex _functionRegex = new Regex(@"^\s*([A-Za-z_]\w*)\s*\(\s*(.*?)\s*\)\s*$");
-        Regex _parametersRegex = new Regex(@"'(?:[^'\\]|\\.)*'|[^,\s][^,]*");
+        private readonly Regex _functionRegex = new Regex(@"^\s*([A-Za-z_]\w*)\s*\(\s*(.*?)\s*\)\s*$");
+        private readonly Regex _parametersRegex = new Regex(@"'(?:[^'\\]|\\.)*'|[^,\s][^,]*");
 
         public object GetRoot(string function)
         {
@@ -21,7 +21,7 @@ namespace SIF.Utils.ConfigFunctionParser.ParseFunction
 
                 return parsedFunction;
             }
-            catch (Exception e)
+            catch
             {
                 return ErrorHalt("There is an error in the variable. Please review and fix:" + Environment.NewLine + function);
             }

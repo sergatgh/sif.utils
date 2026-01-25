@@ -54,6 +54,7 @@
             insertFileToolStripMenuItem = new ToolStripMenuItem();
             chooseFolder = new FolderBrowserDialog();
             chooseFile = new OpenFileDialog();
+            toolTip1 = new ToolTip(components);
             MainChooseProperties.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)propsTableForScript).BeginInit();
@@ -82,9 +83,9 @@
             flowLayoutPanel1.Controls.Add(importParametersButton);
             flowLayoutPanel1.Controls.Add(exportParametersButton);
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(396, 11);
+            flowLayoutPanel1.Location = new Point(413, 11);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(315, 59);
+            flowLayoutPanel1.Size = new Size(298, 59);
             flowLayoutPanel1.TabIndex = 11;
             // 
             // executeButton
@@ -92,7 +93,7 @@
             executeButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             executeButton.BackColor = Color.Transparent;
             executeButton.Font = new Font("Segoe UI", 22F);
-            executeButton.Location = new Point(242, 0);
+            executeButton.Location = new Point(225, 0);
             executeButton.Margin = new Padding(0);
             executeButton.Name = "executeButton";
             executeButton.Size = new Size(73, 56);
@@ -106,7 +107,7 @@
             reloadPropertiesButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             reloadPropertiesButton.BackColor = Color.Transparent;
             reloadPropertiesButton.Font = new Font("Segoe UI", 22F);
-            reloadPropertiesButton.Location = new Point(169, 0);
+            reloadPropertiesButton.Location = new Point(152, 0);
             reloadPropertiesButton.Margin = new Padding(0);
             reloadPropertiesButton.Name = "reloadPropertiesButton";
             reloadPropertiesButton.Size = new Size(73, 56);
@@ -120,7 +121,7 @@
             importParametersButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             importParametersButton.BackColor = Color.Transparent;
             importParametersButton.Font = new Font("Segoe UI", 22F);
-            importParametersButton.Location = new Point(96, 0);
+            importParametersButton.Location = new Point(79, 0);
             importParametersButton.Margin = new Padding(0);
             importParametersButton.Name = "importParametersButton";
             importParametersButton.Size = new Size(73, 56);
@@ -134,7 +135,7 @@
             exportParametersButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             exportParametersButton.BackColor = Color.Transparent;
             exportParametersButton.Font = new Font("Segoe UI", 22F);
-            exportParametersButton.Location = new Point(23, 0);
+            exportParametersButton.Location = new Point(6, 0);
             exportParametersButton.Margin = new Padding(0);
             exportParametersButton.Name = "exportParametersButton";
             exportParametersButton.Size = new Size(73, 56);
@@ -356,5 +357,6 @@
         private DataGridViewCheckBoxColumn HasDefaultValue;
         private DataGridViewCheckBoxColumn IsReference;
         private DataGridViewCheckBoxColumn HasValidation;
+        private ToolTip toolTip1;
     }
 }

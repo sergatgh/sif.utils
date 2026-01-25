@@ -1,11 +1,10 @@
 using System.ComponentModel;
 
-namespace SIF.Utils;
+namespace SIF.Utils.Forms.Common;
 
-using System.Runtime.CompilerServices;
 using SIF.Utils.JsonParser;
 
-public class ParameterEditModel : INotifyPropertyChanged
+public class ParameterEditModel
 {
     public string Name { get; set; } = string.Empty;
 
@@ -40,8 +39,6 @@ public class ParameterEditModel : INotifyPropertyChanged
             HasValidation = model.Validate is not null
         };
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     public virtual bool IsDefaultValueSet()
     {

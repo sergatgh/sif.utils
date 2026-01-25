@@ -30,26 +30,16 @@
         {
             components = new System.ComponentModel.Container();
             navigationPanel = new SIF.Utils.Forms.Common.NavigationPanel();
-            openFolderButton = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             executeButton = new Button();
+            changeFileButton = new Button();
+            openFolderButton = new Button();
             FilePathText = new TextBox();
             viewJsonTabs = new TabControl();
             viewJsonTasks = new TabPage();
-            tasksViewer = new ListView();
-            tasksTabNameColumn = new ColumnHeader();
-            tasksTabDescriptionColumn = new ColumnHeader();
-            TasksContextMenu = new ContextMenuStrip(components);
-            viewToolStripMenuItem = new ToolStripMenuItem();
-            copyToolStripMenuItem = new ToolStripMenuItem();
-            copyTaskName = new ToolStripMenuItem();
-            copyTaskDescription = new ToolStripMenuItem();
-            executeToolStripMenuItem = new ToolStripMenuItem();
-            tasksFilters = new FlowLayoutPanel();
-            filterText = new TextBox();
+            tasksList = new SIF.Utils.Forms.JsonViewer.Tasks.TasksList();
             viewJsonUninstallTasks = new TabPage();
-            uninstallTasksList = new ListView();
-            columnHeader1 = new ColumnHeader();
-            columnHeader2 = new ColumnHeader();
+            uninstallTasksList = new SIF.Utils.Forms.JsonViewer.Tasks.TasksList();
             viewJsonParameters = new TabPage();
             parametersList = new DataGridView();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -60,7 +50,7 @@
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             sifJsonParameterModelBindingSource = new BindingSource(components);
             flowLayoutPanel9 = new FlowLayoutPanel();
-            textBox1 = new TextBox();
+            paramtersFilterText = new TextBox();
             viewJsonVariables = new TabPage();
             variablesList = new ListView();
             columnHeader5 = new ColumnHeader();
@@ -84,12 +74,11 @@
             powershellFunction = new ColumnHeader();
             viewJsonSettings = new TabPage();
             viewJsonWarnings = new TabPage();
-            changeFileButton = new Button();
             openFileForViewerDialog = new OpenFileDialog();
+            toolTip1 = new ToolTip(components);
+            flowLayoutPanel1.SuspendLayout();
             viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
-            TasksContextMenu.SuspendLayout();
-            tasksFilters.SuspendLayout();
             viewJsonUninstallTasks.SuspendLayout();
             viewJsonParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)parametersList).BeginInit();
@@ -112,26 +101,24 @@
             navigationPanel.TabIndex = 2;
             navigationPanel.Title = "SIF Viewer";
             // 
-            // openFolderButton
+            // flowLayoutPanel1
             // 
-            openFolderButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            openFolderButton.BackColor = Color.Transparent;
-            openFolderButton.Font = new Font("Segoe UI", 22F);
-            openFolderButton.Location = new Point(523, 8);
-            openFolderButton.Margin = new Padding(0);
-            openFolderButton.Name = "openFolderButton";
-            openFolderButton.Size = new Size(73, 56);
-            openFolderButton.TabIndex = 7;
-            openFolderButton.Text = "📂";
-            openFolderButton.UseVisualStyleBackColor = false;
-            openFolderButton.Click += openFolderButton_Click;
+            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            flowLayoutPanel1.Controls.Add(executeButton);
+            flowLayoutPanel1.Controls.Add(changeFileButton);
+            flowLayoutPanel1.Controls.Add(openFolderButton);
+            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new Point(521, 10);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(223, 59);
+            flowLayoutPanel1.TabIndex = 8;
             // 
             // executeButton
             // 
             executeButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             executeButton.BackColor = Color.Transparent;
             executeButton.Font = new Font("Segoe UI", 22F);
-            executeButton.Location = new Point(669, 8);
+            executeButton.Location = new Point(150, 0);
             executeButton.Margin = new Padding(0);
             executeButton.Name = "executeButton";
             executeButton.Size = new Size(73, 56);
@@ -139,6 +126,34 @@
             executeButton.Text = "▶️";
             executeButton.UseVisualStyleBackColor = false;
             executeButton.Click += executeButton_Click;
+            // 
+            // changeFileButton
+            // 
+            changeFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            changeFileButton.BackColor = Color.Transparent;
+            changeFileButton.Font = new Font("Segoe UI", 22F);
+            changeFileButton.Location = new Point(77, 0);
+            changeFileButton.Margin = new Padding(0);
+            changeFileButton.Name = "changeFileButton";
+            changeFileButton.Size = new Size(73, 56);
+            changeFileButton.TabIndex = 6;
+            changeFileButton.Text = "🔃";
+            changeFileButton.UseVisualStyleBackColor = false;
+            changeFileButton.Click += openFileDialog_Click;
+            // 
+            // openFolderButton
+            // 
+            openFolderButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            openFolderButton.BackColor = Color.Transparent;
+            openFolderButton.Font = new Font("Segoe UI", 22F);
+            openFolderButton.Location = new Point(4, 0);
+            openFolderButton.Margin = new Padding(0);
+            openFolderButton.Name = "openFolderButton";
+            openFolderButton.Size = new Size(73, 56);
+            openFolderButton.TabIndex = 7;
+            openFolderButton.Text = "📂";
+            openFolderButton.UseVisualStyleBackColor = false;
+            openFolderButton.Click += openFolderButton_Click;
             // 
             // FilePathText
             // 
@@ -172,8 +187,7 @@
             // 
             // viewJsonTasks
             // 
-            viewJsonTasks.Controls.Add(tasksViewer);
-            viewJsonTasks.Controls.Add(tasksFilters);
+            viewJsonTasks.Controls.Add(tasksList);
             viewJsonTasks.Location = new Point(4, 32);
             viewJsonTasks.Name = "viewJsonTasks";
             viewJsonTasks.Padding = new Padding(3);
@@ -182,96 +196,14 @@
             viewJsonTasks.Text = "Tasks";
             viewJsonTasks.UseVisualStyleBackColor = true;
             // 
-            // tasksViewer
+            // tasksList
             // 
-            tasksViewer.Columns.AddRange(new ColumnHeader[] { tasksTabNameColumn, tasksTabDescriptionColumn });
-            tasksViewer.ContextMenuStrip = TasksContextMenu;
-            tasksViewer.Dock = DockStyle.Fill;
-            tasksViewer.FullRowSelect = true;
-            tasksViewer.GridLines = true;
-            tasksViewer.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            tasksViewer.Location = new Point(3, 43);
-            tasksViewer.Name = "tasksViewer";
-            tasksViewer.ShowGroups = false;
-            tasksViewer.ShowItemToolTips = true;
-            tasksViewer.Size = new Size(747, 426);
-            tasksViewer.TabIndex = 0;
-            tasksViewer.Tag = "Tasks";
-            tasksViewer.UseCompatibleStateImageBehavior = false;
-            tasksViewer.View = View.Details;
-            tasksViewer.DoubleClick += tasksViewer_DoubleClick;
-            // 
-            // tasksTabNameColumn
-            // 
-            tasksTabNameColumn.Text = "Name";
-            tasksTabNameColumn.Width = 200;
-            // 
-            // tasksTabDescriptionColumn
-            // 
-            tasksTabDescriptionColumn.Text = "Description";
-            tasksTabDescriptionColumn.Width = 600;
-            // 
-            // TasksContextMenu
-            // 
-            TasksContextMenu.ImageScalingSize = new Size(20, 20);
-            TasksContextMenu.Items.AddRange(new ToolStripItem[] { viewToolStripMenuItem, copyToolStripMenuItem, executeToolStripMenuItem });
-            TasksContextMenu.Name = "contextMenuStrip1";
-            TasksContextMenu.Size = new Size(140, 88);
-            TasksContextMenu.Opening += TasksContextMenu_Opening;
-            // 
-            // viewToolStripMenuItem
-            // 
-            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(139, 28);
-            viewToolStripMenuItem.Text = "View";
-            viewToolStripMenuItem.Click += viewToolStripMenuItem_Click;
-            // 
-            // copyToolStripMenuItem
-            // 
-            copyToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { copyTaskName, copyTaskDescription });
-            copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.Size = new Size(139, 28);
-            copyToolStripMenuItem.Text = "Copy";
-            // 
-            // copyTaskName
-            // 
-            copyTaskName.Name = "copyTaskName";
-            copyTaskName.Size = new Size(180, 28);
-            copyTaskName.Text = "Name";
-            copyTaskName.Click += copyTaskName_Click;
-            // 
-            // copyTaskDescription
-            // 
-            copyTaskDescription.Name = "copyTaskDescription";
-            copyTaskDescription.Size = new Size(180, 28);
-            copyTaskDescription.Text = "Description";
-            copyTaskDescription.Click += copyTaskDescription_Click;
-            // 
-            // executeToolStripMenuItem
-            // 
-            executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            executeToolStripMenuItem.Size = new Size(139, 28);
-            executeToolStripMenuItem.Text = "Execute";
-            executeToolStripMenuItem.Click += executeToolStripMenuItem_Click;
-            // 
-            // tasksFilters
-            // 
-            tasksFilters.Controls.Add(filterText);
-            tasksFilters.Dock = DockStyle.Top;
-            tasksFilters.Location = new Point(3, 3);
-            tasksFilters.Name = "tasksFilters";
-            tasksFilters.Size = new Size(747, 40);
-            tasksFilters.TabIndex = 1;
-            // 
-            // filterText
-            // 
-            filterText.Dock = DockStyle.Top;
-            filterText.Location = new Point(3, 3);
-            filterText.Name = "filterText";
-            filterText.PlaceholderText = "Filter";
-            filterText.Size = new Size(778, 30);
-            filterText.TabIndex = 0;
-            filterText.TextChanged += filterText_TextChanged;
+            tasksList.Dock = DockStyle.Fill;
+            tasksList.Location = new Point(3, 3);
+            tasksList.Name = "tasksList";
+            tasksList.Size = new Size(747, 466);
+            tasksList.TabIndex = 0;
+            tasksList.OnExecuteTasks += tasksControl1_OnExecuteTasks;
             // 
             // viewJsonUninstallTasks
             // 
@@ -286,30 +218,12 @@
             // 
             // uninstallTasksList
             // 
-            uninstallTasksList.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
-            uninstallTasksList.ContextMenuStrip = TasksContextMenu;
             uninstallTasksList.Dock = DockStyle.Fill;
-            uninstallTasksList.FullRowSelect = true;
-            uninstallTasksList.GridLines = true;
             uninstallTasksList.Location = new Point(3, 3);
             uninstallTasksList.Name = "uninstallTasksList";
-            uninstallTasksList.ShowGroups = false;
             uninstallTasksList.Size = new Size(747, 466);
-            uninstallTasksList.TabIndex = 1;
-            uninstallTasksList.Tag = "UninstallTasks";
-            uninstallTasksList.UseCompatibleStateImageBehavior = false;
-            uninstallTasksList.View = View.Details;
-            uninstallTasksList.DoubleClick += tasksViewer_DoubleClick;
-            // 
-            // columnHeader1
-            // 
-            columnHeader1.Text = "Name";
-            columnHeader1.Width = 200;
-            // 
-            // columnHeader2
-            // 
-            columnHeader2.Text = "Description";
-            columnHeader2.Width = 600;
+            uninstallTasksList.TabIndex = 0;
+            uninstallTasksList.OnExecuteTasks += uninstallTasksList_OnExecuteTasks;
             // 
             // viewJsonParameters
             // 
@@ -396,22 +310,22 @@
             // 
             // flowLayoutPanel9
             // 
-            flowLayoutPanel9.Controls.Add(textBox1);
+            flowLayoutPanel9.Controls.Add(paramtersFilterText);
             flowLayoutPanel9.Dock = DockStyle.Top;
             flowLayoutPanel9.Location = new Point(0, 0);
             flowLayoutPanel9.Name = "flowLayoutPanel9";
             flowLayoutPanel9.Size = new Size(753, 40);
             flowLayoutPanel9.TabIndex = 2;
             // 
-            // textBox1
+            // paramtersFilterText
             // 
-            textBox1.Dock = DockStyle.Top;
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Filter";
-            textBox1.Size = new Size(778, 30);
-            textBox1.TabIndex = 0;
-            textBox1.TextChanged += parametersFilter_TextChanged;
+            paramtersFilterText.Dock = DockStyle.Top;
+            paramtersFilterText.Location = new Point(3, 3);
+            paramtersFilterText.Name = "paramtersFilterText";
+            paramtersFilterText.PlaceholderText = "Filter";
+            paramtersFilterText.Size = new Size(778, 30);
+            paramtersFilterText.TabIndex = 0;
+            paramtersFilterText.TextChanged += parametersFilter_TextChanged;
             // 
             // viewJsonVariables
             // 
@@ -620,20 +534,6 @@
             viewJsonWarnings.Text = "ℹ️ Parse Warnings";
             viewJsonWarnings.UseVisualStyleBackColor = true;
             // 
-            // changeFileButton
-            // 
-            changeFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            changeFileButton.BackColor = Color.Transparent;
-            changeFileButton.Font = new Font("Segoe UI", 22F);
-            changeFileButton.Location = new Point(596, 8);
-            changeFileButton.Margin = new Padding(0);
-            changeFileButton.Name = "changeFileButton";
-            changeFileButton.Size = new Size(73, 56);
-            changeFileButton.TabIndex = 6;
-            changeFileButton.Text = "🔃";
-            changeFileButton.UseVisualStyleBackColor = false;
-            changeFileButton.Click += openFileDialog_Click;
-            // 
             // openFileForViewerDialog
             // 
             openFileForViewerDialog.AddToRecent = false;
@@ -646,19 +546,15 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(executeButton);
-            Controls.Add(openFolderButton);
-            Controls.Add(changeFileButton);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(viewJsonTabs);
             Controls.Add(FilePathText);
             Controls.Add(navigationPanel);
             Name = "SifJsonViewerForm";
             Size = new Size(761, 616);
+            flowLayoutPanel1.ResumeLayout(false);
             viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
-            TasksContextMenu.ResumeLayout(false);
-            tasksFilters.ResumeLayout(false);
-            tasksFilters.PerformLayout();
             viewJsonUninstallTasks.ResumeLayout(false);
             viewJsonParameters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)parametersList).EndInit();
@@ -682,19 +578,11 @@
         private TextBox FilePathText;
         private TabControl viewJsonTabs;
         private TabPage viewJsonTasks;
-        internal ListView tasksViewer;
-        private ColumnHeader tasksTabNameColumn;
-        private ColumnHeader tasksTabDescriptionColumn;
-        private FlowLayoutPanel tasksFilters;
-        internal TextBox filterText;
         private TabPage viewJsonUninstallTasks;
-        internal ListView uninstallTasksList;
-        private ColumnHeader columnHeader1;
-        private ColumnHeader columnHeader2;
         private TabPage viewJsonParameters;
         internal DataGridView parametersList;
         private FlowLayoutPanel flowLayoutPanel9;
-        internal TextBox textBox1;
+        internal TextBox paramtersFilterText;
         private TabPage viewJsonVariables;
         internal ListView variablesList;
         private ColumnHeader columnHeader5;
@@ -729,11 +617,9 @@
         private DataGridViewTextBoxColumn referenceDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn validateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private ContextMenuStrip TasksContextMenu;
-        private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem copyToolStripMenuItem;
-        private ToolStripMenuItem copyTaskName;
-        private ToolStripMenuItem copyTaskDescription;
-        private ToolStripMenuItem executeToolStripMenuItem;
+        private Tasks.TasksList tasksList;
+        private Tasks.TasksList uninstallTasksList;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private ToolTip toolTip1;
     }
 }

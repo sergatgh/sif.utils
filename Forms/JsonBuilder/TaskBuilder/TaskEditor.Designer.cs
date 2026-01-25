@@ -172,8 +172,6 @@
         }
 
         #endregion
-        private LabeledTextbox taskInput;
-        private LabeledTextbox labeledTextbox1;
         private Label label1;
         private DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;

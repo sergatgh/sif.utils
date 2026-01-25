@@ -10,7 +10,7 @@ public class TaskInfo
 
     public Image Image { get => field ?? Resources.DefaultTaskIcon; set => field = value; }
 
-    public string Source { get; set; }
+    public string Source { get; set; } = string.Empty;
 
     public Func<UserControl> ControlFactory { get; set; } = () => new TaskEditor();
 

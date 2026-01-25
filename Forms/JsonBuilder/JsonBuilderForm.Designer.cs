@@ -28,19 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             MainJsonBuilder = new Panel();
-            previewButton = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             saveJsonToFileButton = new Button();
+            previewButton = new Button();
             jsonBuilderPanel = new JsonBuilderPanel();
             navigationPanel = new SIF.Utils.Forms.Common.NavigationPanel();
             saveSifJson = new SaveFileDialog();
+            toolTip1 = new ToolTip(components);
             MainJsonBuilder.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // MainJsonBuilder
             // 
-            MainJsonBuilder.Controls.Add(previewButton);
-            MainJsonBuilder.Controls.Add(saveJsonToFileButton);
+            MainJsonBuilder.Controls.Add(flowLayoutPanel1);
             MainJsonBuilder.Controls.Add(jsonBuilderPanel);
             MainJsonBuilder.Controls.Add(navigationPanel);
             MainJsonBuilder.Dock = DockStyle.Fill;
@@ -49,26 +52,24 @@
             MainJsonBuilder.Size = new Size(936, 685);
             MainJsonBuilder.TabIndex = 2;
             // 
-            // previewButton
+            // flowLayoutPanel1
             // 
-            previewButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            previewButton.BackColor = Color.Transparent;
-            previewButton.Font = new Font("Segoe UI", 22F);
-            previewButton.Location = new Point(752, 8);
-            previewButton.Margin = new Padding(0);
-            previewButton.Name = "previewButton";
-            previewButton.Size = new Size(73, 56);
-            previewButton.TabIndex = 5;
-            previewButton.Text = "📄";
-            previewButton.UseVisualStyleBackColor = false;
-            previewButton.Click += previewJsonButton_Click;
+            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(saveJsonToFileButton);
+            flowLayoutPanel1.Controls.Add(previewButton);
+            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new Point(774, 8);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(150, 62);
+            flowLayoutPanel1.TabIndex = 6;
             // 
             // saveJsonToFileButton
             // 
             saveJsonToFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             saveJsonToFileButton.BackColor = Color.Transparent;
             saveJsonToFileButton.Font = new Font("Segoe UI", 22F);
-            saveJsonToFileButton.Location = new Point(835, 8);
+            saveJsonToFileButton.Location = new Point(77, 0);
             saveJsonToFileButton.Margin = new Padding(0);
             saveJsonToFileButton.Name = "saveJsonToFileButton";
             saveJsonToFileButton.Size = new Size(73, 56);
@@ -76,6 +77,20 @@
             saveJsonToFileButton.Text = "💾";
             saveJsonToFileButton.UseVisualStyleBackColor = false;
             saveJsonToFileButton.Click += saveJsonButton_Click;
+            // 
+            // previewButton
+            // 
+            previewButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            previewButton.BackColor = Color.Transparent;
+            previewButton.Font = new Font("Segoe UI", 22F);
+            previewButton.Location = new Point(4, 0);
+            previewButton.Margin = new Padding(0);
+            previewButton.Name = "previewButton";
+            previewButton.Size = new Size(73, 56);
+            previewButton.TabIndex = 5;
+            previewButton.Text = "📄";
+            previewButton.UseVisualStyleBackColor = false;
+            previewButton.Click += previewJsonButton_Click;
             // 
             // jsonBuilderPanel
             // 
@@ -110,6 +125,8 @@
             Name = "JsonBuilderForm";
             Size = new Size(936, 685);
             MainJsonBuilder.ResumeLayout(false);
+            MainJsonBuilder.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -121,5 +138,7 @@
         internal Button previewButton;
         internal Button saveJsonToFileButton;
         private SaveFileDialog saveSifJson;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private ToolTip toolTip1;
     }
 }
