@@ -37,6 +37,7 @@
             TreeNode treeNode7 = new TreeNode("IISRootFolder");
             TreeNode treeNode8 = new TreeNode("getPath", new TreeNode[] { treeNode7 });
             TreeNode treeNode9 = new TreeNode("If", new TreeNode[] { treeNode4, treeNode6, treeNode8 });
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFunctionViewer));
             configFunctionTree = new TreeView();
             errorParsingConfigFunctionLabel = new Label();
             SuspendLayout();
@@ -87,6 +88,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(configFunctionTree);
             Controls.Add(errorParsingConfigFunctionLabel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ConfigFunctionViewer";
             Text = "ConfigFunctionViewer";
             Load += ConfigFunctionViewer_Load;

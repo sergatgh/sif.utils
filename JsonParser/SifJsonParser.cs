@@ -7,7 +7,8 @@ public class SifJsonParser
 {
     public async Task<SifJsonParsingResult> Parse(string filePath)
     {
-        var bag = await Pipeline.From<SifJsonParserProcessor>().Run(new { filePath });
+        var bag = await Pipeline.From<ReadJsonObject, ParseSifComponents>().Run(new { filePath });
+        
         if (bag.HasErrors())
         {
             return new SifJsonParsingResult

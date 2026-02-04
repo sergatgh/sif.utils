@@ -1,37 +1,16 @@
-﻿namespace SIF.Utils.JsonParser.ParseFile;
+﻿using System.Text.Json;
+
+namespace SIF.Utils.JsonParser.ParseFile;
 
 using AutoPipe;
-using System.Text.Json;
 
-public class SifJsonParserProcessor : AutoProcessor
+public class ParseSifComponents : AutoProcessor
 {
-    public string GetFolder([Required(Halt = true)] string filePath)
+    public object GetTasks([Required] JsonElement jsonDocument)
     {
-        return Path.GetDirectoryName(filePath) ?? string.Empty;
-    }
-
-    public async Task<object> GetJsonDocument([Required(Halt = true)] string filePath)
-    {
-        try
+        if (!jsonDocument.TryGetProperty("Tasks", out var tasksElement))
         {
-            using var reader = new StreamReader(filePath);
-            return await JsonDocument.ParseAsync(reader.BaseStream);
-        }
-        catch (JsonException jsonEx)
-        {
-            return ErrorHalt($"JSON parsing error: {jsonEx.Message}");
-        }
-        catch (Exception ex)
-        {
-            return ErrorHalt($"Unexpected error: {ex.Message}");
-        }
-    }
-
-    public object GetTasks([Required] JsonDocument jsonDocument)
-    {
-        if (!jsonDocument.RootElement.TryGetProperty("Tasks", out var tasksElement))
-        {
-            if (!jsonDocument.RootElement.TryGetProperty("Includes", out _))
+            if (!jsonDocument.TryGetProperty("Includes", out _))
             {
                 return ErrorHalt("The JSON does not contain neither 'Tasks' nor 'Includes' property.");
             }
@@ -61,9 +40,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetUninstallTasks(JsonDocument jsonDocument)
+    public object GetUninstallTasks([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("UninstallTasks", out var uninstallTasksElement))
+        if (!jsonDocument.TryGetProperty("UninstallTasks", out var uninstallTasksElement))
         {
             return Warning("The 'UninstallTasks' property is not added.");
         }
@@ -83,9 +62,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetParameters([Required] JsonDocument jsonDocument)
+    public object GetParameters([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("Parameters", out var parametersElement))
+        if (!jsonDocument.TryGetProperty("Parameters", out var parametersElement))
         {
             return Info("The 'Parameters' property is not added.");
         }
@@ -107,9 +86,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetVariables([Required] JsonDocument jsonDocument)
+    public object GetVariables([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("Variables", out var variablesElement))
+        if (!jsonDocument.TryGetProperty("Variables", out var variablesElement))
         {
             return Info("The 'Variables' property is not added.");
         }
@@ -126,9 +105,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetIncludes([Required] JsonDocument jsonDocument)
+    public object GetIncludes([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("Includes", out var includesElement))
+        if (!jsonDocument.TryGetProperty("Includes", out var includesElement))
         {
             return Info("The 'Includes' property is not added.");
         }
@@ -147,9 +126,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetModules([Required] JsonDocument jsonDocument)
+    public object GetModules([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("Modules", out var modulesElement))
+        if (!jsonDocument.TryGetProperty("Modules", out var modulesElement))
         {
             return Info("The 'Modules' property is not added.");
         }
@@ -165,9 +144,9 @@ public class SifJsonParserProcessor : AutoProcessor
             }).ToList();
     }
 
-    public object GetRegisterElement([Required] JsonDocument jsonDocument)
+    public object GetRegisterElement([Required] JsonElement jsonDocument)
     {
-        if (!jsonDocument.RootElement.TryGetProperty("Register", out var registerElement))
+        if (!jsonDocument.TryGetProperty("Register", out var registerElement))
         {
             return Info("The 'Register' property is not added.");
         }

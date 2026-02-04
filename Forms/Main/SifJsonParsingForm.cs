@@ -22,23 +22,46 @@ namespace SIF.Utils
             if (args is { Length: > 0 })
             {
                 string filePath = args[0];
-                if (File.Exists(filePath) && filePath.EndsWith(".json"))
-                {
-                    var result = MainJsonViewer.ProcessFile(openFileForViewerDialog.FileName).Result;
+                NavigateToFileSelection(filePath);
+            }
 
-                    if (result.Item1)
-                    {
-                        _presenter.UpdateView(MainViewPageType.FileSelected);
-                    }
-                    else
-                    {
-                        MainFileParsingError.SetData(result.Item2, File.ReadAllText(filePath));
-                        _presenter.UpdateView(MainViewPageType.ErrorText);
-                    }
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = $"SIF Utils v{version.Major}.{version.Minor}";
+        }
+
+        public sealed override string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
+        public async void NavigateToFileSelection(string filePath)
+        {
+            if (File.Exists(filePath) && filePath.EndsWith(".json"))
+            {
+                var result = await MainJsonViewer.ProcessFile(filePath);
+
+                if (result.Item1)
+                {
+                    _presenter.UpdateView(MainViewPageType.FileSelected);
                 }
                 else
                 {
-                    MessageBox.Show($"The specified file '{filePath}' must be a valid JSON.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MainFileParsingError.SetData(result.Item2, await GetContext(filePath));
+                    _presenter.UpdateView(MainViewPageType.ErrorText);
+                }
+            }
+            else
+            {
+                if (!File.Exists(filePath))
+                {
+                    MainFileParsingError.SetData("File is not seen by the program.", "");
+                    _presenter.UpdateView(MainViewPageType.ErrorText);
+                }
+                else
+                {
+                    MainFileParsingError.SetData("The specified file is not a JSON file.", "");
+                    _presenter.UpdateView(MainViewPageType.ErrorText);
                 }
             }
         }
@@ -83,7 +106,7 @@ namespace SIF.Utils
             }
             else
             {
-                MainFileParsingError.SetData(processFileResult.Item2, await File.ReadAllTextAsync(openFileForViewerDialog.FileName));
+                MainFileParsingError.SetData(processFileResult.Item2, await GetContext(openFileForViewerDialog.FileName));
                 _presenter.UpdateView(MainViewPageType.ErrorText);
             }
         }
@@ -111,7 +134,7 @@ namespace SIF.Utils
             }
             else
             {
-                MainFileParsingError.SetData(parseResult.Error!, await File.ReadAllTextAsync(openFileForViewerDialog.FileName));
+                MainFileParsingError.SetData(parseResult.Error!, await GetContext(openFileForViewerDialog.FileName));
                 _presenter.UpdateView(MainViewPageType.ErrorText);
             }
         }
@@ -206,8 +229,7 @@ namespace SIF.Utils
             var parseResult = await PrepareFile(openFileForViewerDialog.FileName);
             if (parseResult.HasError)
             {
-
-                MainFileParsingError.SetData(parseResult.Error!, await File.ReadAllTextAsync(openFileForViewerDialog.FileName));
+                MainFileParsingError.SetData(parseResult.Error!, await GetContext(openFileForViewerDialog.FileName));
                 _presenter.UpdateView(MainViewPageType.ErrorText);
                 return;
             }
@@ -219,6 +241,14 @@ namespace SIF.Utils
         private void MainChooseExportFormat_OnHome(object sender, EventArgs e)
         {
             _presenter.GoHome();
+        }
+
+        private async Task<string> GetContext(string filePath)
+        {
+            var file = new FileInfo(filePath);
+            return file.Length > 3_000_000
+                ? "The file is too large to be displayed in the viewer."
+                : await file.OpenText().ReadToEndAsync();
         }
     }
 }
