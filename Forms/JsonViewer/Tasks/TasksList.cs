@@ -23,13 +23,21 @@
             this._tasks = tasks;
             tasksViewer.Items.AddRange(GetGroupItems(_tasks).ToArray());
 
-            if (_tasks.Any(x => x.Name.Length > 4 || x.Description?.Length > 11))
+            AutoResizeColumns();
+        }
+
+        public void AutoResizeColumns()
+        {
+            tasksViewer.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            if (_tasks.Any(x => x.Name.Length > 4))
             {
-                tasksViewer.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                tasksViewer.AutoResizeColumn(tasksViewer.Columns["Name"]?.Index ?? 0, ColumnHeaderAutoResizeStyle.ColumnContent);
             }
-            else
+
+            if (_tasks.Any(x => x.Description?.Length > 11))
             {
-                tasksViewer.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                tasksViewer.AutoResizeColumn(tasksViewer.Columns["Description"]?.Index ?? 0, ColumnHeaderAutoResizeStyle.ColumnContent);
             }
         }
 

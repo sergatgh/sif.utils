@@ -92,76 +92,9 @@ namespace SIF.Utils
             return result;
         }
 
-        private async void openFileDialog_Click(object sender, EventArgs e)
-        {
-            var result = openFileForViewerDialog.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            var processFileResult = await MainJsonViewer.ProcessFile(openFileForViewerDialog.FileName);
-
-            if (processFileResult.Item1)
-            {
-                _presenter.UpdateView(MainViewPageType.FileSelected);
-            }
-            else
-            {
-                MainFileParsingError.SetData(processFileResult.Item2, await GetContext(openFileForViewerDialog.FileName));
-                _presenter.UpdateView(MainViewPageType.ErrorText);
-            }
-        }
-
-        private async void customFileOpenDialog_Click(object sender, EventArgs e)
-        {
-            var result = openFileForViewerDialog.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            var parseResult = await PrepareFile(openFileForViewerDialog.FileName);
-
-            if (!parseResult.HasError)
-            {
-                if (parseResult.Parameters.Count > 0)
-                {
-                    MainScriptRunnerForm.LoadForm(parseResult);
-                    _presenter.UpdateView(MainViewPageType.SetPropertiesForNewPsScript);
-                }
-                else
-                {
-                    MainChooseExportFormat.SetCurrentSifResult(parseResult);
-                    _presenter.UpdateView(MainViewPageType.ChooseFormat);
-                }
-            }
-            else
-            {
-                MainFileParsingError.SetData(parseResult.Error!, await GetContext(openFileForViewerDialog.FileName));
-                _presenter.UpdateView(MainViewPageType.ErrorText);
-            }
-        }
-
-        private void labelButton_MouseHover(object sender, EventArgs e)
-        {
-            if (sender is Label label) label.ForeColor = SystemColors.Highlight;
-        }
-
-        private void labelButton_MouseLeave(object sender, EventArgs e)
-        {
-            if (sender is Label label) label.ForeColor = SystemColors.ControlText;
-        }
-
         private void back_Click(object sender, EventArgs e)
         {
             _presenter.GoBack();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            new AboutWindow().ShowDialog();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            new LearnSIF().ShowDialog();
         }
 
         private void executeToolStripMenuItem_Click(object sender, ResultEventArgs<(bool Uninstall, SifJsonTaskModel[] Tasks, SifJsonParsingResult Json)> e)
@@ -180,11 +113,6 @@ namespace SIF.Utils
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            _presenter.UpdateView(MainViewPageType.JsonBuilder);
-        }
-
         private void MainJsonViewer_OnPlay(object sender, ResultEventArgs<SifJsonParsingResult> e)
         {
             if (e.Result.Parameters.Count > 0)
@@ -199,20 +127,21 @@ namespace SIF.Utils
             }
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        protected override bool ProcessDialogKey(Keys keyData)
         {
-            // Check if the pressed key is the Left arrow key AND the Alt key is held down
-            if (e is not { KeyCode: Keys.Left, Alt: true }) return;
+            if (keyData is (Keys.Control | Keys.W))
+            {
+                Application.Exit();
+                return true;
+            }
 
-            // Prevent the default system action for Alt+Left (usually GoBack)
-            e.Handled = true;
-            e.SuppressKeyPress = true; // Stops the key from being processed further
+            if (keyData is (Keys.Alt | Keys.Left))
+            {
+                _presenter.GoBack();
+                return true;
+            }
 
-            // Trigger the click event of your specific button
-            // Replace "myButton" with the actual name of your button
-            _presenter.GoBack();
-
-            Trace.WriteLine("Back");
+            return base.ProcessDialogKey(keyData);
         }
 
         private void MainScriptRunnerForm_ExecuteClicked(object? sender, ResultEventArgs<(SifJsonParsingResult Json, ParameterEditModel[] Parameters, string[] Tasks, bool Uninstall)> e)
@@ -224,12 +153,12 @@ namespace SIF.Utils
             _presenter.UpdateView(MainViewPageType.ChooseFormat);
         }
 
-        private async void MainScriptRunnerForm_RefreshClicked(object sender, EventArgs e)
+        private async void MainScriptRunnerForm_RefreshClicked(object sender, ResultEventArgs<string> e)
         {
-            var parseResult = await PrepareFile(openFileForViewerDialog.FileName);
+            var parseResult = await PrepareFile(e.Result);
             if (parseResult.HasError)
             {
-                MainFileParsingError.SetData(parseResult.Error!, await GetContext(openFileForViewerDialog.FileName));
+                MainFileParsingError.SetData(parseResult.Error!, await GetContext(e.Result));
                 _presenter.UpdateView(MainViewPageType.ErrorText);
                 return;
             }
@@ -249,6 +178,50 @@ namespace SIF.Utils
             return file.Length > 3_000_000
                 ? "The file is too large to be displayed in the viewer."
                 : await file.OpenText().ReadToEndAsync();
+        }
+
+        private async void MainSelectFilePanel_OpenViewFileDialog(object sender, ResultEventArgs<string> e)
+        {
+            var processFileResult = await MainJsonViewer.ProcessFile(e.Result);
+
+            if (processFileResult.Item1)
+            {
+                _presenter.UpdateView(MainViewPageType.FileSelected);
+            }
+            else
+            {
+                MainFileParsingError.SetData(processFileResult.Item2, await GetContext(e.Result));
+                _presenter.UpdateView(MainViewPageType.ErrorText);
+            }
+        }
+
+        private async void MainSelectFilePanel_OpenExecuteFileDialog(object sender, ResultEventArgs<string> e)
+        {
+            var parseResult = await PrepareFile(e.Result);
+
+            if (!parseResult.HasError)
+            {
+                if (parseResult.Parameters.Count > 0)
+                {
+                    MainScriptRunnerForm.LoadForm(parseResult);
+                    _presenter.UpdateView(MainViewPageType.SetPropertiesForNewPsScript);
+                }
+                else
+                {
+                    MainChooseExportFormat.SetCurrentSifResult(parseResult);
+                    _presenter.UpdateView(MainViewPageType.ChooseFormat);
+                }
+            }
+            else
+            {
+                MainFileParsingError.SetData(parseResult.Error!, await GetContext(e.Result));
+                _presenter.UpdateView(MainViewPageType.ErrorText);
+            }
+        }
+
+        private void MainSelectFilePanel_OpenJsonBuilder(object sender, EventArgs e)
+        {
+            _presenter.UpdateView(MainViewPageType.JsonBuilder);
         }
     }
 }

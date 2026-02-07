@@ -19,6 +19,9 @@
     <Compile Update="Forms\ExportRunner\ExportRunnerForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\Home\HomeComponents.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\Expander.cs">
       <SubType>UserControl</SubType>
     </Compile>

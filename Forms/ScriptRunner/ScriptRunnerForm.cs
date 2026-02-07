@@ -10,14 +10,16 @@ namespace SIF.Utils.Forms.ScriptRunner
         protected ParameterEditModel[] ParametersToEdit { get; set; } = [];
 
         protected SifJsonParsingResult CurrentResult { get; set; } = SifJsonParsingResult.Empty;
+
         protected string[] Tasks { get; set; } = [];
+
         protected bool UninstallMode { get; set; }
 
         [Browsable(true)]
         public event ResultEventHandler<(SifJsonParsingResult Json, ParameterEditModel[] Parameters, string[] Tasks, bool Uninstall)>? ExecuteClicked;
 
         [Browsable(true)]
-        public event EventHandler? RefreshClicked;
+        public event ResultEventHandler<string>? RefreshClicked;
 
         [Browsable(true)]
         public event EventHandler? BackClicked
@@ -80,9 +82,9 @@ namespace SIF.Utils.Forms.ScriptRunner
             ExecuteClicked?.Invoke(this, (this.CurrentResult, ParametersToEdit, Tasks, UninstallMode));
         }
 
-        private async void reloadPropertiesButton_Click(object sender, EventArgs e)
+        private void reloadPropertiesButton_Click(object sender, EventArgs e)
         {
-            RefreshClicked?.Invoke(this, EventArgs.Empty);
+            RefreshClicked?.Invoke(this, CurrentResult.FilePath);
         }
 
         private async void importParametersButton_Click(object sender, EventArgs e)
