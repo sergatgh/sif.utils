@@ -28,42 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            MainSelectFilePanel = new Panel();
-            sifBuilderFlow = new Label();
             flowLayoutPanel7 = new FlowLayoutPanel();
             creditsButton = new Button();
             learnSifButton = new Button();
-            createPsScriptLabel = new Label();
-            viewJsonLabel = new Label();
-            welcomeWhatDoWeDo = new Label();
-            welcomeLabel = new Label();
             openFileForViewerDialog = new OpenFileDialog();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            welcomeDescriptionText = new Label();
+            welcomeTitleText = new Label();
+            welcomeText = new Label();
+            actionControlsFlowPanel = new FlowLayoutPanel();
+            viewJsonFileFeatureCard = new FeatureCardControl();
+            featureCardControl1 = new FeatureCardControl();
+            featureCardControl2 = new FeatureCardControl();
+            panel1 = new Panel();
             flowLayoutPanel7.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            actionControlsFlowPanel.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // MainSelectFilePanel
-            // 
-            MainSelectFilePanel.Dock = DockStyle.Fill;
-            MainSelectFilePanel.Location = new Point(0, 0);
-            MainSelectFilePanel.Name = "MainSelectFilePanel";
-            MainSelectFilePanel.Size = new Size(1130, 770);
-            MainSelectFilePanel.TabIndex = 2;
-            MainSelectFilePanel.Visible = false;
-            // 
-            // sifBuilderFlow
-            // 
-            sifBuilderFlow.Cursor = Cursors.Hand;
-            sifBuilderFlow.Dock = DockStyle.Top;
-            sifBuilderFlow.Font = new Font("Segoe UI", 15F);
-            sifBuilderFlow.Location = new Point(0, 290);
-            sifBuilderFlow.Name = "sifBuilderFlow";
-            sifBuilderFlow.Padding = new Padding(20);
-            sifBuilderFlow.Size = new Size(1130, 75);
-            sifBuilderFlow.TabIndex = 8;
-            sifBuilderFlow.Text = "👉 SIF Builder";
-            sifBuilderFlow.Click += sifBuilderFlow_Click;
-            sifBuilderFlow.MouseLeave += labelButton_MouseLeave;
-            sifBuilderFlow.MouseHover += labelButton_MouseHover;
             // 
             // flowLayoutPanel7
             // 
@@ -98,57 +80,6 @@
             learnSifButton.UseVisualStyleBackColor = true;
             learnSifButton.Click += learnSifButton_Click;
             // 
-            // createPsScriptLabel
-            // 
-            createPsScriptLabel.Cursor = Cursors.Hand;
-            createPsScriptLabel.Dock = DockStyle.Top;
-            createPsScriptLabel.Font = new Font("Segoe UI", 15F);
-            createPsScriptLabel.Location = new Point(0, 215);
-            createPsScriptLabel.Name = "createPsScriptLabel";
-            createPsScriptLabel.Padding = new Padding(20);
-            createPsScriptLabel.Size = new Size(1130, 75);
-            createPsScriptLabel.TabIndex = 5;
-            createPsScriptLabel.Text = "👉 Run SIF Script";
-            createPsScriptLabel.Click += executeFileDialog_Click;
-            createPsScriptLabel.MouseLeave += labelButton_MouseLeave;
-            createPsScriptLabel.MouseHover += labelButton_MouseHover;
-            // 
-            // viewJsonLabel
-            // 
-            viewJsonLabel.Cursor = Cursors.Hand;
-            viewJsonLabel.Dock = DockStyle.Top;
-            viewJsonLabel.Font = new Font("Segoe UI", 15F);
-            viewJsonLabel.Location = new Point(0, 140);
-            viewJsonLabel.Name = "viewJsonLabel";
-            viewJsonLabel.Padding = new Padding(20);
-            viewJsonLabel.Size = new Size(1130, 75);
-            viewJsonLabel.TabIndex = 4;
-            viewJsonLabel.Text = "👉 View JSON File";
-            viewJsonLabel.Click += openForViewFileDialog_Click;
-            viewJsonLabel.MouseLeave += labelButton_MouseLeave;
-            viewJsonLabel.MouseHover += labelButton_MouseHover;
-            // 
-            // welcomeWhatDoWeDo
-            // 
-            welcomeWhatDoWeDo.Dock = DockStyle.Top;
-            welcomeWhatDoWeDo.Font = new Font("Segoe UI", 18F);
-            welcomeWhatDoWeDo.Location = new Point(0, 94);
-            welcomeWhatDoWeDo.Name = "welcomeWhatDoWeDo";
-            welcomeWhatDoWeDo.Size = new Size(1130, 46);
-            welcomeWhatDoWeDo.TabIndex = 1;
-            welcomeWhatDoWeDo.Text = "What would you like to do?";
-            // 
-            // welcomeLabel
-            // 
-            welcomeLabel.Dock = DockStyle.Top;
-            welcomeLabel.Font = new Font("Open Sans", 32F, FontStyle.Bold);
-            welcomeLabel.Location = new Point(0, 0);
-            welcomeLabel.Name = "welcomeLabel";
-            welcomeLabel.Size = new Size(1130, 94);
-            welcomeLabel.TabIndex = 0;
-            welcomeLabel.Text = "Welcome to SIF Utils";
-            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // openFileForViewerDialog
             // 
             openFileForViewerDialog.AddToRecent = false;
@@ -157,34 +88,169 @@
             openFileForViewerDialog.ReadOnlyChecked = true;
             openFileForViewerDialog.RestoreDirectory = true;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(welcomeDescriptionText, 0, 4);
+            tableLayoutPanel1.Controls.Add(welcomeTitleText, 0, 2);
+            tableLayoutPanel1.Controls.Add(welcomeText, 0, 0);
+            tableLayoutPanel1.Controls.Add(actionControlsFlowPanel, 0, 6);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(32, 24);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 7;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.Size = new Size(1066, 654);
+            tableLayoutPanel1.TabIndex = 10;
+            // 
+            // welcomeDescriptionText
+            // 
+            welcomeDescriptionText.AutoSize = true;
+            welcomeDescriptionText.BackColor = Color.Transparent;
+            welcomeDescriptionText.Dock = DockStyle.Top;
+            welcomeDescriptionText.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            welcomeDescriptionText.ForeColor = Color.FromArgb(107, 107, 107);
+            welcomeDescriptionText.Location = new Point(0, 87);
+            welcomeDescriptionText.Margin = new Padding(0);
+            welcomeDescriptionText.Name = "welcomeDescriptionText";
+            welcomeDescriptionText.Padding = new Padding(4, 0, 0, 0);
+            welcomeDescriptionText.Size = new Size(1066, 25);
+            welcomeDescriptionText.TabIndex = 10;
+            welcomeDescriptionText.Text = "Inspect, build, and execute Sitecore Installation Framework configurations.";
+            welcomeDescriptionText.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // welcomeTitleText
+            // 
+            welcomeTitleText.AutoSize = true;
+            welcomeTitleText.BackColor = Color.Transparent;
+            welcomeTitleText.Dock = DockStyle.Top;
+            welcomeTitleText.Font = new Font("Segoe UI", 21F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            welcomeTitleText.ForeColor = Color.FromArgb(31, 31, 31);
+            welcomeTitleText.Location = new Point(0, 28);
+            welcomeTitleText.Margin = new Padding(0);
+            welcomeTitleText.Name = "welcomeTitleText";
+            welcomeTitleText.Size = new Size(1066, 47);
+            welcomeTitleText.TabIndex = 2;
+            welcomeTitleText.Text = "SIF Utils Dashboard";
+            welcomeTitleText.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // welcomeText
+            // 
+            welcomeText.AutoSize = true;
+            welcomeText.BackColor = Color.Transparent;
+            welcomeText.Dock = DockStyle.Top;
+            welcomeText.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            welcomeText.ForeColor = Color.FromArgb(122, 122, 122);
+            welcomeText.Location = new Point(0, 0);
+            welcomeText.Margin = new Padding(0);
+            welcomeText.Name = "welcomeText";
+            welcomeText.Padding = new Padding(5, 0, 0, 0);
+            welcomeText.Size = new Size(1066, 20);
+            welcomeText.TabIndex = 1;
+            welcomeText.Text = "Welcome back";
+            welcomeText.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // actionControlsFlowPanel
+            // 
+            actionControlsFlowPanel.AutoSize = true;
+            actionControlsFlowPanel.Controls.Add(viewJsonFileFeatureCard);
+            actionControlsFlowPanel.Controls.Add(featureCardControl1);
+            actionControlsFlowPanel.Controls.Add(featureCardControl2);
+            actionControlsFlowPanel.Dock = DockStyle.Fill;
+            actionControlsFlowPanel.Location = new Point(3, 143);
+            actionControlsFlowPanel.Name = "actionControlsFlowPanel";
+            actionControlsFlowPanel.Size = new Size(1060, 508);
+            actionControlsFlowPanel.TabIndex = 11;
+            // 
+            // viewJsonFileFeatureCard
+            // 
+            viewJsonFileFeatureCard.AutoSize = true;
+            viewJsonFileFeatureCard.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            viewJsonFileFeatureCard.Description = "Inspect configuration files in a clear format";
+            viewJsonFileFeatureCard.Image = Properties.Resources.copy_icon;
+            viewJsonFileFeatureCard.Location = new Point(0, 0);
+            viewJsonFileFeatureCard.Margin = new Padding(0, 0, 20, 20);
+            viewJsonFileFeatureCard.Name = "viewJsonFileFeatureCard";
+            viewJsonFileFeatureCard.Size = new Size(358, 120);
+            viewJsonFileFeatureCard.TabIndex = 0;
+            viewJsonFileFeatureCard.Title = "View JSON File";
+            viewJsonFileFeatureCard.CardClick += openForViewFileDialog_Click;
+            // 
+            // featureCardControl1
+            // 
+            featureCardControl1.AutoSize = true;
+            featureCardControl1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl1.Description = "Execute SIF script with predefined parameters";
+            featureCardControl1.Image = Properties.Resources.command_5515389;
+            featureCardControl1.Location = new Point(378, 0);
+            featureCardControl1.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl1.Name = "featureCardControl1";
+            featureCardControl1.Size = new Size(358, 120);
+            featureCardControl1.TabIndex = 1;
+            featureCardControl1.Title = "Run SIF Script";
+            featureCardControl1.CardClick += executeFileDialog_Click;
+            // 
+            // featureCardControl2
+            // 
+            featureCardControl2.AutoSize = true;
+            featureCardControl2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl2.Description = "Visually create SIF configuration files";
+            featureCardControl2.Image = Properties.Resources.service_8473597;
+            featureCardControl2.Location = new Point(0, 140);
+            featureCardControl2.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl2.Name = "featureCardControl2";
+            featureCardControl2.Size = new Size(358, 120);
+            featureCardControl2.TabIndex = 2;
+            featureCardControl2.Title = "SIF Builder";
+            featureCardControl2.CardClick += sifBuilderFlow_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Padding = new Padding(32, 24, 32, 24);
+            panel1.Size = new Size(1130, 702);
+            panel1.TabIndex = 11;
+            // 
             // HomeComponents
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(sifBuilderFlow);
-            Controls.Add(createPsScriptLabel);
-            Controls.Add(viewJsonLabel);
-            Controls.Add(welcomeWhatDoWeDo);
-            Controls.Add(welcomeLabel);
+            Controls.Add(panel1);
             Controls.Add(flowLayoutPanel7);
-            Controls.Add(MainSelectFilePanel);
             Name = "HomeComponents";
             Size = new Size(1130, 770);
             flowLayoutPanel7.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            actionControlsFlowPanel.ResumeLayout(false);
+            actionControlsFlowPanel.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-
-        internal Panel MainSelectFilePanel;
-        private Label sifBuilderFlow;
         private FlowLayoutPanel flowLayoutPanel7;
         private Button creditsButton;
         private Button learnSifButton;
-        private Label createPsScriptLabel;
-        private Label viewJsonLabel;
-        private Label welcomeWhatDoWeDo;
-        private Label welcomeLabel;
         private OpenFileDialog openFileForViewerDialog;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label welcomeText;
+        private Label welcomeDescriptionText;
+        private Label welcomeTitleText;
+        private FlowLayoutPanel actionControlsFlowPanel;
+        private FeatureCardControl viewJsonFileFeatureCard;
+        private FeatureCardControl featureCardControl1;
+        private Panel panel1;
+        private FeatureCardControl featureCardControl2;
     }
 }
