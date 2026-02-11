@@ -1,10 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 
 namespace SIF.Utils.Forms.Home
 {
     public partial class FeatureCardControl : UserControl
     {
+        protected Color BorderColor { get; set; } = Color.FromArgb(229, 231, 235);
+
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public int Radius { get; set; } = 10;
+
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string Title { get => this.titleLabel.Text; set => this.titleLabel.Text = value; }
@@ -19,25 +26,56 @@ namespace SIF.Utils.Forms.Home
 
         public event EventHandler? CardClick;
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,     // x-coordinate of upper-left corner
-            int nTopRect,      // y-coordinate of upper-left corner
-            int nRightRect,    // x-coordinate of lower-right corner
-            int nBottomRect,   // y-coordinate of lower-right corner
-            int nWidthEllipse, // width of ellipse
-            int nHeightEllipse // height of ellipse
-        );
-
         public FeatureCardControl()
         {
             InitializeComponent();
-            this.BorderStyle = BorderStyle.None;
-            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
-
-
             subscribeToMouseDown(this);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            UpdateRegion();
+        }
+
+        private void FeatureCardControl_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            var rect = ClientRectangle;
+            rect.Width -= 1;
+            rect.Height -= 1;
+
+            using var path = CreateRoundedRectPath(rect, Radius);
+            using var pen = new Pen(BorderColor, 2);
+
+            e.Graphics.DrawPath(pen, path);
+        }
+
+        private void FeatureCardControl_Resize(object sender, EventArgs e)
+        {
+            UpdateRegion();
+        }
+
+        private void UpdateRegion()
+        {
+            var path = CreateRoundedRectPath(ClientRectangle, Radius);
+
+            Region?.Dispose();
+            Region = new Region(path);
+
+            Invalidate();
+        }
+
+        private GraphicsPath CreateRoundedRectPath(Rectangle rect, int radius)
+        {
+            int d = radius * 2;
+            var path = new GraphicsPath();
+
+            path.AddArc(rect.Left, rect.Top, d, d, 180, 90);
+            path.AddArc(rect.Right - d, rect.Top, d, d, 270, 90);
+            path.AddArc(rect.Right - d, rect.Bottom - d, d, d, 0, 90);
+            path.AddArc(rect.Left, rect.Bottom - d, d, d, 90, 90);
+
+            path.CloseFigure();
+
+            return path;
         }
 
         public void subscribeToMouseDown(Control control)
@@ -61,24 +99,45 @@ namespace SIF.Utils.Forms.Home
 
         private void Card_MouseEnter(object sender, EventArgs e)
         {
-            tableLayoutPanel1.BackColor = Color.FromArgb(249, 250, 251);
+            DrawHoveredState();
             Cursor = Cursors.Hand;
         }
 
         private void Card_MouseLeave(object sender, EventArgs e)
         {
-            tableLayoutPanel1.BackColor = Color.White;
+            DrawDefaultState();
             Cursor = Cursors.Default;
         }
 
         private void Card_MouseDown(object sender, MouseEventArgs e)
         {
-            tableLayoutPanel1.BackColor = Color.FromArgb(238, 246, 255);
+            BorderColor = Color.FromArgb(0, 120, 212);
+            BackColor = Color.FromArgb(238, 246, 255);
         }
 
         private void Card_MouseUp(object sender, MouseEventArgs e)
         {
-            tableLayoutPanel1.BackColor = tableLayoutPanel1.ClientRectangle.Contains(e.Location) ? Color.FromArgb(249, 250, 251) : Color.White;
+            var onButton = tableLayoutPanel1.ClientRectangle.Contains(e.Location);
+            if (onButton)
+            {
+                DrawHoveredState();
+            }
+            else
+            {
+                DrawDefaultState();
+            }
+        }
+
+        private void DrawHoveredState()
+        {
+            BorderColor = Color.FromArgb(0, 120, 212);
+            BackColor = Color.FromArgb(249, 250, 251);
+        }
+
+        private void DrawDefaultState()
+        {
+            BorderColor = Color.FromArgb(229, 231, 235);
+            BackColor = Color.White;
         }
     }
 }

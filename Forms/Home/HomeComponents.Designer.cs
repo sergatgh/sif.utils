@@ -173,12 +173,15 @@
             // 
             viewJsonFileFeatureCard.AutoSize = true;
             viewJsonFileFeatureCard.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            viewJsonFileFeatureCard.BackColor = Color.White;
             viewJsonFileFeatureCard.Description = "Inspect configuration files in a clear format";
             viewJsonFileFeatureCard.Image = Properties.Resources.copy_icon;
             viewJsonFileFeatureCard.Location = new Point(0, 0);
             viewJsonFileFeatureCard.Margin = new Padding(0, 0, 20, 20);
+            viewJsonFileFeatureCard.MinimumSize = new Size(360, 120);
             viewJsonFileFeatureCard.Name = "viewJsonFileFeatureCard";
-            viewJsonFileFeatureCard.Size = new Size(358, 120);
+            viewJsonFileFeatureCard.Radius = 10;
+            viewJsonFileFeatureCard.Size = new Size(360, 120);
             viewJsonFileFeatureCard.TabIndex = 0;
             viewJsonFileFeatureCard.Title = "View JSON File";
             viewJsonFileFeatureCard.CardClick += openForViewFileDialog_Click;
@@ -187,12 +190,15 @@
             // 
             featureCardControl1.AutoSize = true;
             featureCardControl1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl1.BackColor = Color.White;
             featureCardControl1.Description = "Execute SIF script with predefined parameters";
             featureCardControl1.Image = Properties.Resources.command_5515389;
-            featureCardControl1.Location = new Point(378, 0);
+            featureCardControl1.Location = new Point(380, 0);
             featureCardControl1.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl1.MinimumSize = new Size(360, 120);
             featureCardControl1.Name = "featureCardControl1";
-            featureCardControl1.Size = new Size(358, 120);
+            featureCardControl1.Radius = 10;
+            featureCardControl1.Size = new Size(360, 120);
             featureCardControl1.TabIndex = 1;
             featureCardControl1.Title = "Run SIF Script";
             featureCardControl1.CardClick += executeFileDialog_Click;
@@ -201,12 +207,15 @@
             // 
             featureCardControl2.AutoSize = true;
             featureCardControl2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl2.BackColor = Color.White;
             featureCardControl2.Description = "Visually create SIF configuration files";
             featureCardControl2.Image = Properties.Resources.service_8473597;
             featureCardControl2.Location = new Point(0, 140);
             featureCardControl2.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl2.MinimumSize = new Size(360, 120);
             featureCardControl2.Name = "featureCardControl2";
-            featureCardControl2.Size = new Size(358, 120);
+            featureCardControl2.Radius = 10;
+            featureCardControl2.Size = new Size(360, 120);
             featureCardControl2.TabIndex = 2;
             featureCardControl2.Title = "SIF Builder";
             featureCardControl2.CardClick += sifBuilderFlow_Click;
