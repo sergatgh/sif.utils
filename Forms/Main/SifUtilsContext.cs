@@ -1,7 +1,7 @@
 namespace SIF.Utils.Forms.Main;
 
 using SIF.Utils.Forms.Common;
-using SIF.Utils.JsonParser;
+using SIF.Utils.Logic.JsonParser;
 
 public class SifUtilsContext
 {

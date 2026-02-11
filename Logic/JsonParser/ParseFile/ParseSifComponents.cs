@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
 
-namespace SIF.Utils.JsonParser.ParseFile;
+namespace SIF.Utils.Logic.JsonParser.ParseFile;
 
 using AutoPipe;
+using SIF.Utils.Logic.JsonParser;
 
 public class ParseSifComponents : AutoProcessor
 {

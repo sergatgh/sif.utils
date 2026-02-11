@@ -1,4 +1,4 @@
-﻿namespace SIF.Utils.JsonParser;
+﻿namespace SIF.Utils.Logic.JsonParser;
 
 using System.Text.Json;
 

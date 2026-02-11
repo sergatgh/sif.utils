@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace SIF.Utils.Forms.Common;
 
-using SIF.Utils.JsonParser;
+using SIF.Utils.Logic.JsonParser;
 
 public class ParameterEditModel
 {

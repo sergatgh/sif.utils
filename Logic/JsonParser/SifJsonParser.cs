@@ -1,7 +1,7 @@
-﻿namespace SIF.Utils.JsonParser;
+﻿namespace SIF.Utils.Logic.JsonParser;
 
 using AutoPipe;
-using SIF.Utils.JsonParser.ParseFile;
+using SIF.Utils.Logic.JsonParser.ParseFile;
 
 public class SifJsonParser
 {

@@ -1,4 +1,4 @@
-﻿namespace SIF.Utils.JsonParser.ParseFile;
+﻿namespace SIF.Utils.Logic.JsonParser.ParseFile;
 
 using AutoPipe;
 using System.Text.Json;

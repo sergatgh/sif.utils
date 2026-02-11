@@ -1,4 +1,4 @@
-﻿using SIF.Utils.ConfigFunctionParser;
+﻿using SIF.Utils.Logic.ConfigFunctionParser;
 
 namespace SIF.Utils
 {

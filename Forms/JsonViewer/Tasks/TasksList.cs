@@ -1,7 +1,7 @@
 ﻿namespace SIF.Utils.Forms.JsonViewer.Tasks
 {
     using SIF.Utils.Forms.Common;
-    using SIF.Utils.JsonParser;
+    using SIF.Utils.Logic.JsonParser;
     using System.ComponentModel;
     using JsonViewer = SIF.Utils.JsonViewer;
 

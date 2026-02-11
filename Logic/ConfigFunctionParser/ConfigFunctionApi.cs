@@ -1,7 +1,7 @@
 ﻿using AutoPipe;
-using SIF.Utils.ConfigFunctionParser.ParseFunction;
+using SIF.Utils.Logic.ConfigFunctionParser.ParseFunction;
 
-namespace SIF.Utils.ConfigFunctionParser
+namespace SIF.Utils.Logic.ConfigFunctionParser
 {
     public class ConfigFunctionApi
     {

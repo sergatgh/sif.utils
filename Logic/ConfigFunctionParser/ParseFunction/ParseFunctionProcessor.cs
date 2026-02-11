@@ -1,7 +1,8 @@
 ﻿using AutoPipe;
+using SIF.Utils.Logic.ConfigFunctionParser;
 using System.Text.RegularExpressions;
 
-namespace SIF.Utils.ConfigFunctionParser.ParseFunction
+namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
 {
     public class ParseFunctionProcessor : AutoProcessor
     {

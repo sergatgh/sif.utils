@@ -1,4 +1,6 @@
-﻿namespace SIF.Utils.Forms.JsonViewer
+﻿using SIF.Utils.Logic.JsonParser;
+
+namespace SIF.Utils.Forms.JsonViewer
 {
     partial class SifJsonViewerForm
     {
@@ -306,7 +308,7 @@
             // 
             // sifJsonParameterModelBindingSource
             // 
-            sifJsonParameterModelBindingSource.DataSource = typeof(JsonParser.SifJsonParameterModel);
+            sifJsonParameterModelBindingSource.DataSource = typeof(SifJsonParameterModel);
             // 
             // flowLayoutPanel9
             // 

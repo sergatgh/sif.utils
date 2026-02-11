@@ -1,6 +1,6 @@
 ﻿namespace SIF.Utils
 {
-    using SIF.Utils.JsonParser;
+    using SIF.Utils.Logic.JsonParser;
 
     partial class SifJsonParsingForm
     {

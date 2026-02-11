@@ -2,7 +2,7 @@ namespace SIF.Utils
 {
     using SIF.Utils.Forms.Common;
     using SIF.Utils.Forms.Main;
-    using SIF.Utils.JsonParser;
+    using SIF.Utils.Logic.JsonParser;
     using System.Diagnostics;
     using System.Windows.Forms;
 

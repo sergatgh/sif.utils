@@ -1,5 +1,5 @@
 ﻿using SIF.Utils.Forms.Common;
-using SIF.Utils.JsonParser;
+using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
 
 namespace SIF.Utils.Forms.JsonViewer
