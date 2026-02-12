@@ -222,6 +222,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(tableLayoutPanel1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);

@@ -32,7 +32,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Variables
                     continue;
                 }
 
-                json[prop] = JsonHelper.ParseValue(parameter.Cells[1].Value?.ToString() ?? string.Empty);
+                json[prop] = (parameter.Cells[1].Value?.ToString() ?? string.Empty).ParseConfigVariable();
             }
             return json;
         }

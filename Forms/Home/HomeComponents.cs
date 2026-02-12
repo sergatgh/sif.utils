@@ -4,8 +4,8 @@ namespace SIF.Utils.Forms.Home
 {
     public partial class HomeComponents : UserControl
     {
-        public event ResultEventHandler<string>? OpenViewFileDialog;
-        public event ResultEventHandler<string>? OpenExecuteFileDialog;
+        public event EventHandler? OpenViewFileDialog;
+        public event EventHandler? OpenExecuteFileDialog;
         public event EventHandler? OpenJsonBuilder;
 
         public HomeComponents()
@@ -15,31 +15,12 @@ namespace SIF.Utils.Forms.Home
 
         private void openForViewFileDialog_Click(object sender, EventArgs e)
         {
-            var result = openFileForViewerDialog.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            OpenViewFileDialog?.Invoke(this, openFileForViewerDialog.FileName);
+            OpenViewFileDialog?.Invoke(this, e);
         }
 
         private void executeFileDialog_Click(object sender, EventArgs e)
         {
-            var result = openFileForViewerDialog.ShowDialog();
-
-            if (result != DialogResult.OK) return;
-
-            OpenExecuteFileDialog?.Invoke(this, openFileForViewerDialog.FileName);
-        }
-
-
-        private void labelButton_MouseHover(object sender, EventArgs e)
-        {
-            if (sender is Label label) label.ForeColor = SystemColors.Highlight;
-        }
-
-        private void labelButton_MouseLeave(object sender, EventArgs e)
-        {
-            if (sender is Label label) label.ForeColor = SystemColors.ControlText;
+            OpenExecuteFileDialog?.Invoke(this, e);
         }
 
         private void aboutWindowButton_Click(object sender, EventArgs e)

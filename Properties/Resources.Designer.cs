@@ -83,6 +83,16 @@ namespace SIF.Utils.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap choose_file_64 {
+            get {
+                object obj = ResourceManager.GetObject("choose-file-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap command_5515389 {
             get {
                 object obj = ResourceManager.GetObject("command_5515389", resourceCulture);
@@ -166,6 +176,16 @@ namespace SIF.Utils.Properties {
         internal static System.Drawing.Bitmap edit_xml_file {
             get {
                 object obj = ResourceManager.GetObject("edit-xml-file", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ekkant_circle_9360_256 {
+            get {
+                object obj = ResourceManager.GetObject("ekkant-circle-9360_256", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -266,6 +286,16 @@ namespace SIF.Utils.Properties {
         internal static System.Drawing.Bitmap permission {
             get {
                 object obj = ResourceManager.GetObject("permission", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap placidplace_loading_16066_512 {
+            get {
+                object obj = ResourceManager.GetObject("placidplace-loading-16066_512", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

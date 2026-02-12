@@ -118,94 +118,103 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DefaultPowerShellTaskIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\3XPnUrBMFe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DefaultTaskIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\I0djupGh2M.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BackButtonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\trash\pics\pngfind.com-button-png-1028195.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="website_logo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\trash\pics\website_logo_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="folder_logo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\folder_logo_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="app_pool_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\app_pool_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="command_5515389" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\command_5515389.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="copy_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\copy_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="service_8473597" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\service_8473597.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="download_189249" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download_189249.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icons8-xml-file-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-xml-file-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="permission" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\permission.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="local-network" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\local-network.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="http" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\http.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="export-xml-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\export-xml-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="management-service" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\management-service.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="manage_sorl_schema" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\manage_sorl_schema.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new-certificate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new-certificate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="choose-file-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\choose-file-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="signed-certificate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\signed-certificate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="remove-app-pool" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\remove-app-pool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="remove-service" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\remove-service.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="delete-database" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\delete-database.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="remove-xml-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\remove-xml-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="edit-xml-file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit-xml-file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="command_5515389" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\command_5515389.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ekkant-circle-9360_256" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ekkant-circle-9360_256.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="url" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\url.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="transformation" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\transformation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="local-network" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\local-network.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BackButtonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\trash\pics\pngfind.com-button-png-1028195.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\dll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="download_189249" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download_189249.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="http" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\http.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="deployment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\deployment.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8-xml-file-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-xml-file-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="website_logo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\trash\pics\website_logo_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="new-certificate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\new-certificate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DefaultTaskIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I0djupGh2M.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove-service" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove-service.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="service_8473597" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\service_8473597.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete-database" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete-database.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="permission" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\permission.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="management-service" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\management-service.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="export-xml-64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\export-xml-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="manage_sorl_schema" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\manage_sorl_schema.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="transformation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\transformation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="link" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\link.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder_logo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder_logo_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DefaultPowerShellTaskIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3XPnUrBMFe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="app_pool_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\app_pool_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove-xml-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove-xml-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="remove-app-pool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove-app-pool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="placidplace-loading-16066_512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\placidplace-loading-16066_512.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -12,7 +12,29 @@ public static class StringExtensions
 
 public static class JsonHelper
 {
-    public static JsonNode ParseValue(string value)
+    public static T ParseJson<T>(this string? json, T defaultValue)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return defaultValue;
+        }
+
+        try
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<T>(json) ?? defaultValue;
+        }
+        catch
+        {
+            return defaultValue;
+        }
+    }
+
+    public static List<T> ParseJsonList<T>(this string? json)
+    {
+        return json.ParseJson<List<T>>([]);
+    }
+
+    public static JsonNode ParseConfigVariable(this string value)
     {
 
         if (value.StartsWith("\"") && value.EndsWith("\""))

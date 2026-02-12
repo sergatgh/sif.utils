@@ -4,7 +4,8 @@ public enum MainViewPageType
 {
     None,
     Initial,
-    FileSelected,
+    ChooseFile,
+    ViewFile,
     SetPropertiesForNewPsScript,
     ChooseFormat,
     ErrorText,

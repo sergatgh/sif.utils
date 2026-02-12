@@ -29,7 +29,12 @@ public class SifJsonParsingFormPresenter(SifJsonParsingForm view)
                 view.MainSelectFilePanel.Visible = true;
                 break;
 
-            case MainViewPageType.FileSelected:
+            case MainViewPageType.ChooseFile:
+                view.MainChooseFileForm.UpdateRecentFiles();
+                view.MainChooseFileForm.Visible = true;
+                break;
+
+            case MainViewPageType.ViewFile:
                 view.MainJsonViewer.Visible = true;
                 break;
 

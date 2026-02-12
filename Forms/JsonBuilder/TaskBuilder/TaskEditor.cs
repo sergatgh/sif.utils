@@ -56,7 +56,7 @@ public partial class TaskEditor : UserControl
         {
             if (row.IsNewRow) continue;
             var keyCell = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var valueCell = JsonHelper.ParseValue(row.Cells[1].Value?.ToString() ?? string.Empty);
+            var valueCell = (row.Cells[1].Value?.ToString() ?? string.Empty).ParseConfigVariable();
             if (!string.IsNullOrEmpty(keyCell))
             {
                 parameters[keyCell] = valueCell;

@@ -115,8 +115,8 @@ public partial class ExportRunnerForm : UserControl
 
         var tasks =
             includeUninstallOption.Checked ?
-                _currentResult?.UninstallTasks ?? [] :
-                _currentResult?.Tasks ?? [];
+                _currentResult.UninstallTasks :
+                _currentResult.Tasks;
 
         tasksToolStripMenuItem.DropDownItems.AddRange(
             tasks.Select(task =>

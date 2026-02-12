@@ -3,7 +3,6 @@ namespace SIF.Utils
     using SIF.Utils.Forms.Common;
     using SIF.Utils.Forms.Main;
     using SIF.Utils.Logic.JsonParser;
-    using System.Diagnostics;
     using System.Windows.Forms;
 
     public partial class SifJsonParsingForm : Form
@@ -12,6 +11,8 @@ namespace SIF.Utils
         public SifUtilsContext Context { get; } = new();
 
         private readonly SifJsonService _sifJsonService;
+
+        private MainViewPageType nextPage = MainViewPageType.ViewFile;
 
         public SifJsonParsingForm(string[]? args)
         {
@@ -22,7 +23,7 @@ namespace SIF.Utils
             if (args is { Length: > 0 })
             {
                 string filePath = args[0];
-                NavigateToFileSelection(filePath);
+                NavigateToSelectedFile(filePath);
             }
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -35,7 +36,7 @@ namespace SIF.Utils
             set => base.Text = value;
         }
 
-        public async void NavigateToFileSelection(string filePath)
+        public async void NavigateToSelectedFile(string filePath)
         {
             if (File.Exists(filePath) && filePath.EndsWith(".json"))
             {
@@ -43,11 +44,11 @@ namespace SIF.Utils
 
                 if (result.Item1)
                 {
-                    _presenter.UpdateView(MainViewPageType.FileSelected);
+                    _presenter.UpdateView(MainViewPageType.ViewFile);
                 }
                 else
                 {
-                    MainFileParsingError.SetData(result.Item2, await GetContext(filePath));
+                    MainFileParsingError.SetData(result.Item2, await GetFileContext(filePath));
                     _presenter.UpdateView(MainViewPageType.ErrorText);
                 }
             }
@@ -158,7 +159,7 @@ namespace SIF.Utils
             var parseResult = await PrepareFile(e.Result);
             if (parseResult.HasError)
             {
-                MainFileParsingError.SetData(parseResult.Error!, await GetContext(e.Result));
+                MainFileParsingError.SetData(parseResult.Error!, await GetFileContext(e.Result));
                 _presenter.UpdateView(MainViewPageType.ErrorText);
                 return;
             }
@@ -172,56 +173,66 @@ namespace SIF.Utils
             _presenter.GoHome();
         }
 
-        private async Task<string> GetContext(string filePath)
+        private async Task<string> GetFileContext(string filePath)
         {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            {
+                return "File not found.";
+            }
+
             var file = new FileInfo(filePath);
             return file.Length > 3_000_000
                 ? "The file is too large to be displayed in the viewer."
                 : await file.OpenText().ReadToEndAsync();
         }
 
-        private async void MainSelectFilePanel_OpenViewFileDialog(object sender, ResultEventArgs<string> e)
+        private void MainSelectFilePanel_OpenViewFileDialog(object sender, EventArgs e)
         {
-            var processFileResult = await MainJsonViewer.ProcessFile(e.Result);
-
-            if (processFileResult.Item1)
-            {
-                _presenter.UpdateView(MainViewPageType.FileSelected);
-            }
-            else
-            {
-                MainFileParsingError.SetData(processFileResult.Item2, await GetContext(e.Result));
-                _presenter.UpdateView(MainViewPageType.ErrorText);
-            }
+            nextPage = MainViewPageType.ViewFile;
+            _presenter.UpdateView(MainViewPageType.ChooseFile);
         }
 
-        private async void MainSelectFilePanel_OpenExecuteFileDialog(object sender, ResultEventArgs<string> e)
+        private void MainSelectFilePanel_OpenExecuteFileDialog(object sender, EventArgs e)
         {
-            var parseResult = await PrepareFile(e.Result);
-
-            if (!parseResult.HasError)
-            {
-                if (parseResult.Parameters.Count > 0)
-                {
-                    MainScriptRunnerForm.LoadForm(parseResult);
-                    _presenter.UpdateView(MainViewPageType.SetPropertiesForNewPsScript);
-                }
-                else
-                {
-                    MainChooseExportFormat.SetCurrentSifResult(parseResult);
-                    _presenter.UpdateView(MainViewPageType.ChooseFormat);
-                }
-            }
-            else
-            {
-                MainFileParsingError.SetData(parseResult.Error!, await GetContext(e.Result));
-                _presenter.UpdateView(MainViewPageType.ErrorText);
-            }
+            nextPage = MainViewPageType.SetPropertiesForNewPsScript;
+            _presenter.UpdateView(MainViewPageType.ChooseFile);
         }
 
         private void MainSelectFilePanel_OpenJsonBuilder(object sender, EventArgs e)
         {
             _presenter.UpdateView(MainViewPageType.JsonBuilder);
+        }
+
+        private async void MainChooseFileForm_FileSelected(object sender, ResultEventArgs<SifJsonParsingResult> e)
+        {
+            _presenter.GoBack();
+            var processFileResult = e.Result;
+            if (!processFileResult.HasError)
+            {
+                if (nextPage == MainViewPageType.SetPropertiesForNewPsScript)
+                {
+                    if (processFileResult.Parameters.Count > 0)
+                    {
+                        MainScriptRunnerForm.LoadForm(processFileResult);
+                        _presenter.UpdateView(MainViewPageType.SetPropertiesForNewPsScript);
+                    }
+                    else
+                    {
+                        MainChooseExportFormat.SetCurrentSifResult(processFileResult);
+                        _presenter.UpdateView(MainViewPageType.ChooseFormat);
+                    }
+                }
+                else
+                {
+                    MainJsonViewer.ProcessResult(processFileResult);
+                    _presenter.UpdateView(nextPage);
+                }
+            }
+            else
+            {
+                MainFileParsingError.SetData(processFileResult.Error!, await GetFileContext(e.Result.FilePath));
+                _presenter.UpdateView(MainViewPageType.ErrorText);
+            }
         }
     }
 }

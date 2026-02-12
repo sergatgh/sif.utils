@@ -39,6 +39,7 @@
             MainFileParsingError = new SIF.Utils.Forms.Error.ErrorForm();
             MainChooseExportFormat = new SIF.Utils.Forms.ExportRunner.ExportRunnerForm();
             MainSelectFilePanel = new SIF.Utils.Forms.Home.HomeComponents();
+            MainChooseFileForm = new SIF.Utils.Forms.SelectFile.SelectFileForm();
             ((System.ComponentModel.ISupportInitialize)sifJsonParameterModelBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -107,11 +108,23 @@
             MainSelectFilePanel.OpenExecuteFileDialog += MainSelectFilePanel_OpenExecuteFileDialog;
             MainSelectFilePanel.OpenJsonBuilder += MainSelectFilePanel_OpenJsonBuilder;
             // 
+            // MainChooseFileForm
+            // 
+            MainChooseFileForm.BackColor = Color.Transparent;
+            MainChooseFileForm.Dock = DockStyle.Fill;
+            MainChooseFileForm.Location = new Point(0, 0);
+            MainChooseFileForm.Name = "MainChooseFileForm";
+            MainChooseFileForm.Size = new Size(838, 527);
+            MainChooseFileForm.TabIndex = 11;
+            MainChooseFileForm.FileSelected += MainChooseFileForm_FileSelected;
+            // 
             // SifJsonParsingForm
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(245, 247, 250);
             ClientSize = new Size(838, 527);
+            Controls.Add(MainChooseFileForm);
             Controls.Add(MainSelectFilePanel);
             Controls.Add(MainChooseExportFormat);
             Controls.Add(MainFileParsingError);
@@ -135,5 +148,6 @@
         public Forms.Error.ErrorForm MainFileParsingError;
         public Forms.ExportRunner.ExportRunnerForm MainChooseExportFormat;
         internal Forms.Home.HomeComponents MainSelectFilePanel;
+        internal Forms.SelectFile.SelectFileForm MainChooseFileForm;
     }
 }

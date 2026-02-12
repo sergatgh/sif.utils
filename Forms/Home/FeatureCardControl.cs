@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
 
 namespace SIF.Utils.Forms.Home
 {
@@ -25,6 +25,8 @@ namespace SIF.Utils.Forms.Home
         public Image? Image { get => this.imageBox.Image; set => this.imageBox.Image = value; }
 
         public event EventHandler? CardClick;
+
+        private bool _hovered;
 
         public FeatureCardControl()
         {
@@ -94,17 +96,29 @@ namespace SIF.Utils.Forms.Home
 
         private void Control_Click(object? sender, EventArgs e)
         {
+            _hovered = false;
             CardClick?.Invoke(this, e);
         }
 
         private void Card_MouseEnter(object sender, EventArgs e)
         {
+            if (_hovered) return;
+            _hovered = true;
+
             DrawHoveredState();
             Cursor = Cursors.Hand;
         }
 
         private void Card_MouseLeave(object sender, EventArgs e)
         {
+            if (!_hovered) return;
+
+            var pos = PointToClient(MousePosition);
+            var inArea = ClientRectangle.Contains(pos);
+
+            if (inArea) return;
+            _hovered = false;
+
             DrawDefaultState();
             Cursor = Cursors.Default;
         }
@@ -117,8 +131,7 @@ namespace SIF.Utils.Forms.Home
 
         private void Card_MouseUp(object sender, MouseEventArgs e)
         {
-            var onButton = tableLayoutPanel1.ClientRectangle.Contains(e.Location);
-            if (onButton)
+            if (_hovered)
             {
                 DrawHoveredState();
             }

@@ -66,7 +66,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.AllowDrop = true;
             splitContainer1.Panel2.AutoScroll = true;
             splitContainer1.Size = new Size(828, 393);
             splitContainer1.SplitterDistance = 276;
