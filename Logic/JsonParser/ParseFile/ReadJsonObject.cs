@@ -5,6 +5,21 @@ using System.Text.Json;
 
 public class ReadJsonObject : AutoProcessor
 {
+    public object ValidateFilePath([Required(Halt = true)] string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            return ErrorHalt("File path cannot be empty.");
+        }
+
+        if (!File.Exists(filePath))
+        {
+            return ErrorHalt($"The file '{filePath}' does not exist.");
+        }
+
+        return Info("File path is valid.");
+    }
+
     public string GetFolder([Required(Halt = true)] string filePath)
     {
         return Path.GetDirectoryName(filePath) ?? string.Empty;

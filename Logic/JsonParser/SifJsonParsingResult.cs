@@ -27,4 +27,5 @@ public class SifJsonParsingResult
     public List<SifJsonModuleModel> Modules { get; set; } = [];
     public List<RegisteredElementJsonModel> RegisteredTasks { get; set; } = [];
     public List<RegisteredElementJsonModel> RegisteredConfigFunctions { get; set; } = [];
+    public SifJsonSettings? Settings { get; set; }
 }

@@ -30,7 +30,7 @@ namespace SIF.Utils.Forms.SelectFile
             using (new LongOperationState())
             {
                 var parsed = await Task.WhenAll(
-                    new SifJsonService().ParseJson(filePath),
+                    new SifJsonParser().Parse(filePath),
                     Wait(1000, SifJsonParsingResult.Empty)// Showing the loading image for at least 500ms to avoid flickering for fast operations
                 );
                 parseResult = parsed[0];

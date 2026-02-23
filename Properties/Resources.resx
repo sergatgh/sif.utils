@@ -217,4 +217,31 @@
   <data name="placidplace-loading-16066_512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\placidplace-loading-16066_512.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sif-youtube-tasks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-youtube-tasks.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-youtube-configfunctions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-youtube-configfunctions.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-uninstall-include-article" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-uninstall-include-article.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-other-adds-article" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-other-adds-article.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-parameters-youtube" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-parameters-youtube.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-variables-youtube" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-variables-youtube.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="official-sif-docs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\official-sif-docs.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-clear-start" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-clear-start.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sif-custom-task-article" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sif-custom-task-article.rtf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

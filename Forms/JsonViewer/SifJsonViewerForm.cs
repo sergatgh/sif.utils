@@ -48,6 +48,11 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonTabs.SelectTab(0);
             variablesFilter.Text = string.Empty;
             paramtersFilterText.Text = string.Empty;
+            autoRegisterExtensionsCheck.Checked = false;
+            infoActionText.TextInput = string.Empty;
+            warnActionText.TextInput = string.Empty;
+            errorActionText.TextInput = string.Empty;
+            warningsList.Items.Clear();
         }
 
         public SifJsonViewerForm(SifJsonParsingResult result) : this()
@@ -67,14 +72,13 @@ namespace SIF.Utils.Forms.JsonViewer
         public async Task<(bool, string)> ProcessFile(string filePath)
         {
             using var longOperationState = new LongOperationState();
-            var parseResult = await new SifJsonService().ParseJson(filePath);
+            var parseResult = await new SifJsonParser().Parse(filePath);
             if (parseResult.HasError)
             {
                 return (false, parseResult.Error!);
             }
             OnFileParsed?.Invoke(this, parseResult);
 
-            FilePathText.Text = filePath;
             ProcessResult(parseResult);
             return (true, "Success");
         }
@@ -101,16 +105,30 @@ namespace SIF.Utils.Forms.JsonViewer
 
         public void ShowParsingResult(SifJsonParsingResult result)
         {
+            FilePathText.Text = result.FilePath;
             tasksList.LoadTasks(result.Tasks);
             uninstallTasksList.LoadTasks(result.UninstallTasks);
 
             parametersList.DataSource = result.Parameters;
 
             variablesList.Items.AddRange(result.Variables.Select(variable => new ListViewItem([variable.Name, variable.Value])).ToArray());
-            includesList.Items.AddRange(result.Includes.Select(include => new ListViewItem([include.Name, include.Source ?? ""])).ToArray());
+            includesList.Items.AddRange(result.Includes.Select(include => new ListViewItem([include.Name, include.OriginalValue ?? ""])).ToArray());
             modulesList.Items.AddRange(result.Modules.Select(module => new ListViewItem(module.Path)).ToArray());
             registeredTasksList.Items.AddRange(result.RegisteredTasks.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
             registeredConfigFunctionsList.Items.AddRange(result.RegisteredConfigFunctions.Select(rt => new ListViewItem([rt.Name, rt.Command])).ToArray());
+
+            if (result.Settings != null)
+            {
+                autoRegisterExtensionsCheck.Checked = result.Settings.AutoRegisterExtensions;
+                infoActionText.TextInput = result.Settings.InformationAction ?? string.Empty;
+                warnActionText.TextInput = result.Settings.WarningAction ?? string.Empty;
+                errorActionText.TextInput = result.Settings.ErrorAction ?? string.Empty;
+            }
+
+            if (result.HasWarnings)
+            {
+                warningsList.Items.AddRange(result.Warnings.Select(warning => new ListViewItem(warning)).ToArray());
+            }
         }
 
         private void parametersFilter_TextChanged(object sender, EventArgs e)
@@ -126,6 +144,14 @@ namespace SIF.Utils.Forms.JsonViewer
         {
             var list = sender as ListView;
             if (list?.SelectedIndices.Count != 1) return;
+
+            var includeParseResult = CurrentResult.Includes[list.SelectedIndices[0]].ParseResult;
+            if (includeParseResult != null)
+            {
+                OnFileParsed?.Invoke(this, includeParseResult);
+                ProcessResult(includeParseResult);
+                return;
+            }
 
             var item = list.SelectedItems[0];
 
@@ -163,7 +189,17 @@ namespace SIF.Utils.Forms.JsonViewer
 
             var item = list.SelectedItems[0];
 
-            await new ConfigFunctionViewer(item.SubItems[1].Text).ShowDialogAsync();
+            var configFunctionName = item.SubItems[0].Text;
+            var variable = CurrentResult.Variables.FirstOrDefault(v => v.Name == configFunctionName);
+
+            if (variable?.ConfigFunction is null)
+            {
+                return;
+            }
+
+            var dialog = new ConfigFunctionViewer();
+            dialog.LoadConfigFunction(variable.ConfigFunction);
+            await dialog.ShowDialogAsync();
         }
 
         private void tasksControl1_OnExecuteTasks(object sender, ResultEventArgs<SifJsonTaskModel[]> e)

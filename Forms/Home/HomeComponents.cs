@@ -2,6 +2,8 @@
 
 namespace SIF.Utils.Forms.Home
 {
+    using SIF.Utils.Forms.Learn;
+
     public partial class HomeComponents : UserControl
     {
         public event EventHandler? OpenViewFileDialog;

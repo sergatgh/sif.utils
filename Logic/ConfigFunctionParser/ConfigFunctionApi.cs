@@ -3,11 +3,17 @@ using SIF.Utils.Logic.ConfigFunctionParser.ParseFunction;
 
 namespace SIF.Utils.Logic.ConfigFunctionParser
 {
-    public class ConfigFunctionApi
+    public interface IConfigFunctionApi
+    {
+        Task<ConfigFunctionParsingResult> Parse(string configFunction);
+        bool IsConfigFunction(string value);
+    }
+
+    public class ConfigFunctionApi : IConfigFunctionApi
     {
         public async Task<ConfigFunctionParsingResult> Parse(string configFunction)
         {
-            if (!configFunction.StartsWith("\"[") || !configFunction.EndsWith("]\""))
+            if (!HasCorrectStartAndEnd(configFunction))
             {
                 return new ConfigFunctionParsingResult { Error = "ConfigFunction should start with [ and end with ]" };
             }
@@ -20,6 +26,16 @@ namespace SIF.Utils.Logic.ConfigFunctionParser
             }
 
             return bag.As<ConfigFunctionParsingResult>();
+        }
+
+        public bool IsConfigFunction(string value)
+        {
+            return HasCorrectStartAndEnd(value);
+        }
+
+        protected bool HasCorrectStartAndEnd(string configFunction)
+        {
+            return configFunction.StartsWith("\"[") && configFunction.EndsWith("]\"");
         }
 
         protected string PrepareFunction(string configFunction)

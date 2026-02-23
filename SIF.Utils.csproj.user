@@ -4,8 +4,20 @@
     <_LastSelectedProfileId>C:\workspace\projects\SIF.Utils\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Forms\Common\ExplorerTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Forms\Common\HorizontalLine.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Forms\SecondaryNavigation\SecondaryNavigationCategory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\SecondaryNavigation\SecondaryNavigationMenuItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\SecondaryNavigation\SecondaryNavigationPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\Home\AboutWindow.cs">
       <SubType>Form</SubType>
@@ -175,7 +187,7 @@
     <Compile Update="Forms\ScriptRunner\ScriptRunnerForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Forms\Home\LearnSIF.cs">
+    <Compile Update="Forms\Learn\LearnSIF.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\SelectFile\DragAndDropArea.cs">

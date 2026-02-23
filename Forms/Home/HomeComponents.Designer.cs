@@ -28,57 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel7 = new FlowLayoutPanel();
-            creditsButton = new Button();
-            learnSifButton = new Button();
             openFileForViewerDialog = new OpenFileDialog();
             tableLayoutPanel1 = new TableLayoutPanel();
             welcomeDescriptionText = new Label();
             welcomeTitleText = new Label();
             welcomeText = new Label();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            featureCardControl3 = new FeatureCardControl();
+            featureCardControl4 = new FeatureCardControl();
             actionControlsFlowPanel = new FlowLayoutPanel();
             viewJsonFileFeatureCard = new FeatureCardControl();
             featureCardControl1 = new FeatureCardControl();
             featureCardControl2 = new FeatureCardControl();
             panel1 = new Panel();
-            flowLayoutPanel7.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             actionControlsFlowPanel.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // flowLayoutPanel7
-            // 
-            flowLayoutPanel7.Controls.Add(creditsButton);
-            flowLayoutPanel7.Controls.Add(learnSifButton);
-            flowLayoutPanel7.Dock = DockStyle.Bottom;
-            flowLayoutPanel7.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel7.Location = new Point(0, 702);
-            flowLayoutPanel7.Name = "flowLayoutPanel7";
-            flowLayoutPanel7.Size = new Size(1130, 68);
-            flowLayoutPanel7.TabIndex = 7;
-            // 
-            // creditsButton
-            // 
-            creditsButton.Font = new Font("Segoe UI", 14F);
-            creditsButton.Location = new Point(973, 3);
-            creditsButton.Name = "creditsButton";
-            creditsButton.Size = new Size(154, 57);
-            creditsButton.TabIndex = 6;
-            creditsButton.Text = "🕵️ Credits";
-            creditsButton.UseVisualStyleBackColor = true;
-            creditsButton.Click += aboutWindowButton_Click;
-            // 
-            // learnSifButton
-            // 
-            learnSifButton.Font = new Font("Segoe UI", 14F);
-            learnSifButton.Location = new Point(789, 3);
-            learnSifButton.Name = "learnSifButton";
-            learnSifButton.Size = new Size(178, 57);
-            learnSifButton.TabIndex = 7;
-            learnSifButton.Text = "📖 Learn SIF";
-            learnSifButton.UseVisualStyleBackColor = true;
-            learnSifButton.Click += learnSifButton_Click;
             // 
             // openFileForViewerDialog
             // 
@@ -90,16 +57,19 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(welcomeDescriptionText, 0, 4);
             tableLayoutPanel1.Controls.Add(welcomeTitleText, 0, 2);
             tableLayoutPanel1.Controls.Add(welcomeText, 0, 0);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 7);
             tableLayoutPanel1.Controls.Add(actionControlsFlowPanel, 0, 6);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Dock = DockStyle.Top;
             tableLayoutPanel1.Location = new Point(32, 24);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 7;
+            tableLayoutPanel1.RowCount = 8;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
@@ -107,7 +77,9 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1066, 654);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(1066, 572);
             tableLayoutPanel1.TabIndex = 10;
             // 
             // welcomeDescriptionText
@@ -157,16 +129,61 @@
             welcomeText.Text = "Welcome back";
             welcomeText.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(featureCardControl3);
+            flowLayoutPanel1.Controls.Add(featureCardControl4);
+            flowLayoutPanel1.Dock = DockStyle.Top;
+            flowLayoutPanel1.Location = new Point(3, 429);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(1060, 140);
+            flowLayoutPanel1.TabIndex = 12;
+            // 
+            // featureCardControl3
+            // 
+            featureCardControl3.AutoSize = true;
+            featureCardControl3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl3.BackColor = Color.White;
+            featureCardControl3.Description = "Documentation and links to articles and sources";
+            featureCardControl3.Image = Properties.Resources.website_logo_icon;
+            featureCardControl3.Location = new Point(0, 0);
+            featureCardControl3.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl3.MinimumSize = new Size(360, 120);
+            featureCardControl3.Name = "featureCardControl3";
+            featureCardControl3.Radius = 10;
+            featureCardControl3.Size = new Size(360, 120);
+            featureCardControl3.TabIndex = 0;
+            featureCardControl3.Title = "Resources";
+            featureCardControl3.CardClick += learnSifButton_Click;
+            // 
+            // featureCardControl4
+            // 
+            featureCardControl4.AutoSize = true;
+            featureCardControl4.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            featureCardControl4.BackColor = Color.White;
+            featureCardControl4.Description = "About this program and credits to the author";
+            featureCardControl4.Image = Properties.Resources.management_service;
+            featureCardControl4.Location = new Point(380, 0);
+            featureCardControl4.Margin = new Padding(0, 0, 20, 20);
+            featureCardControl4.MinimumSize = new Size(360, 120);
+            featureCardControl4.Name = "featureCardControl4";
+            featureCardControl4.Radius = 10;
+            featureCardControl4.Size = new Size(360, 120);
+            featureCardControl4.TabIndex = 1;
+            featureCardControl4.Title = "Credits and About";
+            featureCardControl4.CardClick += aboutWindowButton_Click;
+            // 
             // actionControlsFlowPanel
             // 
             actionControlsFlowPanel.AutoSize = true;
             actionControlsFlowPanel.Controls.Add(viewJsonFileFeatureCard);
             actionControlsFlowPanel.Controls.Add(featureCardControl1);
             actionControlsFlowPanel.Controls.Add(featureCardControl2);
-            actionControlsFlowPanel.Dock = DockStyle.Fill;
+            actionControlsFlowPanel.Dock = DockStyle.Top;
             actionControlsFlowPanel.Location = new Point(3, 143);
             actionControlsFlowPanel.Name = "actionControlsFlowPanel";
-            actionControlsFlowPanel.Size = new Size(1060, 508);
+            actionControlsFlowPanel.Size = new Size(1060, 280);
             actionControlsFlowPanel.TabIndex = 11;
             // 
             // viewJsonFileFeatureCard
@@ -222,13 +239,14 @@
             // 
             // panel1
             // 
+            panel1.AutoScroll = true;
             panel1.BackColor = Color.Transparent;
             panel1.Controls.Add(tableLayoutPanel1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(32, 24, 32, 24);
-            panel1.Size = new Size(1130, 702);
+            panel1.Size = new Size(1130, 680);
             panel1.TabIndex = 11;
             // 
             // HomeComponents
@@ -236,22 +254,20 @@
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
-            Controls.Add(flowLayoutPanel7);
             Name = "HomeComponents";
-            Size = new Size(1130, 770);
-            flowLayoutPanel7.ResumeLayout(false);
+            Size = new Size(1130, 680);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             actionControlsFlowPanel.ResumeLayout(false);
             actionControlsFlowPanel.PerformLayout();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-        private FlowLayoutPanel flowLayoutPanel7;
-        private Button creditsButton;
-        private Button learnSifButton;
         private OpenFileDialog openFileForViewerDialog;
         private TableLayoutPanel tableLayoutPanel1;
         private Label welcomeText;
@@ -262,5 +278,8 @@
         private FeatureCardControl featureCardControl1;
         private Panel panel1;
         private FeatureCardControl featureCardControl2;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private FeatureCardControl featureCardControl3;
+        private FeatureCardControl featureCardControl4;
     }
 }

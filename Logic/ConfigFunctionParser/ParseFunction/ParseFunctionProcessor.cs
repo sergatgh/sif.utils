@@ -1,5 +1,4 @@
 ﻿using AutoPipe;
-using SIF.Utils.Logic.ConfigFunctionParser;
 using System.Text.RegularExpressions;
 
 namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
@@ -7,7 +6,7 @@ namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
     public class ParseFunctionProcessor : AutoProcessor
     {
         private readonly Regex _functionRegex = new Regex(@"^\s*([A-Za-z_]\w*)\s*\(\s*(.*?)\s*\)\s*$");
-        private readonly Regex _parametersRegex = new Regex(@"'(?:[^'\\]|\\.)*'|[^,\s][^,]*");
+        private readonly Regex _parametersRegex = new Regex(@"(?:([A-Za-z_]\w*):)?('(?:[^'\\]|\\.)*'|[^,\s][^,]*)");
 
         public object GetRoot(string function)
         {
@@ -57,7 +56,7 @@ namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
             var parameterMatches = _parametersRegex.Matches(parameters);
             foreach (Match parameterMatch in parameterMatches)
             {
-                var match = parameterMatch.Groups[0].ToString()!;
+                var match = parameterMatch.Groups[2].ToString()!;
                 if (match.StartsWith("'") && match.EndsWith("'"))
                 {
                     model.Parameters.Add(new ConfigFunctionParameter

@@ -91,7 +91,6 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ConfigFunctionViewer";
             Text = "ConfigFunctionViewer";
-            Load += ConfigFunctionViewer_Load;
             ResumeLayout(false);
         }
 

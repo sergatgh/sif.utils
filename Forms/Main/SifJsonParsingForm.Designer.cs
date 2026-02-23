@@ -52,7 +52,7 @@
             MainJsonBuilder.Dock = DockStyle.Fill;
             MainJsonBuilder.Location = new Point(0, 0);
             MainJsonBuilder.Name = "MainJsonBuilder";
-            MainJsonBuilder.Size = new Size(838, 527);
+            MainJsonBuilder.Size = new Size(863, 591);
             MainJsonBuilder.TabIndex = 5;
             MainJsonBuilder.BackClicked += back_Click;
             // 
@@ -61,7 +61,7 @@
             MainJsonViewer.Dock = DockStyle.Fill;
             MainJsonViewer.Location = new Point(0, 0);
             MainJsonViewer.Name = "MainJsonViewer";
-            MainJsonViewer.Size = new Size(838, 527);
+            MainJsonViewer.Size = new Size(863, 591);
             MainJsonViewer.TabIndex = 4;
             MainJsonViewer.OnPlay += MainJsonViewer_OnPlay;
             MainJsonViewer.OnExecuteTasks += executeToolStripMenuItem_Click;
@@ -72,7 +72,7 @@
             MainScriptRunnerForm.Dock = DockStyle.Fill;
             MainScriptRunnerForm.Location = new Point(0, 0);
             MainScriptRunnerForm.Name = "MainScriptRunnerForm";
-            MainScriptRunnerForm.Size = new Size(838, 527);
+            MainScriptRunnerForm.Size = new Size(863, 591);
             MainScriptRunnerForm.TabIndex = 9;
             MainScriptRunnerForm.ExecuteClicked += MainScriptRunnerForm_ExecuteClicked;
             MainScriptRunnerForm.RefreshClicked += MainScriptRunnerForm_RefreshClicked;
@@ -83,7 +83,7 @@
             MainFileParsingError.Dock = DockStyle.Fill;
             MainFileParsingError.Location = new Point(0, 0);
             MainFileParsingError.Name = "MainFileParsingError";
-            MainFileParsingError.Size = new Size(838, 527);
+            MainFileParsingError.Size = new Size(863, 591);
             MainFileParsingError.TabIndex = 5;
             MainFileParsingError.OnBack += back_Click;
             // 
@@ -92,7 +92,7 @@
             MainChooseExportFormat.Dock = DockStyle.Fill;
             MainChooseExportFormat.Location = new Point(0, 0);
             MainChooseExportFormat.Name = "MainChooseExportFormat";
-            MainChooseExportFormat.Size = new Size(838, 527);
+            MainChooseExportFormat.Size = new Size(863, 591);
             MainChooseExportFormat.TabIndex = 10;
             MainChooseExportFormat.OnHome += MainChooseExportFormat_OnHome;
             MainChooseExportFormat.OnBack += back_Click;
@@ -102,7 +102,7 @@
             MainSelectFilePanel.Dock = DockStyle.Fill;
             MainSelectFilePanel.Location = new Point(0, 0);
             MainSelectFilePanel.Name = "MainSelectFilePanel";
-            MainSelectFilePanel.Size = new Size(838, 527);
+            MainSelectFilePanel.Size = new Size(863, 591);
             MainSelectFilePanel.TabIndex = 9;
             MainSelectFilePanel.OpenViewFileDialog += MainSelectFilePanel_OpenViewFileDialog;
             MainSelectFilePanel.OpenExecuteFileDialog += MainSelectFilePanel_OpenExecuteFileDialog;
@@ -114,7 +114,7 @@
             MainChooseFileForm.Dock = DockStyle.Fill;
             MainChooseFileForm.Location = new Point(0, 0);
             MainChooseFileForm.Name = "MainChooseFileForm";
-            MainChooseFileForm.Size = new Size(838, 527);
+            MainChooseFileForm.Size = new Size(863, 591);
             MainChooseFileForm.TabIndex = 11;
             MainChooseFileForm.FileSelected += MainChooseFileForm_FileSelected;
             // 
@@ -123,9 +123,9 @@
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(245, 247, 250);
-            ClientSize = new Size(838, 527);
-            Controls.Add(MainChooseFileForm);
+            ClientSize = new Size(863, 591);
             Controls.Add(MainSelectFilePanel);
+            Controls.Add(MainChooseFileForm);
             Controls.Add(MainChooseExportFormat);
             Controls.Add(MainFileParsingError);
             Controls.Add(MainScriptRunnerForm);

@@ -1,14 +1,26 @@
 ﻿namespace SIF.Utils.Logic.JsonParser;
 
 using AutoPipe;
+using SIF.Utils.Logic.ConfigFunctionParser;
 using SIF.Utils.Logic.JsonParser.ParseFile;
 
-public class SifJsonParser
+public interface ISifJsonParser
 {
-    public async Task<SifJsonParsingResult> Parse(string filePath)
+    Task<SifJsonParsingResult> Parse(string filePath, string[] visitedFiles);
+    Task<SifJsonParsingResult> Parse(string filePath);
+}
+
+public class SifJsonParser : ISifJsonParser
+{
+    public Task<SifJsonParsingResult> Parse(string filePath)
     {
-        var bag = await Pipeline.From<ReadJsonObject, ParseSifComponents>().Run(new { filePath });
-        
+        return Parse(filePath, []);
+    }
+
+    public async Task<SifJsonParsingResult> Parse(string filePath, string[] visitedFiles)
+    {
+        var bag = await Pipeline.From<ReadJsonObject, ParseSifComponents>().Run(new { filePath, configFunctionApi = new ConfigFunctionApi(), sifJsonParser = this, visitedFiles });
+
         if (bag.HasErrors())
         {
             return new SifJsonParsingResult

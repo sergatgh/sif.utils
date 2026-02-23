@@ -10,7 +10,7 @@ namespace SIF.Utils
         private readonly SifJsonParsingFormPresenter _presenter;
         public SifUtilsContext Context { get; } = new();
 
-        private readonly SifJsonService _sifJsonService;
+        private readonly SifJsonParser _sifJsonService;
 
         private MainViewPageType nextPage = MainViewPageType.ViewFile;
 
@@ -18,7 +18,7 @@ namespace SIF.Utils
         {
             InitializeComponent();
             _presenter = new SifJsonParsingFormPresenter(this);
-            _sifJsonService = new SifJsonService();
+            _sifJsonService = new SifJsonParser();
 
             if (args is { Length: > 0 })
             {
@@ -80,7 +80,7 @@ namespace SIF.Utils
         private async Task<SifJsonParsingResult> PrepareFile(string file)
         {
             using var _ = new LongOperationState();
-            var result = await _sifJsonService.ParseJson(file);
+            var result = await _sifJsonService.Parse(file);
 
             if (result.HasError)
             {

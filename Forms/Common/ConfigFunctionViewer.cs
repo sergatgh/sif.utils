@@ -4,18 +4,20 @@ namespace SIF.Utils
 {
     public partial class ConfigFunctionViewer : Form
     {
-        private readonly string _configFunction;
-
-        public ConfigFunctionViewer(string configFunction)
+        public ConfigFunctionViewer()
         {
-            _configFunction = configFunction;
             InitializeComponent();
         }
 
-        private async void ConfigFunctionViewer_Load(object sender, EventArgs e)
+        public ConfigFunctionViewer(string configFunction) : this()
+        {
+            var result = new ConfigFunctionApi().Parse(configFunction).GetAwaiter().GetResult();
+            LoadConfigFunction(result);
+        }
+
+        public void LoadConfigFunction(ConfigFunctionParsingResult parseResult)
         {
             configFunctionTree.Nodes.Clear();
-            var parseResult = await new ConfigFunctionApi().Parse(_configFunction);
 
             if (parseResult.HasError)
             {

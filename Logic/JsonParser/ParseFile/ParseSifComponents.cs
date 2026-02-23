@@ -3,7 +3,10 @@
 namespace SIF.Utils.Logic.JsonParser.ParseFile;
 
 using AutoPipe;
+using SIF.Utils.Logic.ConfigFunctionParser;
 using SIF.Utils.Logic.JsonParser;
+using System.Diagnostics;
+using System.Reflection.Metadata;
 
 public class ParseSifComponents : AutoProcessor
 {
@@ -45,7 +48,7 @@ public class ParseSifComponents : AutoProcessor
     {
         if (!jsonDocument.TryGetProperty("UninstallTasks", out var uninstallTasksElement))
         {
-            return Warning("The 'UninstallTasks' property is not added.");
+            return Info("The 'UninstallTasks' property is not added.");
         }
 
         if (uninstallTasksElement.ValueKind != JsonValueKind.Object)
@@ -87,7 +90,7 @@ public class ParseSifComponents : AutoProcessor
             }).ToList();
     }
 
-    public object GetVariables([Required] JsonElement jsonDocument)
+    public async Task<object> GetVariables(Bag bag, [Required] JsonElement jsonDocument, IConfigFunctionApi configFunctionApi)
     {
         if (!jsonDocument.TryGetProperty("Variables", out var variablesElement))
         {
@@ -98,15 +101,37 @@ public class ParseSifComponents : AutoProcessor
             return Warning("The 'Variables' property is not an object.");
         }
 
-        return variablesElement.EnumerateObject()
-            .Select(parameter => new SifJsonVariableModel
+        List<SifJsonVariableModel> list = [];
+        foreach (var parameter in variablesElement.EnumerateObject())
+        {
+            var sifJsonVariableModel = new SifJsonVariableModel
             {
                 Name = parameter.Name,
                 Value = parameter.Value.GetRawText(),
-            }).ToList();
+            };
+
+            if (parameter.Value.ValueKind == JsonValueKind.String)
+            {
+                var configFunction = configFunctionApi.IsConfigFunction(sifJsonVariableModel.Value);
+
+                if (configFunction)
+                {
+                    var parsingResult = await configFunctionApi.Parse(sifJsonVariableModel.Value);
+                    if (parsingResult.HasError)
+                    {
+                        bag.Warning($"The variable '{sifJsonVariableModel.Name}' is identified as a config function but failed to parse. Error: {parsingResult.Error}");
+                    }
+                    sifJsonVariableModel.ConfigFunction = parsingResult;
+                }
+            }
+
+            list.Add(sifJsonVariableModel);
+        }
+
+        return list;
     }
 
-    public object GetIncludes([Required] JsonElement jsonDocument)
+    public async Task<object> GetIncludes(Bag bag, ISifJsonParser parser, [Required] JsonElement jsonDocument, [Required] string filePath, string folder, string[] visitedFiles)
     {
         if (!jsonDocument.TryGetProperty("Includes", out var includesElement))
         {
@@ -117,14 +142,49 @@ public class ParseSifComponents : AutoProcessor
             return Warning("The 'Includes' property is not an object.");
         }
 
-        return includesElement.EnumerateObject().Select(parameter =>
-            new SifJsonIncludeModel
+        var allVisits = visitedFiles.Append(filePath).ToArray();
+        var result = new List<SifJsonIncludeModel>();
+        foreach (var includeDeclaration in includesElement.EnumerateObject())
+        {
+            var source = includeDeclaration.Get("Source");
+            var includeModel = new SifJsonIncludeModel
             {
-                Name = parameter.Name,
+                Name = includeDeclaration.Name,
                 Description =
-                    parameter.Get("Description"),
-                Source = parameter.Get("Source"),
-            }).ToList();
+                    includeDeclaration.Get("Description"),
+                OriginalValue = source,
+            };
+            result.Add(includeModel);
+
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                bag.Warning($"The Include [{includeDeclaration.Name}] in file [{filePath}] has empty source.");
+                continue;
+            }
+
+            var fullIncludePath = Path.GetFullPath(source, folder);
+            includeModel.FullPath = fullIncludePath;
+
+            if (allVisits.Any(x => string.Compare(fullIncludePath, x, StringComparison.OrdinalIgnoreCase) == 0))
+            {
+                bag.Warning($"The included file [{includeDeclaration.Name}] in file [{filePath}] has already been referenced. Please fix a circular dependency.");
+                continue;
+            }
+
+            var parsingResult = await parser.Parse(fullIncludePath, allVisits);
+            if (parsingResult.HasError)
+            {
+                bag.Warning($"[{includeDeclaration.Name}] There was an error parsing included json: {parsingResult.Error}");
+            }
+
+            if (parsingResult.HasWarnings)
+            {
+                parsingResult.Warnings.ForEach(x => bag.Warning($"[{includeDeclaration.Name}] {x}"));
+            }
+
+            includeModel.ParseResult = parsingResult;
+        }
+        return result;
     }
 
     public object GetModules([Required] JsonElement jsonDocument)
@@ -145,7 +205,7 @@ public class ParseSifComponents : AutoProcessor
             }).ToList();
     }
 
-    public object GetRegisterElement([Required] JsonElement jsonDocument)
+    public object ObtainRegisteredTypes([Required] JsonElement jsonDocument)
     {
         if (!jsonDocument.TryGetProperty("Register", out var registerElement))
         {
@@ -157,10 +217,14 @@ public class ParseSifComponents : AutoProcessor
             return Warning("The 'Register' property is not an object.");
         }
 
-        return registerElement;
+        return new
+        {
+            RegisteredTasks = GetRegisteredTasks(registerElement),
+            RegisteredConfigFunctions = GetRegisteredConfigFunctions(registerElement),
+        };
     }
 
-    public object GetRegisteredTasks([Required] JsonElement registerElement)
+    private object GetRegisteredTasks([Required] JsonElement registerElement)
     {
         if (!registerElement.TryGetProperty("Tasks", out var tasksElement))
         {
@@ -180,7 +244,7 @@ public class ParseSifComponents : AutoProcessor
             }).ToList();
     }
 
-    public object GetRegisteredConfigFunctions([Required] JsonElement registerElement)
+    private object GetRegisteredConfigFunctions([Required] JsonElement registerElement)
     {
         if (!registerElement.TryGetProperty("ConfigFunctions", out var tasksElement))
         {
@@ -198,5 +262,28 @@ public class ParseSifComponents : AutoProcessor
                 Name = parameter.Name,
                 Command = parameter.Value.GetRawText().Trim('"'),
             }).ToList();
+    }
+
+    public object GetSettings([Required] JsonElement jsonDocument)
+    {
+        if (!jsonDocument.TryGetProperty("Settings", out var settingsElement))
+        {
+            return Info("The 'Settings' property is not added.");
+        }
+
+        if (settingsElement.ValueKind != JsonValueKind.Object)
+        {
+            return Warning("The 'Settings' property is not an object.");
+        }
+
+        var a = settingsElement.TryGetProperty("AutoRegisterExtensions", out var autoRegister);
+
+        return new SifJsonSettings
+        {
+            AutoRegisterExtensions = a && autoRegister.GetBoolean(),
+            ErrorAction = settingsElement.TryGetProperty("ErrorAction", out var errorAction) ? errorAction.GetString() : null,
+            WarningAction = settingsElement.TryGetProperty("WarningAction", out var warningAction) ? warningAction.GetString() : null,
+            InformationAction = settingsElement.TryGetProperty("InformationAction", out var infoAction) ? infoAction.GetString() : null,
+        };
     }
 }

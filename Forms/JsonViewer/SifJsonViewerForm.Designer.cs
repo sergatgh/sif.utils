@@ -75,7 +75,13 @@ namespace SIF.Utils.Forms.JsonViewer
             customFunction = new ColumnHeader();
             powershellFunction = new ColumnHeader();
             viewJsonSettings = new TabPage();
+            errorActionText = new SIF.Utils.Forms.JsonBuilder.LabeledTextbox();
+            warnActionText = new SIF.Utils.Forms.JsonBuilder.LabeledTextbox();
+            infoActionText = new SIF.Utils.Forms.JsonBuilder.LabeledTextbox();
+            autoRegisterExtensionsCheck = new CheckBox();
             viewJsonWarnings = new TabPage();
+            warningsList = new ListView();
+            textColumn = new ColumnHeader();
             openFileForViewerDialog = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
             flowLayoutPanel1.SuspendLayout();
@@ -92,6 +98,8 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonModules.SuspendLayout();
             viewJsonRegisteredTasks.SuspendLayout();
             viewJsonRegisteredConfigFunctions.SuspendLayout();
+            viewJsonSettings.SuspendLayout();
+            viewJsonWarnings.SuspendLayout();
             SuspendLayout();
             // 
             // navigationPanel
@@ -518,6 +526,10 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             // viewJsonSettings
             // 
+            viewJsonSettings.Controls.Add(errorActionText);
+            viewJsonSettings.Controls.Add(warnActionText);
+            viewJsonSettings.Controls.Add(infoActionText);
+            viewJsonSettings.Controls.Add(autoRegisterExtensionsCheck);
             viewJsonSettings.Location = new Point(4, 32);
             viewJsonSettings.Name = "viewJsonSettings";
             viewJsonSettings.Padding = new Padding(3);
@@ -526,8 +538,65 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonSettings.Text = "Settings";
             viewJsonSettings.UseVisualStyleBackColor = true;
             // 
+            // errorActionText
+            // 
+            errorActionText.Enabled = false;
+            errorActionText.Location = new Point(6, 159);
+            errorActionText.Multiline = false;
+            errorActionText.Name = "errorActionText";
+            errorActionText.PathSelectionFilter = "";
+            errorActionText.PathSelectMode = PathSelectMode.Folder;
+            errorActionText.ShowPathSelector = false;
+            errorActionText.Size = new Size(366, 54);
+            errorActionText.TabIndex = 3;
+            errorActionText.TextInput = "";
+            errorActionText.TextLabel = "Error Action";
+            errorActionText.Vertical = true;
+            // 
+            // warnActionText
+            // 
+            warnActionText.Enabled = false;
+            warnActionText.Location = new Point(6, 99);
+            warnActionText.Multiline = false;
+            warnActionText.Name = "warnActionText";
+            warnActionText.PathSelectionFilter = "";
+            warnActionText.PathSelectMode = PathSelectMode.Folder;
+            warnActionText.ShowPathSelector = false;
+            warnActionText.Size = new Size(366, 54);
+            warnActionText.TabIndex = 2;
+            warnActionText.TextInput = "";
+            warnActionText.TextLabel = "Warning Action";
+            warnActionText.Vertical = true;
+            // 
+            // infoActionText
+            // 
+            infoActionText.Enabled = false;
+            infoActionText.Location = new Point(6, 39);
+            infoActionText.Multiline = false;
+            infoActionText.Name = "infoActionText";
+            infoActionText.PathSelectionFilter = "";
+            infoActionText.PathSelectMode = PathSelectMode.Folder;
+            infoActionText.ShowPathSelector = false;
+            infoActionText.Size = new Size(366, 54);
+            infoActionText.TabIndex = 1;
+            infoActionText.TextInput = "";
+            infoActionText.TextLabel = "Information Action";
+            infoActionText.Vertical = true;
+            // 
+            // autoRegisterExtensionsCheck
+            // 
+            autoRegisterExtensionsCheck.AutoSize = true;
+            autoRegisterExtensionsCheck.Enabled = false;
+            autoRegisterExtensionsCheck.Location = new Point(6, 6);
+            autoRegisterExtensionsCheck.Name = "autoRegisterExtensionsCheck";
+            autoRegisterExtensionsCheck.Size = new Size(220, 27);
+            autoRegisterExtensionsCheck.TabIndex = 0;
+            autoRegisterExtensionsCheck.Text = "Auto Register Extensions";
+            autoRegisterExtensionsCheck.UseVisualStyleBackColor = true;
+            // 
             // viewJsonWarnings
             // 
+            viewJsonWarnings.Controls.Add(warningsList);
             viewJsonWarnings.Location = new Point(4, 32);
             viewJsonWarnings.Name = "viewJsonWarnings";
             viewJsonWarnings.Padding = new Padding(3);
@@ -535,6 +604,22 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonWarnings.TabIndex = 10;
             viewJsonWarnings.Text = "ℹ️ Parse Warnings";
             viewJsonWarnings.UseVisualStyleBackColor = true;
+            // 
+            // warningsList
+            // 
+            warningsList.Columns.AddRange(new ColumnHeader[] { textColumn });
+            warningsList.Dock = DockStyle.Fill;
+            warningsList.Location = new Point(3, 3);
+            warningsList.Name = "warningsList";
+            warningsList.Size = new Size(747, 466);
+            warningsList.TabIndex = 0;
+            warningsList.UseCompatibleStateImageBehavior = false;
+            warningsList.View = View.Details;
+            // 
+            // textColumn
+            // 
+            textColumn.Text = "Warnings";
+            textColumn.Width = 600;
             // 
             // openFileForViewerDialog
             // 
@@ -570,6 +655,9 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonModules.ResumeLayout(false);
             viewJsonRegisteredTasks.ResumeLayout(false);
             viewJsonRegisteredConfigFunctions.ResumeLayout(false);
+            viewJsonSettings.ResumeLayout(false);
+            viewJsonSettings.PerformLayout();
+            viewJsonWarnings.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -623,5 +711,11 @@ namespace SIF.Utils.Forms.JsonViewer
         private Tasks.TasksList uninstallTasksList;
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolTip toolTip1;
+        private JsonBuilder.LabeledTextbox errorActionText;
+        private JsonBuilder.LabeledTextbox warnActionText;
+        private JsonBuilder.LabeledTextbox infoActionText;
+        private CheckBox autoRegisterExtensionsCheck;
+        private ListView warningsList;
+        private ColumnHeader textColumn;
     }
 }

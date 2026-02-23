@@ -281,6 +281,16 @@ namespace SIF.Utils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] official_sif_docs {
+            get {
+                object obj = ResourceManager.GetObject("official-sif-docs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap permission {
@@ -337,6 +347,86 @@ namespace SIF.Utils.Properties {
             get {
                 object obj = ResourceManager.GetObject("service_8473597", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_clear_start {
+            get {
+                object obj = ResourceManager.GetObject("sif-clear-start", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_custom_task_article {
+            get {
+                object obj = ResourceManager.GetObject("sif-custom-task-article", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_other_adds_article {
+            get {
+                object obj = ResourceManager.GetObject("sif-other-adds-article", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_parameters_youtube {
+            get {
+                object obj = ResourceManager.GetObject("sif-parameters-youtube", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_uninstall_include_article {
+            get {
+                object obj = ResourceManager.GetObject("sif-uninstall-include-article", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_variables_youtube {
+            get {
+                object obj = ResourceManager.GetObject("sif-variables-youtube", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_youtube_configfunctions {
+            get {
+                object obj = ResourceManager.GetObject("sif-youtube-configfunctions", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sif_youtube_tasks {
+            get {
+                object obj = ResourceManager.GetObject("sif-youtube-tasks", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
