@@ -16,6 +16,10 @@ public partial class NavigationPanel : UserControl
     public string Title { get => titleLabel.Text; set => titleLabel.Text = value; }
 
     [Browsable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public FlowLayoutPanel ControlsPanel => this.controlsPanel;
+
+    [Browsable(true)]
     public event EventHandler? BackClicked
     {
         add => backButton.Click += value;

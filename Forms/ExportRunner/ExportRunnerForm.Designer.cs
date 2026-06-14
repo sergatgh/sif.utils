@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             navigationPanel1 = new SIF.Utils.Forms.Common.NavigationPanel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
             exportToFileProperties = new Button();
             copyToClipboardProperties = new Button();
             executeInShell = new Button();
@@ -46,7 +45,6 @@
             tasksToolStripMenuItem = new ToolStripMenuItem();
             saveFileDialog1 = new SaveFileDialog();
             toolTipText = new ToolTip(components);
-            flowLayoutPanel1.SuspendLayout();
             scriptMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,17 +59,11 @@
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.Controls.Add(exportToFileProperties);
-            flowLayoutPanel1.Controls.Add(copyToClipboardProperties);
-            flowLayoutPanel1.Controls.Add(executeInShell);
-            flowLayoutPanel1.Controls.Add(homeNavigationButton);
-            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(505, 8);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(336, 58);
-            flowLayoutPanel1.TabIndex = 18;
+            navigationPanel1.ControlsPanel.Controls.Add(exportToFileProperties);
+            navigationPanel1.ControlsPanel.Controls.Add(copyToClipboardProperties);
+            navigationPanel1.ControlsPanel.Controls.Add(executeInShell);
+            navigationPanel1.ControlsPanel.Controls.Add(homeNavigationButton);
+
             // 
             // exportToFileProperties
             // 
@@ -212,13 +204,11 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(flowLayoutPanel1);
             Controls.Add(scriptToExport);
             Controls.Add(scriptMenu);
             Controls.Add(navigationPanel1);
             Name = "ExportRunnerForm";
             Size = new Size(850, 706);
-            flowLayoutPanel1.ResumeLayout(false);
             scriptMenu.ResumeLayout(false);
             scriptMenu.PerformLayout();
             ResumeLayout(false);
@@ -237,7 +227,6 @@
         internal ToolStripMenuItem includeUninstallOption;
         internal ToolStripMenuItem includeVerboseOption;
         internal ToolStripMenuItem tasksToolStripMenuItem;
-        private FlowLayoutPanel flowLayoutPanel1;
         internal Button homeNavigationButton;
         internal Button executeInShell;
         internal Button copyToClipboardProperties;

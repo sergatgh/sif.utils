@@ -32,7 +32,6 @@ namespace SIF.Utils.Forms.JsonViewer
         {
             components = new System.ComponentModel.Container();
             navigationPanel = new SIF.Utils.Forms.Common.NavigationPanel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
             executeButton = new Button();
             changeFileButton = new Button();
             openFolderButton = new Button();
@@ -84,7 +83,6 @@ namespace SIF.Utils.Forms.JsonViewer
             textColumn = new ColumnHeader();
             openFileForViewerDialog = new OpenFileDialog();
             toolTip1 = new ToolTip(components);
-            flowLayoutPanel1.SuspendLayout();
             viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
             viewJsonUninstallTasks.SuspendLayout();
@@ -110,25 +108,14 @@ namespace SIF.Utils.Forms.JsonViewer
             navigationPanel.Size = new Size(761, 76);
             navigationPanel.TabIndex = 2;
             navigationPanel.Title = "SIF Viewer";
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            flowLayoutPanel1.Controls.Add(executeButton);
-            flowLayoutPanel1.Controls.Add(changeFileButton);
-            flowLayoutPanel1.Controls.Add(openFolderButton);
-            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(521, 10);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(223, 59);
-            flowLayoutPanel1.TabIndex = 8;
-            // 
+            navigationPanel.controlsPanel.Controls.Add(executeButton);
+            navigationPanel.controlsPanel.Controls.Add(changeFileButton);
+            navigationPanel.controlsPanel.Controls.Add(openFolderButton);
+            //
             // executeButton
-            // 
-            executeButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            //
             executeButton.BackColor = Color.Transparent;
             executeButton.Font = new Font("Segoe UI", 22F);
-            executeButton.Location = new Point(150, 0);
             executeButton.Margin = new Padding(0);
             executeButton.Name = "executeButton";
             executeButton.Size = new Size(73, 56);
@@ -136,13 +123,11 @@ namespace SIF.Utils.Forms.JsonViewer
             executeButton.Text = "▶️";
             executeButton.UseVisualStyleBackColor = false;
             executeButton.Click += executeButton_Click;
-            // 
+            //
             // changeFileButton
-            // 
-            changeFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            //
             changeFileButton.BackColor = Color.Transparent;
             changeFileButton.Font = new Font("Segoe UI", 22F);
-            changeFileButton.Location = new Point(77, 0);
             changeFileButton.Margin = new Padding(0);
             changeFileButton.Name = "changeFileButton";
             changeFileButton.Size = new Size(73, 56);
@@ -150,13 +135,11 @@ namespace SIF.Utils.Forms.JsonViewer
             changeFileButton.Text = "🔃";
             changeFileButton.UseVisualStyleBackColor = false;
             changeFileButton.Click += openFileDialog_Click;
-            // 
+            //
             // openFolderButton
-            // 
-            openFolderButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            //
             openFolderButton.BackColor = Color.Transparent;
             openFolderButton.Font = new Font("Segoe UI", 22F);
-            openFolderButton.Location = new Point(4, 0);
             openFolderButton.Margin = new Padding(0);
             openFolderButton.Name = "openFolderButton";
             openFolderButton.Size = new Size(73, 56);
@@ -633,13 +616,11 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(flowLayoutPanel1);
             Controls.Add(viewJsonTabs);
             Controls.Add(FilePathText);
             Controls.Add(navigationPanel);
             Name = "SifJsonViewerForm";
             Size = new Size(761, 616);
-            flowLayoutPanel1.ResumeLayout(false);
             viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
             viewJsonUninstallTasks.ResumeLayout(false);
@@ -709,7 +690,6 @@ namespace SIF.Utils.Forms.JsonViewer
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
         private Tasks.TasksList tasksList;
         private Tasks.TasksList uninstallTasksList;
-        private FlowLayoutPanel flowLayoutPanel1;
         private ToolTip toolTip1;
         private JsonBuilder.LabeledTextbox errorActionText;
         private JsonBuilder.LabeledTextbox warnActionText;
