@@ -53,9 +53,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(2, 2, 2, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(706, 675);
+            tabControl1.Size = new Size(549, 440);
             tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -68,10 +69,11 @@
             tabPage1.Controls.Add(retryCount);
             tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(addressTextBox);
-            tabPage1.Location = new Point(4, 32);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 2, 2, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(698, 639);
+            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Size = new Size(541, 412);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Request";
             tabPage1.UseVisualStyleBackColor = true;
@@ -80,19 +82,21 @@
             // 
             requestTimeout.Dock = DockStyle.Top;
             requestTimeout.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            requestTimeout.Location = new Point(3, 185);
+            requestTimeout.Location = new Point(2, 128);
+            requestTimeout.Margin = new Padding(2, 2, 2, 2);
             requestTimeout.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             requestTimeout.Name = "requestTimeout";
-            requestTimeout.Size = new Size(692, 30);
+            requestTimeout.Size = new Size(537, 23);
             requestTimeout.TabIndex = 8;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Dock = DockStyle.Top;
-            label3.Location = new Point(3, 162);
+            label3.Location = new Point(2, 113);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(284, 23);
+            label3.Size = new Size(200, 15);
             label3.TabIndex = 5;
             label3.Text = "Request Timeout (ms) (0 - is infinity)";
             // 
@@ -100,10 +104,11 @@
             // 
             retryDelay.Dock = DockStyle.Top;
             retryDelay.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            retryDelay.Location = new Point(3, 132);
+            retryDelay.Location = new Point(2, 90);
+            retryDelay.Margin = new Padding(2, 2, 2, 2);
             retryDelay.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             retryDelay.Name = "retryDelay";
-            retryDelay.Size = new Size(692, 30);
+            retryDelay.Size = new Size(537, 23);
             retryDelay.TabIndex = 7;
             retryDelay.Value = new decimal(new int[] { 2000, 0, 0, 0 });
             // 
@@ -111,19 +116,21 @@
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Top;
-            label2.Location = new Point(3, 109);
+            label2.Location = new Point(2, 75);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(133, 23);
+            label2.Size = new Size(93, 15);
             label2.TabIndex = 4;
             label2.Text = "Retry Delay (ms)";
             // 
             // retryCount
             // 
             retryCount.Dock = DockStyle.Top;
-            retryCount.Location = new Point(3, 79);
+            retryCount.Location = new Point(2, 52);
+            retryCount.Margin = new Padding(2, 2, 2, 2);
             retryCount.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             retryCount.Name = "retryCount";
-            retryCount.Size = new Size(692, 30);
+            retryCount.Size = new Size(537, 23);
             retryCount.TabIndex = 6;
             retryCount.Value = new decimal(new int[] { 3, 0, 0, 0 });
             // 
@@ -131,22 +138,24 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 56);
+            label1.Location = new Point(2, 37);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(101, 23);
+            label1.Size = new Size(70, 15);
             label1.TabIndex = 3;
             label1.Text = "Retry Count";
             // 
             // addressTextBox
             // 
             addressTextBox.Dock = DockStyle.Top;
-            addressTextBox.Location = new Point(3, 3);
+            addressTextBox.Location = new Point(2, 2);
+            addressTextBox.Margin = new Padding(2, 1, 2, 1);
             addressTextBox.Multiline = false;
             addressTextBox.Name = "addressTextBox";
             addressTextBox.PathSelectionFilter = "";
             addressTextBox.PathSelectMode = PathSelectMode.Folder;
             addressTextBox.ShowPathSelector = false;
-            addressTextBox.Size = new Size(692, 53);
+            addressTextBox.Size = new Size(537, 35);
             addressTextBox.TabIndex = 0;
             addressTextBox.TextInput = "https://sc1041.sc";
             addressTextBox.TextLabel = "URI *";
@@ -155,10 +164,11 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(taskEditor1);
-            tabPage2.Location = new Point(4, 32);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(2, 2, 2, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(192, 64);
+            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Size = new Size(541, 412);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -167,19 +177,21 @@
             // 
             taskEditor1.AutoScroll = true;
             taskEditor1.Dock = DockStyle.Fill;
-            taskEditor1.Location = new Point(3, 3);
-            taskEditor1.MinimumSize = new Size(50, 50);
+            taskEditor1.Location = new Point(2, 2);
+            taskEditor1.Margin = new Padding(2, 1, 2, 1);
+            taskEditor1.MinimumSize = new Size(39, 33);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(186, 58);
+            taskEditor1.Size = new Size(537, 408);
             taskEditor1.TabIndex = 0;
             // 
             // WebRequestTask
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "WebRequestTask";
-            Size = new Size(706, 675);
+            Size = new Size(549, 440);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

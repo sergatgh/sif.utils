@@ -51,9 +51,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(2, 2, 2, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(756, 713);
+            tabControl1.Size = new Size(588, 465);
             tabControl1.TabIndex = 6;
             // 
             // tabPage1
@@ -67,10 +68,11 @@
             tabPage1.Controls.Add(storeLocation);
             tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(dnsNameText);
-            tabPage1.Location = new Point(4, 32);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 2, 2, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(748, 677);
+            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Size = new Size(580, 437);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Certificate";
             tabPage1.UseVisualStyleBackColor = true;
@@ -79,9 +81,10 @@
             // 
             IncludePrivateKey.AutoSize = true;
             IncludePrivateKey.Dock = DockStyle.Top;
-            IncludePrivateKey.Location = new Point(3, 334);
+            IncludePrivateKey.Location = new Point(2, 223);
+            IncludePrivateKey.Margin = new Padding(2, 2, 2, 2);
             IncludePrivateKey.Name = "IncludePrivateKey";
-            IncludePrivateKey.Size = new Size(742, 27);
+            IncludePrivateKey.Size = new Size(576, 19);
             IncludePrivateKey.TabIndex = 8;
             IncludePrivateKey.Text = "Include Private Key";
             IncludePrivateKey.UseVisualStyleBackColor = true;
@@ -89,13 +92,14 @@
             // passwordText
             // 
             passwordText.Dock = DockStyle.Top;
-            passwordText.Location = new Point(3, 278);
+            passwordText.Location = new Point(2, 186);
+            passwordText.Margin = new Padding(2, 1, 2, 1);
             passwordText.Multiline = false;
             passwordText.Name = "passwordText";
             passwordText.PathSelectionFilter = "";
             passwordText.PathSelectMode = PathSelectMode.Folder;
             passwordText.ShowPathSelector = false;
-            passwordText.Size = new Size(742, 56);
+            passwordText.Size = new Size(576, 37);
             passwordText.TabIndex = 5;
             passwordText.TextInput = "";
             passwordText.TextLabel = "Password";
@@ -104,13 +108,14 @@
             // fileName
             // 
             fileName.Dock = DockStyle.Top;
-            fileName.Location = new Point(3, 222);
+            fileName.Location = new Point(2, 149);
+            fileName.Margin = new Padding(2, 1, 2, 1);
             fileName.Multiline = false;
             fileName.Name = "fileName";
             fileName.PathSelectionFilter = "";
             fileName.PathSelectMode = PathSelectMode.Folder;
             fileName.ShowPathSelector = false;
-            fileName.Size = new Size(742, 56);
+            fileName.Size = new Size(576, 37);
             fileName.TabIndex = 4;
             fileName.TextInput = "sc1041-certificate";
             fileName.TextLabel = "Name";
@@ -119,13 +124,14 @@
             // pathForCertificate
             // 
             pathForCertificate.Dock = DockStyle.Top;
-            pathForCertificate.Location = new Point(3, 166);
+            pathForCertificate.Location = new Point(2, 112);
+            pathForCertificate.Margin = new Padding(2, 1, 2, 1);
             pathForCertificate.Multiline = false;
             pathForCertificate.Name = "pathForCertificate";
             pathForCertificate.PathSelectionFilter = "";
             pathForCertificate.PathSelectMode = PathSelectMode.Folder;
             pathForCertificate.ShowPathSelector = true;
-            pathForCertificate.Size = new Size(742, 56);
+            pathForCertificate.Size = new Size(576, 37);
             pathForCertificate.TabIndex = 3;
             pathForCertificate.TextInput = "";
             pathForCertificate.TextLabel = "Path";
@@ -134,13 +140,14 @@
             // friendlyName
             // 
             friendlyName.Dock = DockStyle.Top;
-            friendlyName.Location = new Point(3, 110);
+            friendlyName.Location = new Point(2, 75);
+            friendlyName.Margin = new Padding(2, 1, 2, 1);
             friendlyName.Multiline = false;
             friendlyName.Name = "friendlyName";
             friendlyName.PathSelectionFilter = "";
             friendlyName.PathSelectMode = PathSelectMode.Folder;
             friendlyName.ShowPathSelector = false;
-            friendlyName.Size = new Size(742, 56);
+            friendlyName.Size = new Size(576, 37);
             friendlyName.TabIndex = 2;
             friendlyName.TextInput = "Local Certificate for Sitecore 10.4.1";
             friendlyName.TextLabel = "Friendly Name";
@@ -151,9 +158,10 @@
             storeLocation.Dock = DockStyle.Top;
             storeLocation.FormattingEnabled = true;
             storeLocation.Items.AddRange(new object[] { "Local Machine", "Current User" });
-            storeLocation.Location = new Point(3, 79);
+            storeLocation.Location = new Point(2, 52);
+            storeLocation.Margin = new Padding(2, 2, 2, 2);
             storeLocation.Name = "storeLocation";
-            storeLocation.Size = new Size(742, 31);
+            storeLocation.Size = new Size(576, 23);
             storeLocation.TabIndex = 7;
             storeLocation.Text = "Local Machine";
             // 
@@ -161,22 +169,24 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 56);
+            label1.Location = new Point(2, 37);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(119, 23);
+            label1.Size = new Size(83, 15);
             label1.TabIndex = 6;
             label1.Text = "Store Location";
             // 
             // dnsNameText
             // 
             dnsNameText.Dock = DockStyle.Top;
-            dnsNameText.Location = new Point(3, 3);
+            dnsNameText.Location = new Point(2, 2);
+            dnsNameText.Margin = new Padding(2, 1, 2, 1);
             dnsNameText.Multiline = false;
             dnsNameText.Name = "dnsNameText";
             dnsNameText.PathSelectionFilter = "";
             dnsNameText.PathSelectMode = PathSelectMode.Folder;
             dnsNameText.ShowPathSelector = false;
-            dnsNameText.Size = new Size(742, 53);
+            dnsNameText.Size = new Size(576, 35);
             dnsNameText.TabIndex = 0;
             dnsNameText.TextInput = "sc1041.sc";
             dnsNameText.TextLabel = "DNS Name";
@@ -185,10 +195,11 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(taskEditor1);
-            tabPage2.Location = new Point(4, 32);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(2, 2, 2, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(192, 64);
+            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Size = new Size(580, 437);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -197,19 +208,21 @@
             // 
             taskEditor1.AutoScroll = true;
             taskEditor1.Dock = DockStyle.Fill;
-            taskEditor1.Location = new Point(3, 3);
-            taskEditor1.MinimumSize = new Size(50, 50);
+            taskEditor1.Location = new Point(2, 2);
+            taskEditor1.Margin = new Padding(2, 1, 2, 1);
+            taskEditor1.MinimumSize = new Size(39, 33);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(186, 58);
+            taskEditor1.Size = new Size(576, 433);
             taskEditor1.TabIndex = 0;
             // 
             // NewRootCertificateTask
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "NewRootCertificateTask";
-            Size = new Size(756, 713);
+            Size = new Size(588, 465);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

@@ -48,9 +48,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(2, 2, 2, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(761, 708);
+            tabControl1.Size = new Size(592, 462);
             tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -61,10 +62,11 @@
             tabPage1.Controls.Add(pathToDeploy);
             tabPage1.Controls.Add(actionText);
             tabPage1.Controls.Add(label1);
-            tabPage1.Location = new Point(4, 32);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 2, 2, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(753, 672);
+            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Size = new Size(584, 434);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "MS Deploy";
             tabPage1.UseVisualStyleBackColor = true;
@@ -72,13 +74,14 @@
             // argsJson
             // 
             argsJson.Dock = DockStyle.Fill;
-            argsJson.Location = new Point(3, 114);
+            argsJson.Location = new Point(2, 77);
+            argsJson.Margin = new Padding(2, 1, 2, 1);
             argsJson.Multiline = true;
             argsJson.Name = "argsJson";
             argsJson.PathSelectionFilter = "";
             argsJson.PathSelectMode = PathSelectMode.Folder;
             argsJson.ShowPathSelector = false;
-            argsJson.Size = new Size(747, 555);
+            argsJson.Size = new Size(580, 355);
             argsJson.TabIndex = 13;
             argsJson.TextInput = "{ }";
             argsJson.TextLabel = "Arguments object JSON";
@@ -88,9 +91,10 @@
             // 
             checkBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(1095, 71);
+            checkBox1.Location = new Point(858, 46);
+            checkBox1.Margin = new Padding(2, 2, 2, 2);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(129, 27);
+            checkBox1.Size = new Size(94, 19);
             checkBox1.TabIndex = 12;
             checkBox1.Text = "Check Status";
             checkBox1.UseVisualStyleBackColor = true;
@@ -98,13 +102,14 @@
             // pathToDeploy
             // 
             pathToDeploy.Dock = DockStyle.Top;
-            pathToDeploy.Location = new Point(3, 57);
+            pathToDeploy.Location = new Point(2, 40);
+            pathToDeploy.Margin = new Padding(2, 1, 2, 1);
             pathToDeploy.Multiline = false;
             pathToDeploy.Name = "pathToDeploy";
             pathToDeploy.PathSelectionFilter = "MS Deploy|*.exe";
             pathToDeploy.PathSelectMode = PathSelectMode.File;
             pathToDeploy.ShowPathSelector = true;
-            pathToDeploy.Size = new Size(747, 57);
+            pathToDeploy.Size = new Size(580, 37);
             pathToDeploy.TabIndex = 5;
             pathToDeploy.TextInput = "";
             pathToDeploy.TextLabel = "Path to msdeploy.exe";
@@ -115,9 +120,10 @@
             actionText.Dock = DockStyle.Top;
             actionText.FormattingEnabled = true;
             actionText.Items.AddRange(new object[] { "sync", "delete", "dump", "getDependencies", "getSystemInfo" });
-            actionText.Location = new Point(3, 26);
+            actionText.Location = new Point(2, 17);
+            actionText.Margin = new Padding(2, 2, 2, 2);
             actionText.Name = "actionText";
-            actionText.Size = new Size(747, 31);
+            actionText.Size = new Size(580, 23);
             actionText.TabIndex = 4;
             actionText.Text = "sync";
             // 
@@ -125,19 +131,21 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 3);
+            label1.Location = new Point(2, 2);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(57, 23);
+            label1.Size = new Size(38, 15);
             label1.TabIndex = 3;
             label1.Text = "Verb *";
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(taskEditor1);
-            tabPage2.Location = new Point(4, 32);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(2, 2, 2, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(192, 64);
+            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Size = new Size(584, 434);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -146,19 +154,21 @@
             // 
             taskEditor1.AutoScroll = true;
             taskEditor1.Dock = DockStyle.Fill;
-            taskEditor1.Location = new Point(3, 3);
-            taskEditor1.MinimumSize = new Size(50, 50);
+            taskEditor1.Location = new Point(2, 2);
+            taskEditor1.Margin = new Padding(2, 1, 2, 1);
+            taskEditor1.MinimumSize = new Size(39, 33);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(186, 58);
+            taskEditor1.Size = new Size(580, 430);
             taskEditor1.TabIndex = 0;
             // 
             // WebDeployTask
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "WebDeployTask";
-            Size = new Size(761, 708);
+            Size = new Size(592, 462);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

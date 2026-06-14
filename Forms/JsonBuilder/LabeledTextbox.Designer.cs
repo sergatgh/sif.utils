@@ -40,8 +40,9 @@
             labelText.AutoSize = true;
             labelText.Dock = DockStyle.Top;
             labelText.Location = new Point(0, 0);
+            labelText.Margin = new Padding(2, 0, 2, 0);
             labelText.Name = "labelText";
-            labelText.Size = new Size(46, 23);
+            labelText.Size = new Size(32, 15);
             labelText.TabIndex = 0;
             labelText.Text = "label";
             // 
@@ -49,8 +50,9 @@
             // 
             textBox.Dock = DockStyle.Fill;
             textBox.Location = new Point(0, 0);
+            textBox.Margin = new Padding(2, 2, 2, 2);
             textBox.Name = "textBox";
-            textBox.Size = new Size(257, 30);
+            textBox.Size = new Size(200, 23);
             textBox.TabIndex = 1;
             // 
             // panel1
@@ -58,17 +60,19 @@
             panel1.Controls.Add(textBox);
             panel1.Controls.Add(pathSelectButton);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 23);
+            panel1.Location = new Point(0, 15);
+            panel1.Margin = new Padding(2, 2, 2, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(293, 32);
+            panel1.Size = new Size(228, 21);
             panel1.TabIndex = 2;
             // 
             // pathSelectButton
             // 
             pathSelectButton.Dock = DockStyle.Right;
-            pathSelectButton.Location = new Point(257, 0);
+            pathSelectButton.Location = new Point(200, 0);
+            pathSelectButton.Margin = new Padding(2, 2, 2, 2);
             pathSelectButton.Name = "pathSelectButton";
-            pathSelectButton.Size = new Size(36, 32);
+            pathSelectButton.Size = new Size(28, 21);
             pathSelectButton.TabIndex = 2;
             pathSelectButton.Text = "...";
             pathSelectButton.UseVisualStyleBackColor = true;
@@ -77,12 +81,13 @@
             // 
             // LabeledTextbox
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
             Controls.Add(labelText);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "LabeledTextbox";
-            Size = new Size(293, 55);
+            Size = new Size(228, 36);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

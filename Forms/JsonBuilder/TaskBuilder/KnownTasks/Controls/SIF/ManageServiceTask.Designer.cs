@@ -52,9 +52,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(2, 2, 2, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(659, 733);
+            tabControl1.Size = new Size(513, 478);
             tabControl1.TabIndex = 8;
             // 
             // tabPage1
@@ -69,10 +70,11 @@
             tabPage1.Controls.Add(statusText);
             tabPage1.Controls.Add(label3);
             tabPage1.Controls.Add(nameText);
-            tabPage1.Location = new Point(4, 32);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 2, 2, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(651, 697);
+            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Size = new Size(505, 450);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Service";
             tabPage1.UseVisualStyleBackColor = true;
@@ -80,10 +82,11 @@
             // postDelayNumber
             // 
             postDelayNumber.Dock = DockStyle.Top;
-            postDelayNumber.Location = new Point(3, 341);
+            postDelayNumber.Location = new Point(2, 228);
+            postDelayNumber.Margin = new Padding(2, 2, 2, 2);
             postDelayNumber.Mask = "0000000";
             postDelayNumber.Name = "postDelayNumber";
-            postDelayNumber.Size = new Size(645, 30);
+            postDelayNumber.Size = new Size(501, 23);
             postDelayNumber.TabIndex = 8;
             postDelayNumber.ValidatingType = typeof(int);
             // 
@@ -91,22 +94,24 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(3, 318);
+            label1.Location = new Point(2, 213);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(196, 23);
+            label1.Size = new Size(139, 15);
             label1.TabIndex = 5;
             label1.Text = "Post Delay (milliseconds)";
             // 
             // displayNameText
             // 
             displayNameText.Dock = DockStyle.Top;
-            displayNameText.Location = new Point(3, 249);
+            displayNameText.Location = new Point(2, 168);
+            displayNameText.Margin = new Padding(2, 1, 2, 1);
             displayNameText.Multiline = false;
             displayNameText.Name = "displayNameText";
             displayNameText.PathSelectionFilter = "";
             displayNameText.PathSelectMode = PathSelectMode.Folder;
             displayNameText.ShowPathSelector = false;
-            displayNameText.Size = new Size(645, 69);
+            displayNameText.Size = new Size(501, 45);
             displayNameText.TabIndex = 4;
             displayNameText.TextInput = "";
             displayNameText.TextLabel = "Display Name";
@@ -115,13 +120,14 @@
             // descriptionText
             // 
             descriptionText.Dock = DockStyle.Top;
-            descriptionText.Location = new Point(3, 180);
+            descriptionText.Location = new Point(2, 123);
+            descriptionText.Margin = new Padding(2, 1, 2, 1);
             descriptionText.Multiline = false;
             descriptionText.Name = "descriptionText";
             descriptionText.PathSelectionFilter = "";
             descriptionText.PathSelectMode = PathSelectMode.Folder;
             descriptionText.ShowPathSelector = false;
-            descriptionText.Size = new Size(645, 69);
+            descriptionText.Size = new Size(501, 45);
             descriptionText.TabIndex = 3;
             descriptionText.TextInput = "";
             descriptionText.TextLabel = "Description";
@@ -132,18 +138,20 @@
             serviceType.Dock = DockStyle.Top;
             serviceType.FormattingEnabled = true;
             serviceType.Items.AddRange(new object[] { "Automatic", "Boot", "Disabled", "Manual", "System" });
-            serviceType.Location = new Point(3, 149);
+            serviceType.Location = new Point(2, 100);
+            serviceType.Margin = new Padding(2, 2, 2, 2);
             serviceType.Name = "serviceType";
-            serviceType.Size = new Size(645, 31);
+            serviceType.Size = new Size(501, 23);
             serviceType.TabIndex = 10;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Dock = DockStyle.Top;
-            label2.Location = new Point(3, 126);
+            label2.Location = new Point(2, 85);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(163, 23);
+            label2.Size = new Size(113, 15);
             label2.TabIndex = 9;
             label2.Text = "Service Startup Type";
             // 
@@ -152,31 +160,34 @@
             statusText.Dock = DockStyle.Top;
             statusText.FormattingEnabled = true;
             statusText.Items.AddRange(new object[] { "Running", "Stopped", "Paused" });
-            statusText.Location = new Point(3, 95);
+            statusText.Location = new Point(2, 62);
+            statusText.Margin = new Padding(2, 2, 2, 2);
             statusText.Name = "statusText";
-            statusText.Size = new Size(645, 31);
+            statusText.Size = new Size(501, 23);
             statusText.TabIndex = 12;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Dock = DockStyle.Top;
-            label3.Location = new Point(3, 72);
+            label3.Location = new Point(2, 47);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(56, 23);
+            label3.Size = new Size(39, 15);
             label3.TabIndex = 11;
             label3.Text = "Status";
             // 
             // nameText
             // 
             nameText.Dock = DockStyle.Top;
-            nameText.Location = new Point(3, 3);
+            nameText.Location = new Point(2, 2);
+            nameText.Margin = new Padding(2, 1, 2, 1);
             nameText.Multiline = false;
             nameText.Name = "nameText";
             nameText.PathSelectionFilter = "";
             nameText.PathSelectMode = PathSelectMode.Folder;
             nameText.ShowPathSelector = false;
-            nameText.Size = new Size(645, 69);
+            nameText.Size = new Size(501, 45);
             nameText.TabIndex = 0;
             nameText.TextInput = "";
             nameText.TextLabel = "Name *";
@@ -185,10 +196,11 @@
             // tabPage2
             // 
             tabPage2.Controls.Add(taskEditor1);
-            tabPage2.Location = new Point(4, 32);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(2, 2, 2, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(192, 64);
+            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Size = new Size(505, 450);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -197,19 +209,21 @@
             // 
             taskEditor1.AutoScroll = true;
             taskEditor1.Dock = DockStyle.Fill;
-            taskEditor1.Location = new Point(3, 3);
-            taskEditor1.MinimumSize = new Size(50, 50);
+            taskEditor1.Location = new Point(2, 2);
+            taskEditor1.Margin = new Padding(2, 1, 2, 1);
+            taskEditor1.MinimumSize = new Size(39, 33);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(186, 58);
+            taskEditor1.Size = new Size(501, 446);
             taskEditor1.TabIndex = 0;
             // 
             // ManageServiceTask
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "ManageServiceTask";
-            Size = new Size(659, 733);
+            Size = new Size(513, 478);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

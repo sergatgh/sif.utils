@@ -47,9 +47,10 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(2, 2, 2, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(499, 401);
+            tabControl1.Size = new Size(388, 262);
             tabControl1.TabIndex = 5;
             // 
             // tabPage1
@@ -59,10 +60,11 @@
             tabPage1.Controls.Add(cleanLabel);
             tabPage1.Controls.Add(commandPathText);
             tabPage1.Controls.Add(labelEnsure);
-            tabPage1.Location = new Point(4, 32);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(2, 2, 2, 2);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(491, 365);
+            tabPage1.Padding = new Padding(2, 2, 2, 2);
+            tabPage1.Size = new Size(380, 234);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Command";
             tabPage1.UseVisualStyleBackColor = true;
@@ -70,10 +72,11 @@
             // propertiesText
             // 
             propertiesText.Dock = DockStyle.Fill;
-            propertiesText.Location = new Point(3, 79);
+            propertiesText.Location = new Point(2, 55);
+            propertiesText.Margin = new Padding(2, 2, 2, 2);
             propertiesText.Multiline = true;
             propertiesText.Name = "propertiesText";
-            propertiesText.Size = new Size(485, 283);
+            propertiesText.Size = new Size(376, 177);
             propertiesText.TabIndex = 3;
             propertiesText.Text = "/W\r\nC:\\certificates\\README";
             // 
@@ -81,18 +84,20 @@
             // 
             cleanLabel.AutoSize = true;
             cleanLabel.Dock = DockStyle.Top;
-            cleanLabel.Location = new Point(3, 56);
+            cleanLabel.Location = new Point(2, 40);
+            cleanLabel.Margin = new Padding(2, 0, 2, 0);
             cleanLabel.Name = "cleanLabel";
-            cleanLabel.Size = new Size(366, 23);
+            cleanLabel.Size = new Size(251, 15);
             cleanLabel.TabIndex = 1;
             cleanLabel.Text = "Parameters passed to executable (one per line)";
             // 
             // commandPathText
             // 
             commandPathText.Dock = DockStyle.Top;
-            commandPathText.Location = new Point(3, 26);
+            commandPathText.Location = new Point(2, 17);
+            commandPathText.Margin = new Padding(2, 2, 2, 2);
             commandPathText.Name = "commandPathText";
-            commandPathText.Size = new Size(485, 30);
+            commandPathText.Size = new Size(376, 23);
             commandPathText.TabIndex = 2;
             commandPathText.Text = "notepad";
             // 
@@ -100,19 +105,21 @@
             // 
             labelEnsure.AutoSize = true;
             labelEnsure.Dock = DockStyle.Top;
-            labelEnsure.Location = new Point(3, 3);
+            labelEnsure.Location = new Point(2, 2);
+            labelEnsure.Margin = new Padding(2, 0, 2, 0);
             labelEnsure.Name = "labelEnsure";
-            labelEnsure.Size = new Size(152, 23);
+            labelEnsure.Size = new Size(104, 15);
             labelEnsure.TabIndex = 0;
             labelEnsure.Text = "Path to executable";
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(taskEditor1);
-            tabPage2.Location = new Point(4, 32);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Margin = new Padding(2, 2, 2, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(192, 64);
+            tabPage2.Padding = new Padding(2, 2, 2, 2);
+            tabPage2.Size = new Size(380, 234);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Properties";
             tabPage2.UseVisualStyleBackColor = true;
@@ -121,19 +128,21 @@
             // 
             taskEditor1.AutoScroll = true;
             taskEditor1.Dock = DockStyle.Fill;
-            taskEditor1.Location = new Point(3, 3);
-            taskEditor1.MinimumSize = new Size(50, 50);
+            taskEditor1.Location = new Point(2, 2);
+            taskEditor1.Margin = new Padding(2, 1, 2, 1);
+            taskEditor1.MinimumSize = new Size(39, 33);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(186, 58);
+            taskEditor1.Size = new Size(376, 230);
             taskEditor1.TabIndex = 0;
             // 
             // CommandTask
             // 
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "CommandTask";
-            Size = new Size(499, 401);
+            Size = new Size(388, 262);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

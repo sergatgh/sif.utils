@@ -44,10 +44,10 @@
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(0, 74);
+            label1.Location = new Point(0, 48);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(612, 28);
+            label1.Size = new Size(377, 21);
             label1.TabIndex = 0;
             label1.Text = "Drag && Drop SIF JSON file here";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -59,7 +59,7 @@
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(612, 62);
+            pictureBox1.Size = new Size(377, 40);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -75,20 +75,20 @@
             tableLayoutPanel1.Controls.Add(browseFileButton, 0, 6);
             tableLayoutPanel1.Controls.Add(label3, 0, 8);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(24, 24);
+            tableLayoutPanel1.Location = new Point(19, 16);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 9;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(612, 212);
+            tableLayoutPanel1.Size = new Size(377, 138);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // label2
@@ -97,10 +97,10 @@
             label2.Dock = DockStyle.Top;
             label2.Font = new Font("Segoe UI", 9.5F);
             label2.ForeColor = Color.FromArgb(156, 163, 175);
-            label2.Location = new Point(0, 110);
+            label2.Location = new Point(0, 74);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
-            label2.Size = new Size(612, 21);
+            label2.Size = new Size(377, 17);
             label2.TabIndex = 2;
             label2.Text = "OR";
             label2.TextAlign = ContentAlignment.TopCenter;
@@ -108,12 +108,11 @@
             // browseFileButton
             // 
             browseFileButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            browseFileButton.Cursor = Cursors.Arrow;
-            browseFileButton.Location = new Point(246, 143);
+            browseFileButton.Location = new Point(142, 99);
             browseFileButton.Margin = new Padding(0);
-            browseFileButton.MaximumSize = new Size(120, 36);
+            browseFileButton.MaximumSize = new Size(93, 23);
             browseFileButton.Name = "browseFileButton";
-            browseFileButton.Size = new Size(120, 36);
+            browseFileButton.Size = new Size(93, 23);
             browseFileButton.TabIndex = 3;
             browseFileButton.Text = "Browse file";
             browseFileButton.UseVisualStyleBackColor = true;
@@ -124,10 +123,10 @@
             label3.Dock = DockStyle.Top;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.FromArgb(156, 163, 175);
-            label3.Location = new Point(0, 191);
+            label3.Location = new Point(0, 130);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
-            label3.Size = new Size(612, 20);
+            label3.Size = new Size(377, 15);
             label3.TabIndex = 4;
             label3.Text = "Supported: *.json";
             label3.TextAlign = ContentAlignment.TopCenter;
@@ -143,15 +142,16 @@
             // DragAndDropArea
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(248, 250, 252);
             Controls.Add(tableLayoutPanel1);
             Cursor = Cursors.Hand;
-            MaximumSize = new Size(0, 260);
+            Margin = new Padding(2, 2, 2, 2);
+            MaximumSize = new Size(0, 170);
             Name = "DragAndDropArea";
-            Padding = new Padding(24);
-            Size = new Size(660, 260);
+            Padding = new Padding(19, 16, 19, 16);
+            Size = new Size(415, 170);
             Paint += DragAndDropArea_Paint;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
