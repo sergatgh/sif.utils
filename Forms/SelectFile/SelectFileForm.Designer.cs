@@ -120,10 +120,8 @@
             dragAndDropArea1.Dock = DockStyle.Fill;
             dragAndDropArea1.Location = new Point(0, 103);
             dragAndDropArea1.Margin = new Padding(0);
-            dragAndDropArea1.MaximumSize = new Size(0, 260);
             dragAndDropArea1.Name = "dragAndDropArea1";
-            dragAndDropArea1.Padding = new Padding(24);
-            dragAndDropArea1.Size = new Size(1037, 260);
+            dragAndDropArea1.Size = new Size(1037, 259);
             dragAndDropArea1.TabIndex = 2;
             dragAndDropArea1.FileSelected += dragAndDropArea1_FileSelected;
             // 
