@@ -4,6 +4,12 @@
     <_LastSelectedProfileId>C:\workspace\projects\SIF.Utils\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Forms\About\AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\About\CreditEntryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\Common\ExplorerTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -18,9 +24,6 @@
     </Compile>
     <Compile Update="Forms\SecondaryNavigation\SecondaryNavigationPanel.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\Home\AboutWindow.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\Common\ConfigFunctionViewer.cs">
       <SubType>Form</SubType>

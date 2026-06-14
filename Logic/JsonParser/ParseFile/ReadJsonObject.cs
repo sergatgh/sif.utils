@@ -20,11 +20,13 @@ public class ReadJsonObject : AutoProcessor
         return Info("File path is valid.");
     }
 
+    [After(nameof(ValidateFilePath))]
     public string GetFolder([Required(Halt = true)] string filePath)
     {
         return Path.GetDirectoryName(filePath) ?? string.Empty;
     }
 
+    [After(nameof(GetFolder))]
     public async Task<object> GetJsonDocument([Required(Halt = true)] string filePath)
     {
         try

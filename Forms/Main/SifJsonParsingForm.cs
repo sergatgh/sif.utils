@@ -27,7 +27,11 @@ namespace SIF.Utils
             }
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            this.Text = $"SIF Utils v{version.Major}.{version.Minor}";
+            this.Text = $"SIF Utils";
+            if (version != null)
+            {
+                this.Text += $" v{version.Major}.{version.Minor}";
+            }
         }
 
         public sealed override string Text
