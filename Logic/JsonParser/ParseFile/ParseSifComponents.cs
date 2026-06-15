@@ -131,6 +131,54 @@ public class ParseSifComponents : AutoProcessor
         return list;
     }
 
+    public void MapVariablesReferences([Required] List<SifJsonVariableModel> variables, [Required] List<SifJsonParameterModel> parameters)
+    {
+        foreach (var variable in variables)
+        {
+            var root = variable.ConfigFunction?.Root;
+            if (root == null) continue;
+            CollectReferences(root, variable, variables, parameters);
+        }
+    }
+
+    private void CollectReferences(ConfigFunctionModel model, SifJsonVariableModel owner,
+        List<SifJsonVariableModel> variables, List<SifJsonParameterModel> parameters)
+    {
+        var firstParamValue = model.Parameters.FirstOrDefault()?.Value?.ToString();
+
+        if (string.Equals(model.Name, "variable", StringComparison.OrdinalIgnoreCase) &&
+            !string.IsNullOrEmpty(firstParamValue))
+        {
+            var referenced = variables.FirstOrDefault(v =>
+                string.Equals(v.Name, firstParamValue, StringComparison.OrdinalIgnoreCase));
+            if (referenced != null && !owner.ConfigFunction!.VariablesReferences.Contains(referenced))
+            {
+                owner.ConfigFunction!.VariablesReferences.Add(referenced);
+                referenced.ReferencedVariables.Add(owner);
+            }
+        }
+        else if (string.Equals(model.Name, "parameter", StringComparison.OrdinalIgnoreCase) &&
+                 !string.IsNullOrEmpty(firstParamValue))
+        {
+            var referenced = parameters.FirstOrDefault(p =>
+                string.Equals(p.Name, firstParamValue, StringComparison.OrdinalIgnoreCase));
+            if (referenced != null && !owner.ConfigFunction!.ParametersReferences.Contains(referenced))
+            {
+                owner.ConfigFunction!.ParametersReferences.Add(referenced);
+                referenced.ReferencedVariables.Add(owner);
+            }
+        }
+
+        foreach (var fn in model.Functions)
+            CollectReferences(fn, owner, variables, parameters);
+
+        foreach (var param in model.Parameters)
+        {
+            if (param.Type == "function" && param.Value is ConfigFunctionModel nested)
+                CollectReferences(nested, owner, variables, parameters);
+        }
+    }
+
     public async Task<object> GetIncludes(Bag bag, ISifJsonParser parser, [Required] JsonElement jsonDocument, [Required] string filePath, string folder, string[] visitedFiles)
     {
         if (!jsonDocument.TryGetProperty("Includes", out var includesElement))

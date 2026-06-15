@@ -211,5 +211,157 @@ namespace SIF.Utils.Forms.JsonViewer
         {
             this.OnExecuteTasks?.Invoke(sender, (true, e.Result, this.CurrentResult));
         }
+
+        private void variablesContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (variablesList.SelectedItems.Count != 1)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var name = variablesList.SelectedItems[0].Text;
+            var variable = CurrentResult.Variables.FirstOrDefault(v => v.Name == name);
+
+            if (variable == null)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            bool hasReference = variable.ConfigFunction is { HasError: false } && ((variable.ConfigFunction.VariablesReferences.Count == 1 && variable.ConfigFunction.ParametersReferences.Count == 0) || (variable.ConfigFunction.VariablesReferences.Count == 0 && variable.ConfigFunction.ParametersReferences.Count == 1));
+            var hasReferences = !hasReference && variable.ConfigFunction is { HasError: false } &&
+                (variable.ConfigFunction.VariablesReferences.Count > 0 || variable.ConfigFunction.ParametersReferences.Count > 0);
+            var hasReferrers = variable.ReferencedVariables.Count > 0;
+
+            showReferencesMenuItem.Visible = hasReferences;
+            showReferrersMenuItem.Visible = hasReferrers;
+            showReferenceMenuItem.Visible = hasReference;
+
+            if (!hasReferences && !hasReferrers && !hasReference)
+                e.Cancel = true;
+        }
+
+        private void showReferencesMenuItem_Click(object sender, EventArgs e)
+        {
+            if (variablesList.SelectedItems.Count != 1) return;
+
+            var name = variablesList.SelectedItems[0].Text;
+            var variable = CurrentResult.Variables.FirstOrDefault(v => v.Name == name);
+            if (variable?.ConfigFunction is not { HasError: false }) return;
+
+            var items = variable.ConfigFunction.VariablesReferences
+                .Select(v => new ReferencesDialog.ReferenceItem("Variable", v.Name))
+                .Concat(variable.ConfigFunction.ParametersReferences
+                    .Select(p => new ReferencesDialog.ReferenceItem("Parameter", p.Name)));
+
+            using var dialog = new ReferencesDialog($"References: {name}", items);
+            if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedReference != null)
+                NavigateToReference(dialog.SelectedReference);
+        }
+
+        private void showReferrersMenuItem_Click(object sender, EventArgs e)
+        {
+            if (variablesList.SelectedItems.Count != 1) return;
+
+            var name = variablesList.SelectedItems[0].Text;
+            var variable = CurrentResult.Variables.FirstOrDefault(v => v.Name == name);
+            if (variable == null) return;
+
+            var items = variable.ReferencedVariables
+                .Select(v => new ReferencesDialog.ReferenceItem("Variable", v.Name));
+
+            using var dialog = new ReferencesDialog($"Referrers: {name}", items);
+            if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedReference != null)
+                NavigateToReference(dialog.SelectedReference);
+        }
+
+        private void parametersContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (parametersList.SelectedRows.Count != 1)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var name = parametersList.SelectedRows[0].Cells["nameDataGridViewTextBoxColumn"].Value?.ToString();
+            var parameter = CurrentResult.Parameters.FirstOrDefault(p => p.Name == name);
+
+            showParameterReferrersMenuItem.Visible = parameter?.ReferencedVariables.Count > 0;
+
+            if (parameter == null || parameter.ReferencedVariables.Count == 0)
+                e.Cancel = true;
+        }
+
+        private void showParameterReferrersMenuItem_Click(object sender, EventArgs e)
+        {
+            if (parametersList.SelectedRows.Count != 1) return;
+
+            var name = parametersList.SelectedRows[0].Cells["nameDataGridViewTextBoxColumn"].Value?.ToString();
+            var parameter = CurrentResult.Parameters.FirstOrDefault(p => p.Name == name);
+            if (parameter == null) return;
+
+            var items = parameter.ReferencedVariables
+                .Select(v => new ReferencesDialog.ReferenceItem("Variable", v.Name));
+
+            using var dialog = new ReferencesDialog($"Referrers: {name}", items);
+            if (dialog.ShowDialog() == DialogResult.OK && dialog.SelectedReference != null)
+                NavigateToReference(dialog.SelectedReference);
+        }
+
+        private void parametersList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                parametersList.ClearSelection();
+                parametersList.Rows[e.RowIndex].Selected = true;
+            }
+        }
+
+        private void NavigateToReference(ReferencesDialog.ReferenceItem reference)
+        {
+            if (reference.Kind == "Variable")
+            {
+                viewJsonTabs.SelectedTab = viewJsonVariables;
+                variablesFilter.Clear();
+                var item = variablesList.Items.Cast<ListViewItem>()
+                    .FirstOrDefault(i => i.Text == reference.Name);
+                if (item == null) return;
+                item.Selected = true;
+                item.EnsureVisible();
+                variablesList.Focus();
+            }
+            else if (reference.Kind == "Parameter")
+            {
+                viewJsonTabs.SelectedTab = viewJsonParameters;
+                paramtersFilterText.Clear();
+                var row = parametersList.Rows.Cast<DataGridViewRow>()
+                    .FirstOrDefault(r => r.Cells["nameDataGridViewTextBoxColumn"].Value?.ToString() == reference.Name);
+                if (row == null) return;
+                parametersList.ClearSelection();
+                row.Selected = true;
+                parametersList.FirstDisplayedScrollingRowIndex = row.Index;
+                parametersList.Focus();
+            }
+        }
+
+        private void showReferenceMenuItem_Click(object sender, EventArgs e)
+        {
+            if (variablesList.SelectedItems.Count != 1) return;
+
+            var name = variablesList.SelectedItems[0].Text;
+            var variable = CurrentResult.Variables.FirstOrDefault(v => v.Name == name);
+            if (variable?.ConfigFunction is not { HasError: false }) return;
+
+            var item = variable.ConfigFunction.VariablesReferences
+                .Select(v => new ReferencesDialog.ReferenceItem("Variable", v.Name))
+                .Concat(variable.ConfigFunction.ParametersReferences
+                    .Select(p => new ReferencesDialog.ReferenceItem("Parameter", p.Name)))
+                .FirstOrDefault();
+
+            if (item == null) return;
+
+            NavigateToReference(item);
+        }
     }
 }

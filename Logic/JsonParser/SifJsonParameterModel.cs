@@ -9,4 +9,6 @@ public class SifJsonParameterModel : SifBaseProperties
     public string? Reference { get; set; }
 
     public string? Validate { get; set; }
+
+    public List<SifJsonVariableModel> ReferencedVariables { get; } = [];
 }

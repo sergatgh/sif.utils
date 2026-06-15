@@ -16,6 +16,9 @@
     <Compile Update="Forms\Common\HorizontalLine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Forms\JsonViewer\ReferencesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\SecondaryNavigation\SecondaryNavigationCategory.cs">
       <SubType>UserControl</SubType>
     </Compile>
