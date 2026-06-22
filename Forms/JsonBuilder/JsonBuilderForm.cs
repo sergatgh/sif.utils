@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SIF.Utils.Forms.JsonBuilder;
@@ -26,6 +21,11 @@ public partial class JsonBuilderForm : UserControl
 
         toolTip1.SetToolTip(previewButton, "Preview JSON");
         toolTip1.SetToolTip(saveJsonToFileButton, "Save as a JSON");
+    }
+
+    public void LoadFromResult(SifJsonParsingResult result)
+    {
+        // Round-trip JSON load into builder is a future feature.
     }
 
     private void saveJsonButton_Click(object sender, EventArgs e)

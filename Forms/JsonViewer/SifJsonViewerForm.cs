@@ -16,6 +16,9 @@ namespace SIF.Utils.Forms.JsonViewer
         public event ResultEventHandler<(bool Uninstall, SifJsonTaskModel[] Tasks, SifJsonParsingResult Json)>? OnExecuteTasks;
 
         [Browsable(true)]
+        public event ResultEventHandler<SifJsonParsingResult>? OnOpenInBuilder;
+
+        [Browsable(true)]
         public event EventHandler? BackClicked
         {
             add => navigationPanel.BackClicked += value;
@@ -31,6 +34,10 @@ namespace SIF.Utils.Forms.JsonViewer
             toolTip1.SetToolTip(changeFileButton, "Select another file");
             toolTip1.SetToolTip(openFolderButton, "Open folder containing this JSON file");
             toolTip1.SetToolTip(executeButton, "Execute this SIF file");
+
+            navigationPanel.controlsPanel.Controls.Add(executeButton);
+            navigationPanel.controlsPanel.Controls.Add(changeFileButton);
+            navigationPanel.controlsPanel.Controls.Add(openFolderButton);
         }
 
         public void Clear()
