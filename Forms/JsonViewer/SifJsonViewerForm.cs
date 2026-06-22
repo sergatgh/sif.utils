@@ -229,16 +229,16 @@ namespace SIF.Utils.Forms.JsonViewer
                 return;
             }
 
-            bool hasReference = variable.ConfigFunction is { HasError: false } && ((variable.ConfigFunction.VariablesReferences.Count == 1 && variable.ConfigFunction.ParametersReferences.Count == 0) || (variable.ConfigFunction.VariablesReferences.Count == 0 && variable.ConfigFunction.ParametersReferences.Count == 1));
-            var hasReferences = !hasReference && variable.ConfigFunction is { HasError: false } &&
+            bool hasSingleReference = variable.ConfigFunction is { HasError: false } && ((variable.ConfigFunction.VariablesReferences.Count == 1 && variable.ConfigFunction.ParametersReferences.Count == 0) || (variable.ConfigFunction.VariablesReferences.Count == 0 && variable.ConfigFunction.ParametersReferences.Count == 1));
+            var hasReferences = !hasSingleReference && variable.ConfigFunction is { HasError: false } &&
                 (variable.ConfigFunction.VariablesReferences.Count > 0 || variable.ConfigFunction.ParametersReferences.Count > 0);
             var hasReferrers = variable.ReferencedVariables.Count > 0;
 
             showReferencesMenuItem.Visible = hasReferences;
             showReferrersMenuItem.Visible = hasReferrers;
-            showReferenceMenuItem.Visible = hasReference;
+            showReferenceMenuItem.Visible = hasSingleReference;
 
-            if (!hasReferences && !hasReferrers && !hasReference)
+            if (!hasReferences && !hasReferrers && !hasSingleReference)
                 e.Cancel = true;
         }
 
