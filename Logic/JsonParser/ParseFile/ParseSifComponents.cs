@@ -179,7 +179,7 @@ public class ParseSifComponents : AutoProcessor
         }
     }
 
-    public async Task<object> GetIncludes(Bag bag, ISifJsonParser parser, [Required] JsonElement jsonDocument, [Required] string filePath, string folder, string[] visitedFiles)
+    public async Task<object> GetIncludes(Bag bag, ISifJsonParser parser, [Required] JsonElement jsonDocument, string? filePath, string? folder, string[]? visitedFiles)
     {
         if (!jsonDocument.TryGetProperty("Includes", out var includesElement))
         {
@@ -190,7 +190,7 @@ public class ParseSifComponents : AutoProcessor
             return Warning("The 'Includes' property is not an object.");
         }
 
-        var allVisits = visitedFiles.Append(filePath).ToArray();
+        var allVisits = (visitedFiles ?? []).Append(filePath ?? string.Empty).ToArray();
         var result = new List<SifJsonIncludeModel>();
         foreach (var includeDeclaration in includesElement.EnumerateObject())
         {
@@ -203,6 +203,8 @@ public class ParseSifComponents : AutoProcessor
                 OriginalValue = source,
             };
             result.Add(includeModel);
+
+            if (string.IsNullOrEmpty(folder)) continue;
 
             if (string.IsNullOrWhiteSpace(source))
             {

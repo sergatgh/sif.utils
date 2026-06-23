@@ -60,13 +60,6 @@ namespace SIF.Utils
                 string filePath = args[0];
                 NavigateToSelectedFile(filePath);
             }
-
-            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            this.Text = $"SIF Utils";
-            if (version != null)
-            {
-                this.Text += $" v{version.Major}.{version.Minor}";
-            }
         }
 
         public sealed override string Text
@@ -235,6 +228,9 @@ namespace SIF.Utils
         {
             _pendingNavMode = NavMode.View;
             _afterFileSelected = NavigateToViewer;
+            MainChooseFileForm.AllowRawJson = true;
+            MainChooseFileForm.AllowUrl = true;
+            MainChooseFileForm.UpdateInstructionLabel();
             _navigator.RestartFrom(MainSelectFilePanel);
             _navigator.Navigate(MainChooseFileForm, () => MainChooseFileForm.UpdateRecentFiles());
             MainChooseFileForm.UpdateDescription("Select a SIF JSON file to view its contents.");
@@ -249,6 +245,9 @@ namespace SIF.Utils
         {
             _pendingNavMode = NavMode.Script;
             _afterFileSelected = NavigateToScriptOrExport;
+            MainChooseFileForm.AllowRawJson = false;
+            MainChooseFileForm.AllowUrl = false;
+            MainChooseFileForm.UpdateInstructionLabel();
             _navigator.RestartFrom(MainSelectFilePanel);
             _navigator.Navigate(MainChooseFileForm, () => MainChooseFileForm.UpdateRecentFiles());
             MainChooseFileForm.UpdateDescription("Select a SIF JSON file to execute the script or generate an export script.");

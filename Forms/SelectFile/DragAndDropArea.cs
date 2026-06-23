@@ -2,6 +2,7 @@
 
 namespace SIF.Utils.Forms.SelectFile;
 
+using System.ComponentModel;
 using System.Diagnostics;
 
 public partial class DragAndDropArea : UserControl
@@ -11,6 +12,12 @@ public partial class DragAndDropArea : UserControl
 
     protected Color BorderColor { get; set; } = Color.FromArgb(203, 213, 225);
     public event ResultEventHandler<string>? FileSelected;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool AllowRawJson { get; set; } = true;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool AllowUrl { get; set; } = true;
 
     public DragAndDropArea()
     {
@@ -26,6 +33,18 @@ public partial class DragAndDropArea : UserControl
             var filePath = openFileForViewerDialog.FileName;
             FileSelected?.Invoke(this, filePath);
         }
+    }
+
+    public void UpdateInstructionLabel()
+    {
+        if (AllowRawJson && AllowUrl)
+            labelInstruction.Text = "Drag and Drop SIF JSON file, URL, or raw JSON here";
+        else if (AllowRawJson)
+            labelInstruction.Text = "Drag and Drop SIF JSON file or raw JSON here";
+        else if (AllowUrl)
+            labelInstruction.Text = "Drag and Drop SIF JSON file or URL here";
+        else
+            labelInstruction.Text = "Drag and Drop SIF JSON file or path here";
     }
 
     private void DragAndDropArea_Paint(object sender, PaintEventArgs e)
@@ -71,18 +90,24 @@ public partial class DragAndDropArea : UserControl
 
         if (e.Data == null) return;
 
-        if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-
-        var data = e.Data.GetData(DataFormats.FileDrop);
-        if (data == null) return;
-
-        var files = (string[])data;
-        var file = files.FirstOrDefault(x => x.EndsWith(".json"));
-        if (file != null)
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
-            FileSelected?.Invoke(this, file);
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data == null) return;
+            var files = (string[])data;
+            var file = files.FirstOrDefault(x => x.EndsWith(".json"));
+            if (file != null)
+                FileSelected?.Invoke(this, file);
+            return;
         }
 
+        if (e.Data.GetDataPresent(DataFormats.UnicodeText) || e.Data.GetDataPresent(DataFormats.Text))
+        {
+            var text = (e.Data.GetData(DataFormats.UnicodeText) ?? e.Data.GetData(DataFormats.Text)) as string;
+            var trimmed = text?.Trim();
+            if (!string.IsNullOrWhiteSpace(trimmed) && IsTextDropAllowed(trimmed))
+                FileSelected?.Invoke(this, trimmed);
+        }
     }
 
     private void Area_DragEnter(object? sender, DragEventArgs e)
@@ -96,7 +121,6 @@ public partial class DragAndDropArea : UserControl
 
         _isDragging = true;
 
-        // Check if the dragged data contains json files
         if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
         {
             var data = e.Data.GetData(DataFormats.FileDrop);
@@ -109,12 +133,37 @@ public partial class DragAndDropArea : UserControl
                     BorderColor = Color.FromArgb(59, 130, 246);
                     BackColor = Color.FromArgb(238, 246, 255);
                     e.Effect = _effect = DragDropEffects.Copy;
-
                     return;
                 }
             }
         }
 
+        if (e.Data != null && (e.Data.GetDataPresent(DataFormats.UnicodeText) || e.Data.GetDataPresent(DataFormats.Text)))
+        {
+            var text = (e.Data.GetData(DataFormats.UnicodeText) ?? e.Data.GetData(DataFormats.Text)) as string;
+            var trimmed = text?.Trim() ?? string.Empty;
+            if (IsTextDropAllowed(trimmed))
+            {
+                BorderColor = Color.FromArgb(59, 130, 246);
+                BackColor = Color.FromArgb(238, 246, 255);
+                e.Effect = _effect = DragDropEffects.Copy;
+                return;
+            }
+        }
+
         e.Effect = _effect = DragDropEffects.None;
+    }
+
+    private bool IsTextDropAllowed(string trimmed)
+    {
+        var isUrl = trimmed.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    trimmed.StartsWith("https://", StringComparison.OrdinalIgnoreCase);
+        var isRawJson = trimmed.StartsWith("{");
+        var isFilePath = trimmed.EndsWith(".json", StringComparison.OrdinalIgnoreCase);
+
+        if (isUrl) return AllowUrl;
+        if (isRawJson) return AllowRawJson;
+        if (isFilePath) return true;
+        return false;
     }
 }

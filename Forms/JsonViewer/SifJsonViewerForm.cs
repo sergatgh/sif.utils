@@ -112,7 +112,13 @@ namespace SIF.Utils.Forms.JsonViewer
 
         public void ShowParsingResult(SifJsonParsingResult result)
         {
-            FilePathText.Text = result.FilePath;
+            FilePathText.Text = result.IsRawJson ? string.Empty : result.FilePath;
+
+            var allowActions = !result.IsRawJson;
+            executeButton.Enabled = allowActions;
+            openFolderButton.Enabled = allowActions;
+            tasksList.AllowExecution = allowActions;
+            uninstallTasksList.AllowExecution = allowActions;
             tasksList.LoadTasks(result.Tasks);
             uninstallTasksList.LoadTasks(result.UninstallTasks);
 
@@ -159,6 +165,8 @@ namespace SIF.Utils.Forms.JsonViewer
                 ProcessResult(includeParseResult);
                 return;
             }
+
+            if (CurrentResult.IsRawJson) return;
 
             var item = list.SelectedItems[0];
 

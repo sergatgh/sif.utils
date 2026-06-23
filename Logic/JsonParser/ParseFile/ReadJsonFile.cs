@@ -3,7 +3,7 @@
 using AutoPipe;
 using System.Text.Json;
 
-public class ReadJsonObject : AutoProcessor
+public class ReadJsonFile : AutoProcessor
 {
     public object ValidateFilePath([Required(Halt = true)] string filePath)
     {

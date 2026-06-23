@@ -1,18 +1,16 @@
-﻿namespace SIF.Utils.Forms.SideNavigation;
+﻿using SIF.Utils.Forms.Common;
+
+namespace SIF.Utils.Forms.SideNavigation;
 
 public class SideNavigationPanel : UserControl, IMessageFilter
 {
     private const int CollapsedWidth = 50;
     private const int ExpandedWidth  = 210;
     private const int TimerInterval  = 10;
-    private const int WM_SETREDRAW   = 11;
 
     private static readonly Color PanelBg     = Color.FromArgb(30, 40, 51);
     private static readonly Color HeaderBg    = Color.FromArgb(22, 32, 43);
     private static readonly Color BorderColor = Color.FromArgb(15, 25, 35);
-
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern System.IntPtr SendMessage(System.IntPtr hWnd, int msg, System.IntPtr wParam, System.IntPtr lParam);
 
     private sealed class DoubleBufferedPanel : Panel
     {
@@ -111,7 +109,7 @@ public class SideNavigationPanel : UserControl, IMessageFilter
         (string Icon, string Text, Action<SideNavItem, EventArgs> Click)[] bottomItems =
         [
             ("", "Keep open", (o,_) => OnAnchorItemClicked(o, EventArgs.Empty)),
-            ("", "About",       (o,_) => { o.IsSelected = false; AboutClicked?.Invoke(this, EventArgs.Empty); }),
+            ("", "About version " + AppVersion.CurrentVersion,       (o,_) => { o.IsSelected = false; AboutClicked?.Invoke(this, EventArgs.Empty); }),
             ("", "Learn SIF",   (o,_) => { o.IsSelected = false; LearnSifClicked?.Invoke(this, EventArgs.Empty); }),
         ];
 
@@ -170,12 +168,6 @@ public class SideNavigationPanel : UserControl, IMessageFilter
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        var parent = Parent;
-        bool freeze = parent?.IsHandleCreated == true;
-
-        if (freeze)
-            SendMessage(parent!.Handle, WM_SETREDRAW, System.IntPtr.Zero, System.IntPtr.Zero);
-
         int diff = _targetWidth - Width;
         if (Math.Abs(diff) <= 2)
         {
@@ -185,12 +177,6 @@ public class SideNavigationPanel : UserControl, IMessageFilter
         else
         {
             Width += diff > 0 ? Math.Max(2, diff / 4) : Math.Min(-2, diff / 4);
-        }
-
-        if (freeze)
-        {
-            SendMessage(parent!.Handle, WM_SETREDRAW, new System.IntPtr(1), System.IntPtr.Zero);
-            parent!.Invalidate(true);
         }
     }
 

@@ -12,6 +12,9 @@
         [Browsable(true)]
         public event ResultEventHandler<SifJsonTaskModel[]>? OnExecuteTasks;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool AllowExecution { get; set; } = true;
+
         public TasksList()
         {
             InitializeComponent();
@@ -135,6 +138,8 @@
                 viewToolStripMenuItem.Visible = false;
                 copyToolStripMenuItem.Visible = false;
             }
+
+            executeToolStripMenuItem.Visible = AllowExecution;
         }
 
         private void filterText_TextChanged(object sender, EventArgs e)

@@ -28,4 +28,6 @@ public class SifJsonParsingResult
     public List<RegisteredElementJsonModel> RegisteredTasks { get; set; } = [];
     public List<RegisteredElementJsonModel> RegisteredConfigFunctions { get; set; } = [];
     public SifJsonSettings? Settings { get; set; }
+
+    public bool IsRawJson { get; set; }
 }

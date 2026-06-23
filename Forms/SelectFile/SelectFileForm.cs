@@ -1,7 +1,7 @@
 ﻿using SIF.Utils.Forms.Common;
 using SIF.Utils.Helpers;
 using SIF.Utils.Logic.JsonParser;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Text.Json;
 
 namespace SIF.Utils.Forms.SelectFile
@@ -10,6 +10,20 @@ namespace SIF.Utils.Forms.SelectFile
     {
         public event ResultEventHandler<SifJsonParsingResult>? FileSelected;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool AllowRawJson
+        {
+            get => dragAndDropArea1.AllowRawJson;
+            set => dragAndDropArea1.AllowRawJson = value;
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool AllowUrl
+        {
+            get => dragAndDropArea1.AllowUrl;
+            set => dragAndDropArea1.AllowUrl = value;
+        }
+
         public SelectFileForm()
         {
             InitializeComponent();
@@ -17,7 +31,21 @@ namespace SIF.Utils.Forms.SelectFile
 
         private async void dragAndDropArea1_FileSelected(object sender, ResultEventArgs<string> e)
         {
-            await ParseFile(e.Result);
+            var input = e.Result.Trim();
+
+            if (File.Exists(input))
+            {
+                await ParseFile(input);
+            }
+            else if (input.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                     input.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                await ParseUrl(input);
+            }
+            else
+            {
+                await ParseRawJson(input);
+            }
         }
 
         protected async Task ParseFile(string filePath)
@@ -85,9 +113,67 @@ namespace SIF.Utils.Forms.SelectFile
             this.recentFiles1.UpdateRecentFiles(recentFiles);
         }
 
-        private async void recentFiles1_FileSelected(object sender, SIF.Utils.Forms.Common.ResultEventArgs<string> e)
+        public void UpdateInstructionLabel()
+        {
+            dragAndDropArea1.UpdateInstructionLabel();
+        }
+
+        private async void recentFiles1_FileSelected(object sender, ResultEventArgs<string> e)
         {
             await ParseFile(e.Result);
+        }
+
+        protected async Task ParseUrl(string url)
+        {
+            dragAndDropArea1.Visible = false;
+            recentFiles1.Visible = false;
+            loadingImage.Visible = true;
+
+            SifJsonParsingResult parseResult;
+            using (new LongOperationState())
+            {
+                try
+                {
+                    var parsed = await Task.WhenAll(
+                        new SifJsonParser().ParseUrl(url),
+                        Wait(1000, SifJsonParsingResult.Empty)
+                    );
+                    parseResult = parsed[0];
+                    if (!parseResult.HasError)
+                        parseResult.FilePath = url;
+                }
+                catch (Exception ex)
+                {
+                    parseResult = new SifJsonParsingResult { Error = $"Failed to download URL: {ex.Message}", IsRawJson = true };
+                }
+            }
+
+            FileSelected?.Invoke(this, parseResult);
+            dragAndDropArea1.Visible = true;
+            recentFiles1.Visible = true;
+            loadingImage.Visible = false;
+        }
+
+        protected async Task ParseRawJson(string jsonContent)
+        {
+            dragAndDropArea1.Visible = false;
+            recentFiles1.Visible = false;
+            loadingImage.Visible = true;
+
+            SifJsonParsingResult parseResult;
+            using (new LongOperationState())
+            {
+                var parsed = await Task.WhenAll(
+                    new SifJsonParser().ParseContent(jsonContent),
+                    Wait(1000, SifJsonParsingResult.Empty)
+                );
+                parseResult = parsed[0];
+            }
+
+            FileSelected?.Invoke(this, parseResult);
+            dragAndDropArea1.Visible = true;
+            recentFiles1.Visible = true;
+            loadingImage.Visible = false;
         }
 
         private async Task<T> Wait<T>(int milliseconds, T result)
