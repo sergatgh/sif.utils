@@ -1,7 +1,9 @@
 namespace SIF.Utils
 {
     using SIF.Utils.Forms.Common;
+    using SIF.Utils.Forms.Learn;
     using SIF.Utils.Forms.Main;
+    using SIF.Utils.Forms.SideNavigation;
     using SIF.Utils.Logic.JsonParser;
     using System.Windows.Forms;
 
@@ -9,6 +11,9 @@ namespace SIF.Utils
     {
         private Navigator _navigator = null!;
         private Action<SifJsonParsingResult>? _afterFileSelected;
+        private NavMode _pendingNavMode;
+
+        private enum NavMode { None, View, Script }
 
         public SifUtilsContext Context { get; } = new();
 
@@ -22,6 +27,25 @@ namespace SIF.Utils
                 MainSelectFilePanel, MainChooseFileForm, MainJsonViewer,
                 MainScriptRunnerForm, MainChooseExportFormat, MainFileParsingError, MainJsonBuilder,
             ]);
+
+            _navigator.PageChanged += OnPageChanged;
+
+            SideNav.HomeClicked       += (_, _) => _navigator.GoHome(MainSelectFilePanel);
+            SideNav.ViewJsonClicked   += (_, _) =>
+            {
+                NavigateToViewFileWorkflow();
+            };
+            SideNav.RunScriptClicked  += (_, _) =>
+            {
+                NavigateToScriptWorkflow();
+            };
+            SideNav.SifBuilderClicked += (_, _) =>
+            {
+                _navigator.RestartFrom(MainSelectFilePanel);
+                _navigator.Navigate(MainJsonBuilder);
+            };
+            SideNav.LearnSifClicked   += (_, _) => new LearnSIF().ShowDialog();
+            SideNav.AboutClicked      += (_, _) => new AboutWindow().ShowDialog();
 
             MainJsonViewer.OnOpenInBuilder += (_, e) =>
             {
@@ -99,6 +123,21 @@ namespace SIF.Utils
             Context.LastResult = result;
 
             return result;
+        }
+
+        private void OnPageChanged(object? sender, Control page)
+        {
+            bool onHome = page == MainSelectFilePanel;
+            SideNav.SetHomePage(onHome);
+
+            int idx = page == MainSelectFilePanel   ? 0
+                    : page == MainJsonViewer        ? 1
+                    : page == MainScriptRunnerForm  ? 2
+                    : page == MainChooseExportFormat? 2
+                    : page == MainJsonBuilder       ? 3
+                    : page == MainChooseFileForm    ? (_pendingNavMode == NavMode.Script ? 2 : 1)
+                    : -1;
+            SideNav.SetSelectedIndex(idx);
         }
 
         public void NavigateBack() => _navigator.GoBack();
@@ -189,14 +228,30 @@ namespace SIF.Utils
 
         private void MainSelectFilePanel_OpenViewFileDialog(object sender, EventArgs e)
         {
+            NavigateToViewFileWorkflow();
+        }
+
+        private void NavigateToViewFileWorkflow()
+        {
+            _pendingNavMode = NavMode.View;
             _afterFileSelected = NavigateToViewer;
+            _navigator.RestartFrom(MainSelectFilePanel);
             _navigator.Navigate(MainChooseFileForm, () => MainChooseFileForm.UpdateRecentFiles());
+            MainChooseFileForm.UpdateDescription("Select a SIF JSON file to view its contents.");
         }
 
         private void MainSelectFilePanel_OpenExecuteFileDialog(object sender, EventArgs e)
         {
+            NavigateToScriptWorkflow();
+        }
+
+        private void NavigateToScriptWorkflow()
+        {
+            _pendingNavMode = NavMode.Script;
             _afterFileSelected = NavigateToScriptOrExport;
+            _navigator.RestartFrom(MainSelectFilePanel);
             _navigator.Navigate(MainChooseFileForm, () => MainChooseFileForm.UpdateRecentFiles());
+            MainChooseFileForm.UpdateDescription("Select a SIF JSON file to execute the script or generate an export script.");
         }
 
         private void MainSelectFilePanel_OpenJsonBuilder(object sender, EventArgs e)
@@ -206,7 +261,7 @@ namespace SIF.Utils
 
         private async void MainChooseFileForm_FileSelected(object sender, ResultEventArgs<SifJsonParsingResult> e)
         {
-            _navigator.GoBack();
+            _navigator.DropCurrent();
             if (e.Result.HasError)
             {
                 MainFileParsingError.SetData(e.Result.Error!, await GetFileContext(e.Result.FilePath));

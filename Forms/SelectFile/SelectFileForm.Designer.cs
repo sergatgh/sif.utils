@@ -32,7 +32,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             loadingImage = new PictureBox();
             label1 = new Label();
-            label2 = new Label();
+            labelSelectFile = new Label();
             dragAndDropArea1 = new DragAndDropArea();
             recentFiles1 = new RecentFiles();
             panel1.SuspendLayout();
@@ -59,7 +59,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(loadingImage, 0, 5);
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(label2, 0, 2);
+            tableLayoutPanel1.Controls.Add(labelSelectFile, 0, 2);
             tableLayoutPanel1.Controls.Add(dragAndDropArea1, 0, 4);
             tableLayoutPanel1.Controls.Add(recentFiles1, 0, 7);
             tableLayoutPanel1.Dock = DockStyle.Top;
@@ -74,14 +74,14 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1037, 684);
+            tableLayoutPanel1.Size = new Size(1037, 683);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // loadingImage
             // 
             loadingImage.Dock = DockStyle.Fill;
             loadingImage.Image = Properties.Resources.placidplace_loading_16066_512;
-            loadingImage.Location = new Point(0, 363);
+            loadingImage.Location = new Point(0, 362);
             loadingImage.Margin = new Padding(0);
             loadingImage.Name = "loadingImage";
             loadingImage.Size = new Size(1037, 183);
@@ -102,16 +102,16 @@
             label1.TabIndex = 0;
             label1.Text = "Select SIF configuration file";
             // 
-            // label2
+            // labelSelectFile
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.FromArgb(107, 107, 107);
-            label2.Location = new Point(3, 54);
-            label2.Name = "label2";
-            label2.Size = new Size(394, 25);
-            label2.TabIndex = 1;
-            label2.Text = "Inspect, validate or run a SIF JSON configuration";
+            labelSelectFile.AutoSize = true;
+            labelSelectFile.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelSelectFile.ForeColor = Color.FromArgb(107, 107, 107);
+            labelSelectFile.Location = new Point(3, 54);
+            labelSelectFile.Name = "labelSelectFile";
+            labelSelectFile.Size = new Size(394, 25);
+            labelSelectFile.TabIndex = 1;
+            labelSelectFile.Text = "Inspect, validate or run a SIF JSON configuration";
             // 
             // dragAndDropArea1
             // 
@@ -130,7 +130,7 @@
             recentFiles1.AutoSize = true;
             recentFiles1.BackColor = Color.Transparent;
             recentFiles1.Dock = DockStyle.Top;
-            recentFiles1.Location = new Point(0, 578);
+            recentFiles1.Location = new Point(0, 577);
             recentFiles1.Margin = new Padding(0);
             recentFiles1.Name = "recentFiles1";
             recentFiles1.Size = new Size(1037, 106);
@@ -161,5 +161,6 @@
         private DragAndDropArea dragAndDropArea1;
         private PictureBox loadingImage;
         private RecentFiles recentFiles1;
+        public Label labelSelectFile;
     }
 }

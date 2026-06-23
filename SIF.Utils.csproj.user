@@ -208,6 +208,12 @@
     <Compile Update="Forms\SelectFile\SelectFileForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\SideNavigation\SideNavigationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\SideNavigation\SideNavItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

@@ -40,6 +40,7 @@
             MainChooseExportFormat = new SIF.Utils.Forms.ExportRunner.ExportRunnerForm();
             MainSelectFilePanel = new SIF.Utils.Forms.Home.HomeComponents();
             MainChooseFileForm = new SIF.Utils.Forms.SelectFile.SelectFileForm();
+            SideNav = new SIF.Utils.Forms.SideNavigation.SideNavigationPanel();
             ((System.ComponentModel.ISupportInitialize)sifJsonParameterModelBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -50,18 +51,19 @@
             // MainJsonBuilder
             // 
             MainJsonBuilder.Dock = DockStyle.Fill;
-            MainJsonBuilder.Location = new Point(0, 0);
+            MainJsonBuilder.Location = new Point(210, 0);
             MainJsonBuilder.Name = "MainJsonBuilder";
-            MainJsonBuilder.Size = new Size(863, 591);
+            MainJsonBuilder.Size = new Size(866, 591);
             MainJsonBuilder.TabIndex = 5;
             MainJsonBuilder.BackClicked += back_Click;
             // 
             // MainJsonViewer
             // 
             MainJsonViewer.Dock = DockStyle.Fill;
-            MainJsonViewer.Location = new Point(0, 0);
+            MainJsonViewer.Location = new Point(210, 0);
+            MainJsonViewer.Margin = new Padding(3, 2, 3, 2);
             MainJsonViewer.Name = "MainJsonViewer";
-            MainJsonViewer.Size = new Size(863, 591);
+            MainJsonViewer.Size = new Size(866, 591);
             MainJsonViewer.TabIndex = 4;
             MainJsonViewer.OnPlay += MainJsonViewer_OnPlay;
             MainJsonViewer.OnExecuteTasks += executeToolStripMenuItem_Click;
@@ -70,9 +72,9 @@
             // MainScriptRunnerForm
             // 
             MainScriptRunnerForm.Dock = DockStyle.Fill;
-            MainScriptRunnerForm.Location = new Point(0, 0);
+            MainScriptRunnerForm.Location = new Point(210, 0);
             MainScriptRunnerForm.Name = "MainScriptRunnerForm";
-            MainScriptRunnerForm.Size = new Size(863, 591);
+            MainScriptRunnerForm.Size = new Size(866, 591);
             MainScriptRunnerForm.TabIndex = 9;
             MainScriptRunnerForm.ExecuteClicked += MainScriptRunnerForm_ExecuteClicked;
             MainScriptRunnerForm.RefreshClicked += MainScriptRunnerForm_RefreshClicked;
@@ -81,18 +83,18 @@
             // MainFileParsingError
             // 
             MainFileParsingError.Dock = DockStyle.Fill;
-            MainFileParsingError.Location = new Point(0, 0);
+            MainFileParsingError.Location = new Point(210, 0);
             MainFileParsingError.Name = "MainFileParsingError";
-            MainFileParsingError.Size = new Size(863, 591);
+            MainFileParsingError.Size = new Size(866, 591);
             MainFileParsingError.TabIndex = 5;
             MainFileParsingError.OnBack += back_Click;
             // 
             // MainChooseExportFormat
             // 
             MainChooseExportFormat.Dock = DockStyle.Fill;
-            MainChooseExportFormat.Location = new Point(0, 0);
+            MainChooseExportFormat.Location = new Point(210, 0);
             MainChooseExportFormat.Name = "MainChooseExportFormat";
-            MainChooseExportFormat.Size = new Size(863, 591);
+            MainChooseExportFormat.Size = new Size(866, 591);
             MainChooseExportFormat.TabIndex = 10;
             MainChooseExportFormat.OnHome += MainChooseExportFormat_OnHome;
             MainChooseExportFormat.OnBack += back_Click;
@@ -100,9 +102,9 @@
             // MainSelectFilePanel
             // 
             MainSelectFilePanel.Dock = DockStyle.Fill;
-            MainSelectFilePanel.Location = new Point(0, 0);
+            MainSelectFilePanel.Location = new Point(210, 0);
             MainSelectFilePanel.Name = "MainSelectFilePanel";
-            MainSelectFilePanel.Size = new Size(863, 591);
+            MainSelectFilePanel.Size = new Size(866, 591);
             MainSelectFilePanel.TabIndex = 9;
             MainSelectFilePanel.OpenViewFileDialog += MainSelectFilePanel_OpenViewFileDialog;
             MainSelectFilePanel.OpenExecuteFileDialog += MainSelectFilePanel_OpenExecuteFileDialog;
@@ -112,18 +114,27 @@
             // 
             MainChooseFileForm.BackColor = Color.Transparent;
             MainChooseFileForm.Dock = DockStyle.Fill;
-            MainChooseFileForm.Location = new Point(0, 0);
+            MainChooseFileForm.Location = new Point(210, 0);
             MainChooseFileForm.Name = "MainChooseFileForm";
-            MainChooseFileForm.Size = new Size(863, 591);
+            MainChooseFileForm.Size = new Size(866, 591);
             MainChooseFileForm.TabIndex = 11;
             MainChooseFileForm.FileSelected += MainChooseFileForm_FileSelected;
+            // 
+            // SideNav
+            // 
+            SideNav.BackColor = Color.FromArgb(30, 40, 51);
+            SideNav.Dock = DockStyle.Left;
+            SideNav.Location = new Point(0, 0);
+            SideNav.Name = "SideNav";
+            SideNav.Size = new Size(210, 591);
+            SideNav.TabIndex = 20;
             // 
             // SifJsonParsingForm
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(245, 247, 250);
-            ClientSize = new Size(863, 591);
+            ClientSize = new Size(1076, 591);
             Controls.Add(MainSelectFilePanel);
             Controls.Add(MainChooseFileForm);
             Controls.Add(MainChooseExportFormat);
@@ -131,8 +142,9 @@
             Controls.Add(MainScriptRunnerForm);
             Controls.Add(MainJsonViewer);
             Controls.Add(MainJsonBuilder);
+            Controls.Add(SideNav);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(600, 400);
+            MinimumSize = new Size(660, 400);
             Name = "SifJsonParsingForm";
             Text = "SIF Utils";
             Load += SifJsonParsingForm_Load;
@@ -149,5 +161,6 @@
         public Forms.ExportRunner.ExportRunnerForm MainChooseExportFormat;
         internal Forms.Home.HomeComponents MainSelectFilePanel;
         internal Forms.SelectFile.SelectFileForm MainChooseFileForm;
+        internal Forms.SideNavigation.SideNavigationPanel SideNav;
     }
 }

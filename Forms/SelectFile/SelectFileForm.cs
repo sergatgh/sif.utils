@@ -95,5 +95,10 @@ namespace SIF.Utils.Forms.SelectFile
             await Task.Delay(milliseconds);
             return result;
         }
+
+        public void UpdateDescription(string description)
+        {
+            this.labelSelectFile.Text = description;
+        }
     }
 }
