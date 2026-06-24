@@ -33,6 +33,9 @@ public class SideNavigationPanel : UserControl, IMessageFilter
     public event EventHandler? SifBuilderClicked;
     public event EventHandler? LearnSifClicked;
     public event EventHandler? AboutClicked;
+    public event EventHandler<bool>? AnchorStateChanged;
+
+    public bool IsAnchored => _isAnchored;
 
     public SideNavigationPanel()
     {
@@ -184,6 +187,7 @@ public class SideNavigationPanel : UserControl, IMessageFilter
     {
         _isAnchored = !_isAnchored;
         sender.IsSelected = _isAnchored;
+        AnchorStateChanged?.Invoke(this, _isAnchored);
 
         if (!_isAnchored && !_isOnHome)
         {

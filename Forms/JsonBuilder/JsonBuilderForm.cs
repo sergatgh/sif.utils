@@ -17,6 +17,7 @@ public partial class JsonBuilderForm : UserControl
 
     public JsonBuilderForm()
     {
+        DoubleBuffered = true;
         InitializeComponent();
 
         toolTip1.SetToolTip(previewButton, "Preview JSON");

@@ -29,6 +29,7 @@ namespace SIF.Utils.Forms.JsonViewer
 
         public SifJsonViewerForm()
         {
+            DoubleBuffered = true;
             InitializeComponent();
 
             toolTip1.SetToolTip(changeFileButton, "Select another file");

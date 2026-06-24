@@ -10,6 +10,7 @@ public partial class ErrorForm : UserControl
 
     public ErrorForm()
     {
+        DoubleBuffered = true;
         InitializeComponent();
     }
 

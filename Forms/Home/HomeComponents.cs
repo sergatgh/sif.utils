@@ -12,6 +12,7 @@ namespace SIF.Utils.Forms.Home
 
         public HomeComponents()
         {
+            DoubleBuffered = true;
             InitializeComponent();
         }
 

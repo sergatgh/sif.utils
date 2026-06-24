@@ -12,6 +12,7 @@ namespace SIF.Utils
         private Navigator _navigator = null!;
         private Action<SifJsonParsingResult>? _afterFileSelected;
         private NavMode _pendingNavMode;
+        private bool _isOnHome;
 
         private enum NavMode { None, View, Script }
 
@@ -21,7 +22,9 @@ namespace SIF.Utils
 
         public SifJsonParsingForm(string[]? args)
         {
+            DoubleBuffered = true;
             InitializeComponent();
+            SideNav.BringToFront();
 
             _navigator = new Navigator([
                 MainSelectFilePanel, MainChooseFileForm, MainJsonViewer,
@@ -30,6 +33,7 @@ namespace SIF.Utils
 
             _navigator.PageChanged += OnPageChanged;
 
+            SideNav.AnchorStateChanged += OnAnchorStateChanged;
             SideNav.HomeClicked       += (_, _) => _navigator.GoHome(MainSelectFilePanel);
             SideNav.ViewJsonClicked   += (_, _) =>
             {
@@ -118,10 +122,18 @@ namespace SIF.Utils
             return result;
         }
 
+        private void OnAnchorStateChanged(object? sender, bool isAnchored)
+        {
+            if (!_isOnHome)
+                _contentArea.Padding = new Padding(isAnchored ? 210 : 50, 0, 0, 0);
+        }
+
         private void OnPageChanged(object? sender, Control page)
         {
             bool onHome = page == MainSelectFilePanel;
+            _isOnHome = onHome;
             SideNav.SetHomePage(onHome);
+            _contentArea.Padding = new Padding(onHome || !SideNav.IsAnchored ? 50 : 210, 0, 0, 0);
 
             int idx = page == MainSelectFilePanel   ? 0
                     : page == MainJsonViewer        ? 1

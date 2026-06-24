@@ -26,6 +26,7 @@ namespace SIF.Utils.Forms.SelectFile
 
         public SelectFileForm()
         {
+            DoubleBuffered = true;
             InitializeComponent();
         }
 

@@ -25,4 +25,6 @@ public class ReadJsonText : AutoProcessor
             return ErrorHalt($"Unexpected error: {ex.Message}");
         }
     }
+
+    public object GetIsRawJson() => true;
 }

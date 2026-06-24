@@ -32,4 +32,6 @@ public class ReadUrlContent : AutoProcessor
             return ErrorHalt($"Unexpected error: {ex.Message}");
         }
     }
+
+    public object GetIsRawJson() => true;
 }

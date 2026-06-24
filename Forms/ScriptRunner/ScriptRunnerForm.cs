@@ -30,6 +30,7 @@ namespace SIF.Utils.Forms.ScriptRunner
 
         public ScriptRunnerForm()
         {
+            DoubleBuffered = true;
             InitializeComponent();
 
             toolTip1.SetToolTip(executeButton, "Select execution options");

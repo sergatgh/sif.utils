@@ -23,6 +23,7 @@ public partial class ExportRunnerForm : UserControl
 
     public ExportRunnerForm()
     {
+        DoubleBuffered = true;
         InitializeComponent();
 
         this.OnBack += (_, _) => Clear();
