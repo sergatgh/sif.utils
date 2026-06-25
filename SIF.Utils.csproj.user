@@ -208,6 +208,9 @@
     <Compile Update="Forms\SelectFile\SelectFileForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\SelectFile\SelectJsonFileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\SideNavigation\SideNavigationPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

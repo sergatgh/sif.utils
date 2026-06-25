@@ -73,37 +73,12 @@ namespace SIF.Utils.Forms.JsonViewer
 
         private void openFileDialog_Click(object sender, EventArgs e)
         {
-            SifJsonParsingResult? selectedResult = null;
-
-            using var dialog = new Form
-            {
-                Text = "Select File",
-                ClientSize = new Size(1026, 591),
-                StartPosition = FormStartPosition.CenterParent,
-                FormBorderStyle = FormBorderStyle.Sizable,
-                MaximizeBox = false,
-                MinimizeBox = false
-            };
-
-            var selectFileForm = new SelectFileForm { Dock = DockStyle.Fill, AllowRawJson = true, AllowUrl = true };
-            selectFileForm.FileSelected += (s, args) =>
-            {
-                if (!args.Result.HasError)
-                {
-                    selectedResult = args.Result;
-                    dialog.DialogResult = DialogResult.OK;
-                    dialog.Close();
-                }
-            };
-
-            dialog.Controls.Add(selectFileForm);
-            selectFileForm.UpdateRecentFiles();
+            using var dialog = new SelectJsonFileDialog("Select File");
             dialog.ShowDialog(this);
-
-            if (selectedResult != null)
+            if (dialog.Result != null)
             {
-                OnFileParsed?.Invoke(this, selectedResult);
-                ProcessResult(selectedResult);
+                OnFileParsed?.Invoke(this, dialog.Result);
+                ProcessResult(dialog.Result);
             }
         }
 

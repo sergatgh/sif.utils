@@ -5,20 +5,16 @@ SIF Utils
 
 It provides a clean UI for exploring tasks, parameters, and configuration files, helping you better understand and manage SIF setups.
 
-✨ Features
-----------
+Features
+--------
 
-*   📂 Browse and inspect SIF configuration files
-    
-*   🧩 Explore tasks and parameters in a structured way
-    
-*   ▶️ Run selected tasks directly from the UI
-    
-*   📖 Learn section with curated resources
-    
+- Browse and inspect SIF configuration files
+- Explore tasks and parameters in a structured view
+- Run selected tasks directly from the UI
+- Learn section with curated resources
 
-🖼 Screenshots
---------------
+Screenshots
+-----------
 
 ### Overview Screen
 
@@ -33,30 +29,30 @@ It provides a clean UI for exploring tasks, parameters, and configuration files,
 <img width="640" height="449" alt="image" src="https://github.com/user-attachments/assets/518bf447-ff72-4187-b438-0bf2a80de957" />
 
 
-🚀 Installation
----------------
+Installation
+------------
 
 The **only official distribution channel** for SIF Utils is via **GitHub Releases**.
 
-Please download the latest version here:👉 [**GitHub → Releases**](https://github.com/sergatgh/sif.utils/releases)
+Download the latest version from the [Releases page](https://github.com/sergatgh/sif.utils/releases).
 
 Any other distribution source is not supported and should not be considered official.
 
-📚 Documentation
-----------------
+Documentation
+-------------
 
-For detailed documentation, guides, and advanced usage instructions, please visit the project Wiki:
+For detailed documentation, guides, and advanced usage instructions, visit the project Wiki:
 
-👉 [**See the Wiki for more information**](https://github.com/sergatgh/sif.utils/wiki)
+[See the Wiki for more information](https://github.com/sergatgh/sif.utils/wiki)
 
-🤝 Contributing
----------------
+Contributing
+------------
 
 Contributions, suggestions, and feedback are welcome.
 
 Please [open an issue](https://github.com/sergatgh/sif.utils/issues/new) or [submit a pull request](https://github.com/sergatgh/sif.utils/compare).
 
-📄 License
-----------
+License
+-------
 
 See the [`LICENSE.txt`](https://github.com/sergatgh/sif.utils/blob/master/LICENSE.txt) file for details.
