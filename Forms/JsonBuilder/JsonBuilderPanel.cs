@@ -1,16 +1,49 @@
-﻿using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+﻿using SIF.Utils.Forms.JsonBuilder.Register;
+using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+using SIF.Utils.Logic.JsonParser;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder
 {
-    using SIF.Utils.Forms.JsonBuilder.Register;
 
     public partial class JsonBuilderPanel : UserControl
     {
         public JsonBuilderPanel()
         {
             InitializeComponent();
+        }
+
+        public void LoadFromResult(SifJsonParsingResult result)
+        {
+            ClearAll();
+            foreach (var task in result.Tasks)
+                taskBuilderPanel1.AddTaskFromModel(task);
+            foreach (var task in result.UninstallTasks)
+                uninstallTaskBuilderPanel.AddTaskFromModel(task);
+            parametersForm1.LoadFromModels(result.Parameters);
+            variablesForm1.LoadFromModels(result.Variables);
+            includeFiles1.LoadFromModels(result.Includes);
+            modulesControlPanel1.LoadFromModels(result.Modules);
+            foreach (var rt in result.RegisteredTasks)
+                registerTasks.AddMethod(new RegisterMethodModel { PowershellFunction = rt.Command, RegisterAs = rt.Name });
+            foreach (var cf in result.RegisteredConfigFunctions)
+                registerFunctions.AddMethod(new RegisterMethodModel { PowershellFunction = cf.Command, RegisterAs = cf.Name });
+            if (result.Settings != null)
+                settingsForm1.LoadFromModel(result.Settings);
+        }
+
+        private void ClearAll()
+        {
+            taskBuilderPanel1.Clear();
+            uninstallTaskBuilderPanel.Clear();
+            parametersForm1.Clear();
+            variablesForm1.Clear();
+            includeFiles1.Clear();
+            modulesControlPanel1.Clear();
+            registerTasks.Clear();
+            registerFunctions.Clear();
+            settingsForm1.Clear();
         }
 
         public string BuildJson(string? filePath = null)

@@ -33,6 +33,7 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             saveJsonToFileButton = new Button();
             previewButton = new Button();
+            importJsonButton = new Button();
             jsonBuilderPanel = new JsonBuilderPanel();
             navigationPanel = new SIF.Utils.Forms.Common.NavigationPanel();
             saveSifJson = new SaveFileDialog();
@@ -58,10 +59,11 @@
             flowLayoutPanel1.AutoSize = true;
             flowLayoutPanel1.Controls.Add(saveJsonToFileButton);
             flowLayoutPanel1.Controls.Add(previewButton);
+            flowLayoutPanel1.Controls.Add(importJsonButton);
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new Point(774, 8);
+            flowLayoutPanel1.Location = new Point(700, 8);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(150, 62);
+            flowLayoutPanel1.Size = new Size(224, 62);
             flowLayoutPanel1.TabIndex = 6;
             // 
             // saveJsonToFileButton
@@ -77,9 +79,22 @@
             saveJsonToFileButton.Text = "💾";
             saveJsonToFileButton.UseVisualStyleBackColor = false;
             saveJsonToFileButton.Click += saveJsonButton_Click;
-            // 
+            //
+            // importJsonButton
+            //
+            importJsonButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            importJsonButton.BackColor = Color.Transparent;
+            importJsonButton.Font = new Font("Segoe UI", 22F);
+            importJsonButton.Margin = new Padding(0);
+            importJsonButton.Name = "importJsonButton";
+            importJsonButton.Size = new Size(73, 56);
+            importJsonButton.TabIndex = 7;
+            importJsonButton.Text = "📥";
+            importJsonButton.UseVisualStyleBackColor = false;
+            importJsonButton.Click += importJsonButton_Click;
+            //
             // previewButton
-            // 
+            //
             previewButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             previewButton.BackColor = Color.Transparent;
             previewButton.Font = new Font("Segoe UI", 22F);
@@ -137,6 +152,7 @@
         private Common.NavigationPanel navigationPanel;
         internal Button previewButton;
         internal Button saveJsonToFileButton;
+        internal Button importJsonButton;
         private SaveFileDialog saveSifJson;
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolTip toolTip1;

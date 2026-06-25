@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Nodes;
-using System.Threading.Tasks;
+﻿using SIF.Utils.Logic.JsonParser;
+using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 
@@ -46,4 +46,9 @@ public class AdvancedTask : UserControl, IAdvancedTask
     public virtual string GetDefaultDescription() { return ""; }
 
     public virtual Dictionary<string, JsonNode> GetAdditionalJsonProperties() { return new Dictionary<string, JsonNode>(); }
+
+    public virtual void LoadFromModel(SifJsonTaskModel model)
+    {
+        TaskEditor.LoadFromModel(model);
+    }
 }

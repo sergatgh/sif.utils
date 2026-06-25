@@ -135,12 +135,12 @@ namespace SIF.Utils
             SideNav.SetHomePage(onHome);
             _contentArea.Padding = new Padding(onHome || !SideNav.IsAnchored ? 50 : 210, 0, 0, 0);
 
-            int idx = page == MainSelectFilePanel   ? 0
-                    : page == MainJsonViewer        ? 1
-                    : page == MainScriptRunnerForm  ? 2
-                    : page == MainChooseExportFormat? 2
-                    : page == MainJsonBuilder       ? 3
-                    : page == MainChooseFileForm    ? (_pendingNavMode == NavMode.Script ? 2 : 1)
+            int idx = page == MainSelectFilePanel   ? -1
+                    : page == MainJsonViewer        ? 0
+                    : page == MainScriptRunnerForm  ? 1
+                    : page == MainChooseExportFormat? 1
+                    : page == MainJsonBuilder       ? 2
+                    : page == MainChooseFileForm    ? (_pendingNavMode == NavMode.Script ? 1 : 0)
                     : -1;
             SideNav.SetSelectedIndex(idx);
         }

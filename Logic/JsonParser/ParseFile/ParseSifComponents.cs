@@ -5,8 +5,6 @@ namespace SIF.Utils.Logic.JsonParser.ParseFile;
 using AutoPipe;
 using SIF.Utils.Logic.ConfigFunctionParser;
 using SIF.Utils.Logic.JsonParser;
-using System.Diagnostics;
-using System.Reflection.Metadata;
 
 public class ParseSifComponents : AutoProcessor
 {
@@ -34,14 +32,58 @@ public class ParseSifComponents : AutoProcessor
             return ErrorHalt("The 'Tasks' object is empty.");
         }
 
-        return tasksArray.Select(parameter =>
-            new SifJsonTaskModel
+        return tasksArray.Select(ParseTaskElement).ToList();
+    }
+
+    private SifJsonTaskModel ParseTaskElement(JsonProperty parameter)
+    {
+        SifJsonTaskModel result = new()
+        {
+            Element = parameter,
+            Name = parameter.Name,
+            Description = parameter.Get("Description"),
+            Type = parameter.GetWithFallback("Type"),
+            Skip = parameter.GetWithFallback("Skip"),
+            Requires = parameter.GetWithFallback("Requires")
+        };
+
+        if (parameter.Value.TryGetProperty("Params", out var parameters))
+        {
+            if (parameters.ValueKind == JsonValueKind.Object)
             {
-                Element = parameter,
-                Name = parameter.Name,
-                Description =
-                    parameter.Get("Description"),
-            }).ToList();
+                var singleRunParameters = CreateParametersList(parameters);
+                result.ParamsList.Add(singleRunParameters);
+            }
+
+            if (parameters.ValueKind == JsonValueKind.Array)
+            {
+                var multipleRunParameters = parameters.EnumerateArray().ToArray();
+                foreach (var runParameters in multipleRunParameters)
+                {
+                    var singleRunParameters = CreateParametersList(runParameters);
+                    result.ParamsList.Add(singleRunParameters);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private List<SifJsonTaskParameterModel> CreateParametersList(JsonElement parameters)
+    {
+        var singleRunParameters = new List<SifJsonTaskParameterModel>();
+        var paramsArray = parameters.EnumerateObject().ToArray();
+
+        foreach (var param in paramsArray)
+        {
+            singleRunParameters.Add(new SifJsonTaskParameterModel
+            {
+                Name = param.Name,
+                Value = param.Value.GetRawText(),
+            });
+        }
+
+        return singleRunParameters;
     }
 
     public object GetUninstallTasks([Required] JsonElement jsonDocument)
@@ -56,14 +98,7 @@ public class ParseSifComponents : AutoProcessor
             return Warning("The 'UninstallTasks' property is not an object.");
         }
 
-        return uninstallTasksElement.EnumerateObject().Select(parameter =>
-            new SifJsonTaskModel
-            {
-                Element = parameter,
-                Name = parameter.Name,
-                Description =
-                    parameter.Get("Description"),
-            }).ToList();
+        return uninstallTasksElement.EnumerateObject().Select(ParseTaskElement).ToList();
     }
 
     public object GetParameters([Required] JsonElement jsonDocument)

@@ -1,4 +1,7 @@
 ﻿using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
+using SIF.Utils.Helpers;
+using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
@@ -43,6 +46,42 @@ public partial class TaskBuilderPanel : UserControl
             {
                 customTask.RemoveSuggestions(type);
             }
+        }
+    }
+
+    public void Clear()
+    {
+        SelectedTasks.Clear();
+        listView1.Items.Clear();
+        splitContainer1.Panel2.Controls.Clear();
+    }
+
+    public void AddTaskFromModel(SifJsonTaskModel model)
+    {
+        var taskInfo = SifFrameworkTasks.Tasks.FirstOrDefault(t => t.Name == model.Type)
+                    ?? PowershellTasks.Tasks.FirstOrDefault(t => t.Name == model.Type);
+
+        if (taskInfo != null)
+        {
+            var editorControl = taskInfo.ControlFactory();
+            editorControl.Dock = DockStyle.Fill;
+            if (editorControl is AdvancedTask advancedTask)
+                advancedTask.LoadFromModel(model);
+            SelectedTasks.Add(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl });
+            var item = listView1.Items.Add(taskInfo.DisplayName, taskInfo.DisplayName);
+            TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
+            item.Selected = true;
+        }
+        else
+        {
+            var customTask = new CustomTask(TaskSuggestions.ToArray());
+            customTask.Dock = DockStyle.Fill;
+            customTask.LoadFromModel(model);
+            var info = new TaskInfo { Name = model.Type, DisplayName = model.Name.Or(model.Type) };
+            SelectedTasks.Add(new TaskBuilderModel { Info = info, EditorControl = customTask });
+            var item = listView1.Items.Add(info.DisplayName, "Custom Task");
+            TaskAdded?.Invoke(info, EventArgs.Empty);
+            item.Selected = true;
         }
     }
 

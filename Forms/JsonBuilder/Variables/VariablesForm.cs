@@ -1,12 +1,6 @@
 ﻿using SIF.Utils.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using SIF.Utils.Logic.JsonParser;
 using System.Text.Json.Nodes;
-using System.Windows.Forms;
 
 namespace SIF.Utils.Forms.JsonBuilder.Variables
 {
@@ -16,6 +10,15 @@ namespace SIF.Utils.Forms.JsonBuilder.Variables
         {
             InitializeComponent();
         }
+
+        public void Clear() => parametersDataGrid.Rows.Clear();
+
+        public void LoadFromModels(IEnumerable<SifJsonVariableModel> models)
+        {
+            foreach (var model in models)
+                parametersDataGrid.Rows.Add(model.Name, model.Value);
+        }
+
         public bool HasVariables()
         {
             return this.parametersDataGrid.Rows.Count > 1;

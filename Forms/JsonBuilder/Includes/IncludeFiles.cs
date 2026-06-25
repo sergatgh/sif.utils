@@ -1,4 +1,5 @@
 ﻿using SIF.Utils.Helpers;
+using SIF.Utils.Logic.JsonParser;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,20 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
         public IncludeFiles()
         {
             InitializeComponent();
+        }
+
+        public void Clear() => listView1.Items.Clear();
+
+        public void LoadFromModels(IEnumerable<SifJsonIncludeModel> models)
+        {
+            foreach (var model in models)
+            {
+                var path = model.FullPath ?? model.OriginalValue;
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    listView1.Items.Add(path);
+                }
+            }
         }
 
         public int Count => listView1.Items.Count;
@@ -22,7 +37,15 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
                 var relativePath = useRelativePathMenu.Checked && jsonPath != null
                     ? Path.GetRelativePath(Path.GetDirectoryName(jsonPath) ?? string.Empty, path)
                     : path;
-                jsonObject.Add(GetName(path), new JsonObject { ["Source"] = relativePath });
+
+                var name = GetEasyNameNameFromFile(path);
+                int suffix = 1;
+                while (jsonObject.ContainsKey(name))
+                {
+                    name = $"{GetEasyNameNameFromFile(path)}_{suffix++}";
+                }
+
+                jsonObject.Add(name, new JsonObject { ["Source"] = relativePath });
             }
             return jsonObject;
         }
@@ -66,7 +89,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
             removeToolStripMenuItem.Enabled = listView1.SelectedItems.Count > 0;
         }
 
-        protected string GetName(string path)
+        protected string GetEasyNameNameFromFile(string path)
         {
             var fileName = Path.GetFileNameWithoutExtension(path);
             var name = Regex.Replace(fileName, "[^a-zA-Z0-9]", "").Or(fileName);

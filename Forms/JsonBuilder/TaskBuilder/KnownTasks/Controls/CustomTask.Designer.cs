@@ -38,11 +38,11 @@
             taskEditor1.AutoScroll = true;
             taskEditor1.AutoSize = true;
             taskEditor1.Dock = DockStyle.Top;
-            taskEditor1.Location = new Point(0, 38);
-            taskEditor1.Margin = new Padding(2, 1, 2, 1);
-            taskEditor1.MinimumSize = new Size(39, 33);
+            taskEditor1.Location = new Point(0, 53);
+            taskEditor1.Margin = new Padding(3, 2, 3, 2);
+            taskEditor1.MinimumSize = new Size(50, 51);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(452, 244);
+            taskEditor1.Size = new Size(581, 360);
             taskEditor1.TabIndex = 0;
             // 
             // typeLabel
@@ -50,9 +50,8 @@
             typeLabel.AutoSize = true;
             typeLabel.Dock = DockStyle.Top;
             typeLabel.Location = new Point(0, 0);
-            typeLabel.Margin = new Padding(2, 0, 2, 0);
             typeLabel.Name = "typeLabel";
-            typeLabel.Size = new Size(32, 15);
+            typeLabel.Size = new Size(45, 23);
             typeLabel.TabIndex = 1;
             typeLabel.Text = "Type";
             // 
@@ -61,25 +60,23 @@
             typeText.AutoCompleteMode = AutoCompleteMode.Suggest;
             typeText.AutoCompleteSource = AutoCompleteSource.CustomSource;
             typeText.Dock = DockStyle.Top;
-            typeText.Location = new Point(0, 15);
-            typeText.Margin = new Padding(2, 2, 2, 2);
+            typeText.Location = new Point(0, 23);
             typeText.Name = "typeText";
-            typeText.Size = new Size(452, 23);
+            typeText.Size = new Size(581, 30);
             typeText.TabIndex = 2;
             typeText.Text = "Command";
             // 
             // CustomTask
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             AutoSize = true;
             Controls.Add(taskEditor1);
             Controls.Add(typeText);
             Controls.Add(typeLabel);
-            Margin = new Padding(2, 2, 2, 2);
             Name = "CustomTask";
-            Size = new Size(452, 338);
+            Size = new Size(581, 633);
             ResumeLayout(false);
             PerformLayout();
         }

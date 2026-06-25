@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using SIF.Utils.Logic.JsonParser;
+using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls
 {
@@ -32,6 +33,12 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls
             json.Item2["Type"] = this.typeText.Text;
 
             return (json.Item1.Or("CustomTask"), json.Item2);
+        }
+
+        public void LoadFromModel(SifJsonTaskModel model)
+        {
+            this.typeText.Text = model.Type;
+            this.taskEditor1.LoadFromModel(model);
         }
 
         public void RemoveSuggestions(string type)

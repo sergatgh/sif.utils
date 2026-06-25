@@ -35,6 +35,7 @@ namespace SIF.Utils.Forms.JsonViewer
             executeButton = new Button();
             changeFileButton = new Button();
             openFolderButton = new Button();
+            openInBuilderButton = new Button();
             FilePathText = new TextBox();
             viewJsonTabs = new TabControl();
             viewJsonTasks = new TabPage();
@@ -156,9 +157,21 @@ namespace SIF.Utils.Forms.JsonViewer
             openFolderButton.Text = "📂";
             openFolderButton.UseVisualStyleBackColor = false;
             openFolderButton.Click += openFolderButton_Click;
-            // 
+            //
+            // openInBuilderButton
+            //
+            openInBuilderButton.BackColor = Color.Transparent;
+            openInBuilderButton.Font = new Font("Segoe UI", 22F);
+            openInBuilderButton.Margin = new Padding(0);
+            openInBuilderButton.Name = "openInBuilderButton";
+            openInBuilderButton.Size = new Size(73, 56);
+            openInBuilderButton.TabIndex = 8;
+            openInBuilderButton.Text = "🔨";
+            openInBuilderButton.UseVisualStyleBackColor = false;
+            openInBuilderButton.Click += openInBuilderButton_Click;
+            //
             // FilePathText
-            // 
+            //
             FilePathText.Dock = DockStyle.Top;
             FilePathText.Font = new Font("Segoe UI", 11F);
             FilePathText.Location = new Point(0, 63);
@@ -768,6 +781,7 @@ namespace SIF.Utils.Forms.JsonViewer
         internal Button changeFileButton;
         internal Button executeButton;
         internal Button openFolderButton;
+        internal Button openInBuilderButton;
         private OpenFileDialog openFileForViewerDialog;
         private BindingSource sifJsonParameterModelBindingSource;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;

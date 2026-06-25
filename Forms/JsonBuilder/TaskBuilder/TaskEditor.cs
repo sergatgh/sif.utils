@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using SIF.Utils.Logic.JsonParser;
+using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
@@ -45,6 +46,23 @@ public partial class TaskEditor : UserControl
     private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
     {
         AdjustDataGridViewHeight((DataGridView)sender);
+    }
+
+    public void LoadFromModel(SifJsonTaskModel model)
+    {
+        nameInput.TextInput = model.Name;
+        descriptionInput.TextInput = model.Description ?? string.Empty;
+        skipInput.TextInput = model.Skip ?? string.Empty;
+        requiresInput.TextInput = model.Requires ?? string.Empty;
+
+        if (model.ParamsList.Any())
+        {
+            var firstSetOfParams = model.ParamsList[0];
+            foreach (var param in firstSetOfParams)
+            {
+                taskParameterModelBindingSource.Add(new TaskParameterModel { Name = param.Name, Value = param.Value });
+            }
+        }
     }
 
     public (string, JsonObject) GetJson()

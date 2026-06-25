@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using SIF.Utils.Logic.JsonParser;
 
 namespace SIF.Utils.Forms.JsonBuilder.Modules
 {
@@ -7,6 +8,14 @@ namespace SIF.Utils.Forms.JsonBuilder.Modules
         public ModulesControlPanel()
         {
             InitializeComponent();
+        }
+
+        public void Clear() => listBox1.Items.Clear();
+
+        public void LoadFromModels(IEnumerable<SifJsonModuleModel> models)
+        {
+            foreach (var model in models)
+                listBox1.Items.Add(model.Path);
         }
 
         public string[] ModulePaths => listBox1.Items.Cast<string>().ToArray();

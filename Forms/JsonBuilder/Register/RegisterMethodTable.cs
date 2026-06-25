@@ -21,6 +21,12 @@ public partial class RegisterMethodTable : UserControl
 
     public bool HasRegisterMethods => RegisterMethods.Count > 0;
 
+    public void Clear()
+    {
+        RegisterMethods.Clear();
+        listView1.Items.Clear();
+    }
+
     private void addToolStripMenuItem_Click(object sender, EventArgs e)
     {
         using var addDialog = new RegisterMethodWindow();

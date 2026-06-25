@@ -1,4 +1,4 @@
-﻿using SIF.Utils.Forms.Common;
+using SIF.Utils.Forms.Common;
 
 namespace SIF.Utils.Forms.SideNavigation;
 
@@ -67,6 +67,11 @@ public class SideNavigationPanel : UserControl, IMessageFilter
             TextAlign = ContentAlignment.MiddleCenter,
         };
 
+        _headerPanel.Cursor = Cursors.Hand;
+        _headerPanel.Click += (_, _) => HomeClicked?.Invoke(this, EventArgs.Empty);
+        headerIcon.Cursor   = Cursors.Hand;
+        headerIcon.Click   += (_, _) => HomeClicked?.Invoke(this, EventArgs.Empty);
+
         _headerPanel.Controls.Add(headerIcon);
 
         _itemsPanel = new DoubleBufferedPanel
@@ -103,7 +108,6 @@ public class SideNavigationPanel : UserControl, IMessageFilter
     {
         (string Icon, string Text, Action Click)[] topItems =
         [
-            ("", "Home",        () => HomeClicked?.Invoke(this, EventArgs.Empty)),
             ("", "View JSON",   () => ViewJsonClicked?.Invoke(this, EventArgs.Empty)),
             ("", "Run Script",  () => RunScriptClicked?.Invoke(this, EventArgs.Empty)),
             ("", "SIF Builder", () => SifBuilderClicked?.Invoke(this, EventArgs.Empty)),

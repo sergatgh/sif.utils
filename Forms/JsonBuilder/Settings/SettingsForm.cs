@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using SIF.Utils.Logic.JsonParser;
 using System.Text.Json.Nodes;
-using System.Windows.Forms;
 
 namespace SIF.Utils.Forms.JsonBuilder.Settings
 {
@@ -14,6 +8,22 @@ namespace SIF.Utils.Forms.JsonBuilder.Settings
         public SettingsForm()
         {
             InitializeComponent();
+        }
+
+        public void Clear()
+        {
+            autoRegisterExtensionsSetting.Checked = false;
+            informationActionComboBox.Text = string.Empty;
+            warningActionCombobox.Text = string.Empty;
+            errorActionComboBox.Text = string.Empty;
+        }
+
+        public void LoadFromModel(SifJsonSettings settings)
+        {
+            autoRegisterExtensionsSetting.Checked = settings.AutoRegisterExtensions;
+            informationActionComboBox.Text = settings.InformationAction ?? string.Empty;
+            warningActionCombobox.Text = settings.WarningAction ?? string.Empty;
+            errorActionComboBox.Text = settings.ErrorAction ?? string.Empty;
         }
 
         public void SetAutoRegisterExtensions(bool autoRegister)

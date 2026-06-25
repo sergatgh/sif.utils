@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using SIF.Utils.Logic.JsonParser;
+using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.Parameters
 {
@@ -7,6 +8,14 @@ namespace SIF.Utils.Forms.JsonBuilder.Parameters
         public ParametersForm()
         {
             InitializeComponent();
+        }
+
+        public void Clear() => parametersDataGrid.Rows.Clear();
+
+        public void LoadFromModels(IEnumerable<SifJsonParameterModel> models)
+        {
+            foreach (var model in models)
+                parametersDataGrid.Rows.Add(model.Name);
         }
 
         public bool HasParameters()

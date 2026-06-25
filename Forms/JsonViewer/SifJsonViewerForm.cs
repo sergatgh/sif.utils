@@ -36,10 +36,12 @@ namespace SIF.Utils.Forms.JsonViewer
             toolTip1.SetToolTip(changeFileButton, "Select another file");
             toolTip1.SetToolTip(openFolderButton, "Open folder containing this JSON file");
             toolTip1.SetToolTip(executeButton, "Execute this SIF file");
+            toolTip1.SetToolTip(openInBuilderButton, "Open in Builder (alpha)");
 
             navigationPanel.controlsPanel.Controls.Add(executeButton);
             navigationPanel.controlsPanel.Controls.Add(changeFileButton);
             navigationPanel.controlsPanel.Controls.Add(openFolderButton);
+            navigationPanel.controlsPanel.Controls.Add(openInBuilderButton);
         }
 
         public void Clear()
@@ -126,6 +128,11 @@ namespace SIF.Utils.Forms.JsonViewer
             ShowParsingResult(parseResult);
         }
 
+        private void openInBuilderButton_Click(object? sender, EventArgs e)
+        {
+            OnOpenInBuilder?.Invoke(this, CurrentResult);
+        }
+
         private void openFolderButton_Click(object? sender, EventArgs e)
         {
             var filePath = CurrentResult.FilePath;
@@ -146,6 +153,7 @@ namespace SIF.Utils.Forms.JsonViewer
             var allowActions = !result.IsRawJson;
             executeButton.Enabled = allowActions;
             openFolderButton.Enabled = allowActions;
+            openInBuilderButton.Enabled = true;
             tasksList.AllowExecution = allowActions;
             uninstallTasksList.AllowExecution = allowActions;
             tasksList.LoadTasks(result.Tasks);

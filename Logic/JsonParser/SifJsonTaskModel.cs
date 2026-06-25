@@ -4,9 +4,11 @@ public class SifJsonTaskModel : SifBaseProperties
 {
     public string Type { get; set; } = string.Empty;
 
-    public string Skip { get; set; } = string.Empty;
+    public string? Skip { get; set; }
 
-    public string Requires { get; set; } = string.Empty;
+    public string? Requires { get; set; }
 
-    public List<SifJsonTaskParameterModel> Params { get; } = [];
+    public List<List<SifJsonTaskParameterModel>> ParamsList { get; } = [];
+
+    public bool ExecutedMultipleTimes => ParamsList.Count > 1;
 }
