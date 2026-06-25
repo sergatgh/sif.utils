@@ -28,6 +28,38 @@ namespace SIF.Utils.Forms.JsonViewer
 
         protected SifJsonParsingResult CurrentResult { get; set; } = SifJsonParsingResult.Empty;
 
+        private bool _showEmptyTabs = true;
+        private bool _showTabCounts = false;
+
+        [Browsable(true)]
+        [DefaultValue(true)]
+        public bool ShowEmptyTabs
+        {
+            get => _showEmptyTabs;
+            set
+            {
+                _showEmptyTabs = value;
+                if (!ReferenceEquals(CurrentResult, SifJsonParsingResult.Empty))
+                    UpdateTabs(CurrentResult);
+            }
+        }
+
+        [Browsable(true)]
+        [DefaultValue(false)]
+        public bool ShowTabCounts
+        {
+            get => _showTabCounts;
+            set
+            {
+                _showTabCounts = value;
+                if (!ReferenceEquals(CurrentResult, SifJsonParsingResult.Empty))
+                    UpdateTabs(CurrentResult);
+            }
+        }
+
+        private record TabInfo(TabPage Page, string BaseText, Func<SifJsonParsingResult, int> CountGetter, string SectionKey = "", bool ShowCount = true);
+        private readonly List<TabInfo> _orderedTabs = [];
+
         public SifJsonViewerForm()
         {
             DoubleBuffered = true;
@@ -42,6 +74,19 @@ namespace SIF.Utils.Forms.JsonViewer
             navigationPanel.controlsPanel.Controls.Add(changeFileButton);
             navigationPanel.controlsPanel.Controls.Add(openFolderButton);
             navigationPanel.controlsPanel.Controls.Add(openInBuilderButton);
+
+            _orderedTabs.AddRange([
+                new(viewJsonTasks, "Tasks", r => r.Tasks.Count, "Tasks"),
+                new(viewJsonUninstallTasks, "UninstallTasks", r => r.UninstallTasks.Count, "UninstallTasks"),
+                new(viewJsonParameters, "Parameters", r => r.Parameters.Count, "Parameters"),
+                new(viewJsonVariables, "Variables", r => r.Variables.Count, "Variables"),
+                new(viewJsonIncludes, "Includes", r => r.Includes.Count, "Includes"),
+                new(viewJsonModules, "Modules", r => r.Modules.Count, "Modules"),
+                new(viewJsonRegisteredTasks, "Registered Tasks", r => r.RegisteredTasks.Count, "Register"),
+                new(viewJsonRegisteredConfigFunctions, "Registered Functions", r => r.RegisteredConfigFunctions.Count, "Register"),
+                new(viewJsonSettings, "Settings", r => r.Settings != null ? 1 : 0, "Settings", false),
+                new(viewJsonWarnings, "ℹ️ Parse Warnings", r => r.Warnings.Count),
+            ]);
         }
 
         public void Clear()
@@ -56,6 +101,7 @@ namespace SIF.Utils.Forms.JsonViewer
             modulesList.Items.Clear();
             registeredTasksList.Items.Clear();
             registeredConfigFunctionsList.Items.Clear();
+            RestoreAllTabs();
             viewJsonTabs.SelectTab(0);
             variablesFilter.Text = string.Empty;
             paramtersFilterText.Text = string.Empty;
@@ -154,6 +200,50 @@ namespace SIF.Utils.Forms.JsonViewer
             {
                 warningsList.Items.AddRange(result.Warnings.Select(warning => new ListViewItem(warning)).ToArray());
             }
+
+            UpdateTabs(result, preserveSelection: false);
+        }
+
+        private void RestoreAllTabs()
+        {
+            viewJsonTabs.TabPages.Clear();
+            foreach (var tab in _orderedTabs)
+            {
+                tab.Page.Text = tab.BaseText;
+                viewJsonTabs.TabPages.Add(tab.Page);
+            }
+        }
+
+        private void UpdateTabs(SifJsonParsingResult result, bool preserveSelection = true)
+        {
+            var selectedTab = preserveSelection ? viewJsonTabs.SelectedTab : null;
+            viewJsonTabs.SuspendLayout();
+            viewJsonTabs.TabPages.Clear();
+
+            var sectionIndex = result.SectionOrder
+                .Select((s, i) => (s, i))
+                .ToDictionary(x => x.s, x => x.i, StringComparer.OrdinalIgnoreCase);
+
+            var visibleTabs = _orderedTabs
+                .Select(tab => (tab, count: tab.CountGetter(result)))
+                .Where(x => _showEmptyTabs || x.count > 0)
+                .OrderBy(x => sectionIndex.TryGetValue(x.tab.SectionKey, out int idx) ? idx : int.MaxValue);
+
+            foreach (var (tab, count) in visibleTabs)
+            {
+                tab.Page.Text = _showTabCounts && tab.ShowCount
+                    ? $"{tab.BaseText} ({count})"
+                    : tab.BaseText;
+
+                viewJsonTabs.TabPages.Add(tab.Page);
+            }
+
+            if (selectedTab != null && viewJsonTabs.TabPages.Contains(selectedTab))
+                viewJsonTabs.SelectedTab = selectedTab;
+            else if (viewJsonTabs.TabPages.Count > 0)
+                viewJsonTabs.SelectedIndex = 0;
+
+            viewJsonTabs.ResumeLayout();
         }
 
         private void parametersFilter_TextChanged(object sender, EventArgs e)

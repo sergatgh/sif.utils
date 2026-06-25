@@ -67,7 +67,7 @@ namespace SIF.Utils.Forms.SelectFile
 
             if (!parseResult.HasError)
             {
-                ProcessRecentFile(filePath);
+                WriteRecentFile(filePath);
             }
 
             FileSelected?.Invoke(this, parseResult);
@@ -76,7 +76,7 @@ namespace SIF.Utils.Forms.SelectFile
             loadingImage.Visible = false;
         }
 
-        public void ProcessRecentFile(string path)
+        public void WriteRecentFile(string path)
         {
             var recentFiles = Properties.Settings.Default.RecentFiles.ParseJsonList<RecentFileModel>();
             var recentFile = recentFiles.FirstOrDefault(x => x.FilePath == path);

@@ -124,6 +124,8 @@ namespace SIF.Utils
             MainJsonViewer.Location = new Point(50, 0);
             MainJsonViewer.Margin = new Padding(3, 2, 3, 2);
             MainJsonViewer.Name = "MainJsonViewer";
+            MainJsonViewer.ShowEmptyTabs = false;
+            MainJsonViewer.ShowTabCounts = true;
             MainJsonViewer.Size = new Size(1026, 591);
             MainJsonViewer.TabIndex = 4;
             MainJsonViewer.OnPlay += MainJsonViewer_OnPlay;

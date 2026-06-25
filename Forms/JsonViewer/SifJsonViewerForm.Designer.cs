@@ -115,7 +115,7 @@ namespace SIF.Utils.Forms.JsonViewer
             navigationPanel.Location = new Point(0, 0);
             navigationPanel.Margin = new Padding(3, 2, 3, 2);
             navigationPanel.Name = "navigationPanel";
-            navigationPanel.Size = new Size(676, 63);
+            navigationPanel.Size = new Size(760, 76);
             navigationPanel.TabIndex = 2;
             navigationPanel.Title = "SIF Viewer";
             // 
@@ -157,11 +157,12 @@ namespace SIF.Utils.Forms.JsonViewer
             openFolderButton.Text = "📂";
             openFolderButton.UseVisualStyleBackColor = false;
             openFolderButton.Click += openFolderButton_Click;
-            //
+            // 
             // openInBuilderButton
-            //
+            // 
             openInBuilderButton.BackColor = Color.Transparent;
             openInBuilderButton.Font = new Font("Segoe UI", 22F);
+            openInBuilderButton.Location = new Point(0, 0);
             openInBuilderButton.Margin = new Padding(0);
             openInBuilderButton.Name = "openInBuilderButton";
             openInBuilderButton.Size = new Size(73, 56);
@@ -169,17 +170,17 @@ namespace SIF.Utils.Forms.JsonViewer
             openInBuilderButton.Text = "🔨";
             openInBuilderButton.UseVisualStyleBackColor = false;
             openInBuilderButton.Click += openInBuilderButton_Click;
-            //
+            // 
             // FilePathText
-            //
+            // 
             FilePathText.Dock = DockStyle.Top;
             FilePathText.Font = new Font("Segoe UI", 11F);
-            FilePathText.Location = new Point(0, 63);
+            FilePathText.Location = new Point(0, 76);
             FilePathText.Margin = new Padding(3, 2, 3, 2);
             FilePathText.Name = "FilePathText";
             FilePathText.ReadOnly = true;
             FilePathText.ScrollBars = ScrollBars.Horizontal;
-            FilePathText.Size = new Size(676, 27);
+            FilePathText.Size = new Size(760, 32);
             FilePathText.TabIndex = 3;
             // 
             // viewJsonTabs
@@ -195,21 +196,21 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonTabs.Controls.Add(viewJsonSettings);
             viewJsonTabs.Controls.Add(viewJsonWarnings);
             viewJsonTabs.Dock = DockStyle.Fill;
-            viewJsonTabs.Location = new Point(0, 90);
+            viewJsonTabs.Location = new Point(0, 108);
             viewJsonTabs.Margin = new Padding(3, 2, 3, 2);
             viewJsonTabs.Name = "viewJsonTabs";
             viewJsonTabs.SelectedIndex = 0;
-            viewJsonTabs.Size = new Size(676, 419);
+            viewJsonTabs.Size = new Size(760, 508);
             viewJsonTabs.TabIndex = 4;
             // 
             // viewJsonTasks
             // 
             viewJsonTasks.Controls.Add(tasksList);
-            viewJsonTasks.Location = new Point(4, 28);
+            viewJsonTasks.Location = new Point(4, 32);
             viewJsonTasks.Margin = new Padding(3, 2, 3, 2);
             viewJsonTasks.Name = "viewJsonTasks";
             viewJsonTasks.Padding = new Padding(3, 2, 3, 2);
-            viewJsonTasks.Size = new Size(668, 387);
+            viewJsonTasks.Size = new Size(752, 472);
             viewJsonTasks.TabIndex = 1;
             viewJsonTasks.Text = "Tasks";
             viewJsonTasks.UseVisualStyleBackColor = true;
@@ -220,18 +221,18 @@ namespace SIF.Utils.Forms.JsonViewer
             tasksList.Location = new Point(3, 2);
             tasksList.Margin = new Padding(3, 2, 3, 2);
             tasksList.Name = "tasksList";
-            tasksList.Size = new Size(662, 383);
+            tasksList.Size = new Size(746, 468);
             tasksList.TabIndex = 0;
             tasksList.OnExecuteTasks += tasksControl1_OnExecuteTasks;
             // 
             // viewJsonUninstallTasks
             // 
             viewJsonUninstallTasks.Controls.Add(uninstallTasksList);
-            viewJsonUninstallTasks.Location = new Point(4, 28);
+            viewJsonUninstallTasks.Location = new Point(4, 32);
             viewJsonUninstallTasks.Margin = new Padding(3, 2, 3, 2);
             viewJsonUninstallTasks.Name = "viewJsonUninstallTasks";
             viewJsonUninstallTasks.Padding = new Padding(3, 2, 3, 2);
-            viewJsonUninstallTasks.Size = new Size(668, 387);
+            viewJsonUninstallTasks.Size = new Size(752, 471);
             viewJsonUninstallTasks.TabIndex = 2;
             viewJsonUninstallTasks.Text = "UninstallTasks";
             viewJsonUninstallTasks.UseVisualStyleBackColor = true;
@@ -242,7 +243,7 @@ namespace SIF.Utils.Forms.JsonViewer
             uninstallTasksList.Location = new Point(3, 2);
             uninstallTasksList.Margin = new Padding(3, 2, 3, 2);
             uninstallTasksList.Name = "uninstallTasksList";
-            uninstallTasksList.Size = new Size(662, 383);
+            uninstallTasksList.Size = new Size(746, 467);
             uninstallTasksList.TabIndex = 0;
             uninstallTasksList.OnExecuteTasks += uninstallTasksList_OnExecuteTasks;
             // 
@@ -250,10 +251,10 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             viewJsonParameters.Controls.Add(parametersList);
             viewJsonParameters.Controls.Add(flowLayoutPanel9);
-            viewJsonParameters.Location = new Point(4, 28);
+            viewJsonParameters.Location = new Point(4, 32);
             viewJsonParameters.Margin = new Padding(3, 2, 3, 2);
             viewJsonParameters.Name = "viewJsonParameters";
-            viewJsonParameters.Size = new Size(668, 387);
+            viewJsonParameters.Size = new Size(752, 471);
             viewJsonParameters.TabIndex = 3;
             viewJsonParameters.Text = "Parameters";
             viewJsonParameters.UseVisualStyleBackColor = true;
@@ -266,14 +267,14 @@ namespace SIF.Utils.Forms.JsonViewer
             parametersList.ContextMenuStrip = parametersContextMenu;
             parametersList.DataSource = sifJsonParameterModelBindingSource;
             parametersList.Dock = DockStyle.Fill;
-            parametersList.Location = new Point(0, 33);
+            parametersList.Location = new Point(0, 40);
             parametersList.Margin = new Padding(3, 2, 3, 2);
             parametersList.MultiSelect = false;
             parametersList.Name = "parametersList";
             parametersList.ReadOnly = true;
             parametersList.RowHeadersWidth = 51;
             parametersList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            parametersList.Size = new Size(668, 354);
+            parametersList.Size = new Size(752, 431);
             parametersList.TabIndex = 0;
             parametersList.CellMouseDown += parametersList_CellMouseDown;
             // 
@@ -333,15 +334,16 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             // parametersContextMenu
             // 
+            parametersContextMenu.ImageScalingSize = new Size(20, 20);
             parametersContextMenu.Items.AddRange(new ToolStripItem[] { showParameterReferrersMenuItem });
             parametersContextMenu.Name = "parametersContextMenu";
-            parametersContextMenu.Size = new Size(170, 28);
+            parametersContextMenu.Size = new Size(194, 32);
             parametersContextMenu.Opening += parametersContextMenu_Opening;
             // 
             // showParameterReferrersMenuItem
             // 
             showParameterReferrersMenuItem.Name = "showParameterReferrersMenuItem";
-            showParameterReferrersMenuItem.Size = new Size(169, 24);
+            showParameterReferrersMenuItem.Size = new Size(193, 28);
             showParameterReferrersMenuItem.Text = "Show Referrers";
             showParameterReferrersMenuItem.Click += showParameterReferrersMenuItem_Click;
             // 
@@ -356,7 +358,7 @@ namespace SIF.Utils.Forms.JsonViewer
             flowLayoutPanel9.Location = new Point(0, 0);
             flowLayoutPanel9.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel9.Name = "flowLayoutPanel9";
-            flowLayoutPanel9.Size = new Size(668, 33);
+            flowLayoutPanel9.Size = new Size(752, 40);
             flowLayoutPanel9.TabIndex = 2;
             // 
             // paramtersFilterText
@@ -366,7 +368,7 @@ namespace SIF.Utils.Forms.JsonViewer
             paramtersFilterText.Margin = new Padding(3, 2, 3, 2);
             paramtersFilterText.Name = "paramtersFilterText";
             paramtersFilterText.PlaceholderText = "Filter";
-            paramtersFilterText.Size = new Size(692, 26);
+            paramtersFilterText.Size = new Size(778, 30);
             paramtersFilterText.TabIndex = 0;
             paramtersFilterText.TextChanged += parametersFilter_TextChanged;
             // 
@@ -374,10 +376,10 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             viewJsonVariables.Controls.Add(variablesList);
             viewJsonVariables.Controls.Add(flowLayoutPanel8);
-            viewJsonVariables.Location = new Point(4, 28);
+            viewJsonVariables.Location = new Point(4, 32);
             viewJsonVariables.Margin = new Padding(3, 2, 3, 2);
             viewJsonVariables.Name = "viewJsonVariables";
-            viewJsonVariables.Size = new Size(668, 387);
+            viewJsonVariables.Size = new Size(752, 472);
             viewJsonVariables.TabIndex = 4;
             viewJsonVariables.Text = "Variables";
             viewJsonVariables.UseVisualStyleBackColor = true;
@@ -389,11 +391,11 @@ namespace SIF.Utils.Forms.JsonViewer
             variablesList.Dock = DockStyle.Fill;
             variablesList.FullRowSelect = true;
             variablesList.GridLines = true;
-            variablesList.Location = new Point(0, 33);
+            variablesList.Location = new Point(0, 40);
             variablesList.Margin = new Padding(3, 2, 3, 2);
             variablesList.MultiSelect = false;
             variablesList.Name = "variablesList";
-            variablesList.Size = new Size(668, 354);
+            variablesList.Size = new Size(752, 432);
             variablesList.TabIndex = 1;
             variablesList.Tag = "Variables";
             variablesList.UseCompatibleStateImageBehavior = false;
@@ -412,29 +414,30 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             // variablesContextMenu
             // 
+            variablesContextMenu.ImageScalingSize = new Size(20, 20);
             variablesContextMenu.Items.AddRange(new ToolStripItem[] { showReferencesMenuItem, showReferrersMenuItem, showReferenceMenuItem });
             variablesContextMenu.Name = "variablesContextMenu";
-            variablesContextMenu.Size = new Size(181, 76);
+            variablesContextMenu.Size = new Size(209, 88);
             variablesContextMenu.Opening += variablesContextMenu_Opening;
             // 
             // showReferencesMenuItem
             // 
             showReferencesMenuItem.Name = "showReferencesMenuItem";
-            showReferencesMenuItem.Size = new Size(180, 24);
+            showReferencesMenuItem.Size = new Size(208, 28);
             showReferencesMenuItem.Text = "Show References";
             showReferencesMenuItem.Click += showReferencesMenuItem_Click;
             // 
             // showReferrersMenuItem
             // 
             showReferrersMenuItem.Name = "showReferrersMenuItem";
-            showReferrersMenuItem.Size = new Size(180, 24);
+            showReferrersMenuItem.Size = new Size(208, 28);
             showReferrersMenuItem.Text = "Show Referrers";
             showReferrersMenuItem.Click += showReferrersMenuItem_Click;
             // 
             // showReferenceMenuItem
             // 
             showReferenceMenuItem.Name = "showReferenceMenuItem";
-            showReferenceMenuItem.Size = new Size(180, 24);
+            showReferenceMenuItem.Size = new Size(208, 28);
             showReferenceMenuItem.Text = "Show Reference";
             showReferenceMenuItem.Click += showReferenceMenuItem_Click;
             // 
@@ -445,7 +448,7 @@ namespace SIF.Utils.Forms.JsonViewer
             flowLayoutPanel8.Location = new Point(0, 0);
             flowLayoutPanel8.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel8.Name = "flowLayoutPanel8";
-            flowLayoutPanel8.Size = new Size(668, 33);
+            flowLayoutPanel8.Size = new Size(752, 40);
             flowLayoutPanel8.TabIndex = 2;
             // 
             // variablesFilter
@@ -455,17 +458,17 @@ namespace SIF.Utils.Forms.JsonViewer
             variablesFilter.Margin = new Padding(3, 2, 3, 2);
             variablesFilter.Name = "variablesFilter";
             variablesFilter.PlaceholderText = "Filter";
-            variablesFilter.Size = new Size(692, 26);
+            variablesFilter.Size = new Size(778, 30);
             variablesFilter.TabIndex = 0;
             variablesFilter.TextChanged += variablesFilter_TextChanged;
             // 
             // viewJsonIncludes
             // 
             viewJsonIncludes.Controls.Add(includesList);
-            viewJsonIncludes.Location = new Point(4, 28);
+            viewJsonIncludes.Location = new Point(4, 32);
             viewJsonIncludes.Margin = new Padding(3, 2, 3, 2);
             viewJsonIncludes.Name = "viewJsonIncludes";
-            viewJsonIncludes.Size = new Size(668, 387);
+            viewJsonIncludes.Size = new Size(752, 471);
             viewJsonIncludes.TabIndex = 5;
             viewJsonIncludes.Text = "Includes";
             viewJsonIncludes.UseVisualStyleBackColor = true;
@@ -480,7 +483,7 @@ namespace SIF.Utils.Forms.JsonViewer
             includesList.Margin = new Padding(3, 2, 3, 2);
             includesList.MultiSelect = false;
             includesList.Name = "includesList";
-            includesList.Size = new Size(668, 387);
+            includesList.Size = new Size(752, 471);
             includesList.TabIndex = 1;
             includesList.UseCompatibleStateImageBehavior = false;
             includesList.View = View.Details;
@@ -499,10 +502,10 @@ namespace SIF.Utils.Forms.JsonViewer
             // viewJsonModules
             // 
             viewJsonModules.Controls.Add(modulesList);
-            viewJsonModules.Location = new Point(4, 28);
+            viewJsonModules.Location = new Point(4, 32);
             viewJsonModules.Margin = new Padding(3, 2, 3, 2);
             viewJsonModules.Name = "viewJsonModules";
-            viewJsonModules.Size = new Size(668, 387);
+            viewJsonModules.Size = new Size(752, 471);
             viewJsonModules.TabIndex = 6;
             viewJsonModules.Text = "Modules";
             viewJsonModules.UseVisualStyleBackColor = true;
@@ -514,7 +517,7 @@ namespace SIF.Utils.Forms.JsonViewer
             modulesList.Location = new Point(0, 0);
             modulesList.Margin = new Padding(3, 2, 3, 2);
             modulesList.Name = "modulesList";
-            modulesList.Size = new Size(668, 387);
+            modulesList.Size = new Size(752, 471);
             modulesList.TabIndex = 1;
             modulesList.UseCompatibleStateImageBehavior = false;
             modulesList.View = View.Details;
@@ -527,11 +530,11 @@ namespace SIF.Utils.Forms.JsonViewer
             // viewJsonRegisteredTasks
             // 
             viewJsonRegisteredTasks.Controls.Add(registeredTasksList);
-            viewJsonRegisteredTasks.Location = new Point(4, 28);
+            viewJsonRegisteredTasks.Location = new Point(4, 32);
             viewJsonRegisteredTasks.Margin = new Padding(3, 2, 3, 2);
             viewJsonRegisteredTasks.Name = "viewJsonRegisteredTasks";
             viewJsonRegisteredTasks.Padding = new Padding(3, 2, 3, 2);
-            viewJsonRegisteredTasks.Size = new Size(668, 387);
+            viewJsonRegisteredTasks.Size = new Size(752, 471);
             viewJsonRegisteredTasks.TabIndex = 7;
             viewJsonRegisteredTasks.Text = "Registered Tasks";
             viewJsonRegisteredTasks.UseVisualStyleBackColor = true;
@@ -546,7 +549,7 @@ namespace SIF.Utils.Forms.JsonViewer
             registeredTasksList.Margin = new Padding(3, 2, 3, 2);
             registeredTasksList.MultiSelect = false;
             registeredTasksList.Name = "registeredTasksList";
-            registeredTasksList.Size = new Size(662, 383);
+            registeredTasksList.Size = new Size(746, 467);
             registeredTasksList.TabIndex = 2;
             registeredTasksList.UseCompatibleStateImageBehavior = false;
             registeredTasksList.View = View.Details;
@@ -564,11 +567,11 @@ namespace SIF.Utils.Forms.JsonViewer
             // viewJsonRegisteredConfigFunctions
             // 
             viewJsonRegisteredConfigFunctions.Controls.Add(registeredConfigFunctionsList);
-            viewJsonRegisteredConfigFunctions.Location = new Point(4, 28);
+            viewJsonRegisteredConfigFunctions.Location = new Point(4, 32);
             viewJsonRegisteredConfigFunctions.Margin = new Padding(3, 2, 3, 2);
             viewJsonRegisteredConfigFunctions.Name = "viewJsonRegisteredConfigFunctions";
             viewJsonRegisteredConfigFunctions.Padding = new Padding(3, 2, 3, 2);
-            viewJsonRegisteredConfigFunctions.Size = new Size(668, 387);
+            viewJsonRegisteredConfigFunctions.Size = new Size(752, 471);
             viewJsonRegisteredConfigFunctions.TabIndex = 8;
             viewJsonRegisteredConfigFunctions.Text = "Registered Functions";
             viewJsonRegisteredConfigFunctions.UseVisualStyleBackColor = true;
@@ -583,7 +586,7 @@ namespace SIF.Utils.Forms.JsonViewer
             registeredConfigFunctionsList.Margin = new Padding(3, 2, 3, 2);
             registeredConfigFunctionsList.MultiSelect = false;
             registeredConfigFunctionsList.Name = "registeredConfigFunctionsList";
-            registeredConfigFunctionsList.Size = new Size(662, 383);
+            registeredConfigFunctionsList.Size = new Size(746, 467);
             registeredConfigFunctionsList.TabIndex = 2;
             registeredConfigFunctionsList.UseCompatibleStateImageBehavior = false;
             registeredConfigFunctionsList.View = View.Details;
@@ -604,11 +607,11 @@ namespace SIF.Utils.Forms.JsonViewer
             viewJsonSettings.Controls.Add(warnActionText);
             viewJsonSettings.Controls.Add(infoActionText);
             viewJsonSettings.Controls.Add(autoRegisterExtensionsCheck);
-            viewJsonSettings.Location = new Point(4, 28);
+            viewJsonSettings.Location = new Point(4, 32);
             viewJsonSettings.Margin = new Padding(3, 2, 3, 2);
             viewJsonSettings.Name = "viewJsonSettings";
             viewJsonSettings.Padding = new Padding(3, 2, 3, 2);
-            viewJsonSettings.Size = new Size(668, 387);
+            viewJsonSettings.Size = new Size(752, 471);
             viewJsonSettings.TabIndex = 9;
             viewJsonSettings.Text = "Settings";
             viewJsonSettings.UseVisualStyleBackColor = true;
@@ -616,14 +619,14 @@ namespace SIF.Utils.Forms.JsonViewer
             // errorActionText
             // 
             errorActionText.Enabled = false;
-            errorActionText.Location = new Point(5, 131);
+            errorActionText.Location = new Point(6, 159);
             errorActionText.Margin = new Padding(2);
             errorActionText.Multiline = false;
             errorActionText.Name = "errorActionText";
             errorActionText.PathSelectionFilter = "";
             errorActionText.PathSelectMode = PathSelectMode.Folder;
             errorActionText.ShowPathSelector = false;
-            errorActionText.Size = new Size(325, 45);
+            errorActionText.Size = new Size(366, 54);
             errorActionText.TabIndex = 3;
             errorActionText.TextInput = "";
             errorActionText.TextLabel = "Error Action";
@@ -632,14 +635,14 @@ namespace SIF.Utils.Forms.JsonViewer
             // warnActionText
             // 
             warnActionText.Enabled = false;
-            warnActionText.Location = new Point(5, 82);
+            warnActionText.Location = new Point(6, 99);
             warnActionText.Margin = new Padding(2);
             warnActionText.Multiline = false;
             warnActionText.Name = "warnActionText";
             warnActionText.PathSelectionFilter = "";
             warnActionText.PathSelectMode = PathSelectMode.Folder;
             warnActionText.ShowPathSelector = false;
-            warnActionText.Size = new Size(325, 45);
+            warnActionText.Size = new Size(366, 54);
             warnActionText.TabIndex = 2;
             warnActionText.TextInput = "";
             warnActionText.TextLabel = "Warning Action";
@@ -648,14 +651,14 @@ namespace SIF.Utils.Forms.JsonViewer
             // infoActionText
             // 
             infoActionText.Enabled = false;
-            infoActionText.Location = new Point(5, 32);
+            infoActionText.Location = new Point(6, 39);
             infoActionText.Margin = new Padding(2);
             infoActionText.Multiline = false;
             infoActionText.Name = "infoActionText";
             infoActionText.PathSelectionFilter = "";
             infoActionText.PathSelectMode = PathSelectMode.Folder;
             infoActionText.ShowPathSelector = false;
-            infoActionText.Size = new Size(325, 45);
+            infoActionText.Size = new Size(366, 54);
             infoActionText.TabIndex = 1;
             infoActionText.TextInput = "";
             infoActionText.TextLabel = "Information Action";
@@ -665,10 +668,10 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             autoRegisterExtensionsCheck.AutoSize = true;
             autoRegisterExtensionsCheck.Enabled = false;
-            autoRegisterExtensionsCheck.Location = new Point(5, 5);
+            autoRegisterExtensionsCheck.Location = new Point(6, 6);
             autoRegisterExtensionsCheck.Margin = new Padding(3, 2, 3, 2);
             autoRegisterExtensionsCheck.Name = "autoRegisterExtensionsCheck";
-            autoRegisterExtensionsCheck.Size = new Size(179, 23);
+            autoRegisterExtensionsCheck.Size = new Size(220, 27);
             autoRegisterExtensionsCheck.TabIndex = 0;
             autoRegisterExtensionsCheck.Text = "Auto Register Extensions";
             autoRegisterExtensionsCheck.UseVisualStyleBackColor = true;
@@ -676,11 +679,11 @@ namespace SIF.Utils.Forms.JsonViewer
             // viewJsonWarnings
             // 
             viewJsonWarnings.Controls.Add(warningsList);
-            viewJsonWarnings.Location = new Point(4, 28);
+            viewJsonWarnings.Location = new Point(4, 32);
             viewJsonWarnings.Margin = new Padding(3, 2, 3, 2);
             viewJsonWarnings.Name = "viewJsonWarnings";
             viewJsonWarnings.Padding = new Padding(3, 2, 3, 2);
-            viewJsonWarnings.Size = new Size(668, 387);
+            viewJsonWarnings.Size = new Size(752, 471);
             viewJsonWarnings.TabIndex = 10;
             viewJsonWarnings.Text = "ℹ️ Parse Warnings";
             viewJsonWarnings.UseVisualStyleBackColor = true;
@@ -692,7 +695,7 @@ namespace SIF.Utils.Forms.JsonViewer
             warningsList.Location = new Point(3, 2);
             warningsList.Margin = new Padding(3, 2, 3, 2);
             warningsList.Name = "warningsList";
-            warningsList.Size = new Size(662, 383);
+            warningsList.Size = new Size(746, 467);
             warningsList.TabIndex = 0;
             warningsList.UseCompatibleStateImageBehavior = false;
             warningsList.View = View.Details;
@@ -712,14 +715,14 @@ namespace SIF.Utils.Forms.JsonViewer
             // 
             // SifJsonViewerForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(viewJsonTabs);
             Controls.Add(FilePathText);
             Controls.Add(navigationPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "SifJsonViewerForm";
-            Size = new Size(676, 509);
+            Size = new Size(760, 616);
             viewJsonTabs.ResumeLayout(false);
             viewJsonTasks.ResumeLayout(false);
             viewJsonUninstallTasks.ResumeLayout(false);

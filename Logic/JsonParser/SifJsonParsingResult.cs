@@ -30,4 +30,6 @@ public class SifJsonParsingResult
     public SifJsonSettings? Settings { get; set; }
 
     public bool IsRawJson { get; set; }
+
+    public List<string> SectionOrder { get; set; } = [];
 }

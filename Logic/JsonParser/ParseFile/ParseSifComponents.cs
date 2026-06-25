@@ -349,6 +349,11 @@ public class ParseSifComponents : AutoProcessor
             }).ToList();
     }
 
+    public List<string> GetSectionOrder([Required] JsonElement jsonDocument)
+    {
+        return jsonDocument.EnumerateObject().Select(p => p.Name).ToList();
+    }
+
     public object GetSettings([Required] JsonElement jsonDocument)
     {
         if (!jsonDocument.TryGetProperty("Settings", out var settingsElement))
