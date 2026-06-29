@@ -49,12 +49,14 @@ namespace SIF.Utils
             };
             result.BackColor = Color.FromArgb(255, 255, 192);
 
+            string accessorSuffix = model.Accessor.HasValue ? $"[{model.Accessor.Value}]" : string.Empty;
+
             if (model.Name == "parameter")
             {
                 var param = model.Parameters.FirstOrDefault();
                 if (param is { Type: "string" })
                 {
-                    result.Text += " - " + param.Value;
+                    result.Text += " - " + param.Value + accessorSuffix;
                     return result;
                 }
             }
@@ -64,11 +66,12 @@ namespace SIF.Utils
                 var param = model.Parameters.SingleOrDefault();
                 if (param is { Type: "string" })
                 {
-                    result.Text += " - " + param.Value;
+                    result.Text += " - " + param.Value + accessorSuffix;
                     return result;
                 }
             }
 
+            result.Text += accessorSuffix;
             result.Nodes.AddRange(model.Parameters.Select(x => x.ToTreeNode()).ToArray());
 
             if (model.Name == "if" && result.Nodes.Count == 3)
@@ -88,9 +91,14 @@ namespace SIF.Utils
 
         public static TreeNode ToTreeNode(this ConfigFunctionParameter parameter)
         {
+            string namePrefix = string.IsNullOrEmpty(parameter.Name) ? string.Empty : parameter.Name + ": ";
+
             if (parameter.Type == "function")
             {
-                return ((ConfigFunctionModel)parameter.Value!).ToTreeNode();
+                var node = ((ConfigFunctionModel)parameter.Value!).ToTreeNode();
+                if (!string.IsNullOrEmpty(namePrefix))
+                    node.Text = namePrefix + node.Text;
+                return node;
             }
 
             var result = new TreeNode
@@ -103,6 +111,9 @@ namespace SIF.Utils
                 result.BackColor = Color.FromArgb(192, 255, 255);
                 result.Text = $"\"{result.Text}\"";
             }
+
+            if (!string.IsNullOrEmpty(namePrefix))
+                result.Text = namePrefix + result.Text;
 
             return result;
         }

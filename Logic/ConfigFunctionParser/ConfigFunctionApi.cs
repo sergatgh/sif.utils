@@ -18,7 +18,7 @@ namespace SIF.Utils.Logic.ConfigFunctionParser
                 return new ConfigFunctionParsingResult { Error = "ConfigFunction should start with [ and end with ]" };
             }
 
-            var bag = await Pipeline.From<ParseFunctionProcessor>().Run(new { function = PrepareFunction(configFunction) });
+            var bag = await Pipeline.From<ParseFunctionProcessor>().Run(new { function = configFunction });
 
             if (bag.HasErrors())
             {
@@ -30,17 +30,12 @@ namespace SIF.Utils.Logic.ConfigFunctionParser
 
         public bool IsConfigFunction(string value)
         {
-            return HasCorrectStartAndEnd(value);
+            return HasCorrectStartAndEnd(value) && Expressions.FunctionNameRegex.IsMatch(value.TrimConfigFunction());
         }
 
         protected bool HasCorrectStartAndEnd(string configFunction)
         {
-            return configFunction.StartsWith("\"[") && configFunction.EndsWith("]\"");
-        }
-
-        protected string PrepareFunction(string configFunction)
-        {
-            return configFunction.TrimStart('[', '"').TrimEnd(']', '"');
+            return Expressions.OpenCloseConfigFunctionSymbols.IsMatch(configFunction);
         }
     }
 }

@@ -11,5 +11,7 @@
         public List<ConfigFunctionParameter> Parameters { get; set; } = [];
 
         public bool HasParameters => Parameters.Any();
+
+        public int? Accessor { get; set; }
     }
 }

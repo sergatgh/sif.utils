@@ -1,22 +1,20 @@
-﻿using AutoPipe;
+using AutoPipe;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
 {
     public class ParseFunctionProcessor : AutoProcessor
     {
-        private readonly Regex _functionRegex = new Regex(@"^\s*([A-Za-z_]\w*)\s*\(\s*(.*?)\s*\)\s*$");
-        private readonly Regex _parametersRegex = new Regex(@"(?:([A-Za-z_]\w*):)?('(?:[^'\\]|\\.)*'|[^,\s][^,]*)");
-
         public object GetRoot(string function)
         {
             try
             {
-                var parsedFunction = ParseFunction(function);
+                var parsedFunction = ParseFunction(function.TrimConfigFunction());
 
                 if (parsedFunction == null)
                 {
-                    return ErrorHalt("Cannot parse function: " + function);
+                    return new ConfigFunctionModel { Name = function  };
                 }
 
                 return parsedFunction;
@@ -27,85 +25,210 @@ namespace SIF.Utils.Logic.ConfigFunctionParser.ParseFunction
             }
         }
 
-        protected ConfigFunctionModel? ParseFunction(string function)
+        protected ConfigFunctionModel? ParseFunction(string input)
         {
-            var model = new ConfigFunctionModel();
-
-            var matches = _functionRegex.Matches(function);
-            var nameMatch = matches.FirstOrDefault();
-            if (nameMatch == null)
-            {
-                return null;
-            }
-                
-            var name = nameMatch.Groups[1].Value;
-            var parameters = matches.First().Groups[2].Value;
-
-            if (string.IsNullOrWhiteSpace(name))
+            var nameMatch = Expressions.FunctionNameRegex.Match(input);
+            if (!nameMatch.Success)
             {
                 return null;
             }
 
-            model.Name = name;
+            string name = nameMatch.Groups[1].Value;
+            int parenStart = nameMatch.Index + nameMatch.Length - 1;
 
-            if (string.IsNullOrWhiteSpace(parameters))
+            int parenEnd = FindMatchingParen(input, parenStart);
+            if (parenEnd == -1)
             {
-                return model;
+                return null;
             }
 
-            var parameterMatches = _parametersRegex.Matches(parameters);
-            foreach (Match parameterMatch in parameterMatches)
+            string paramsStr = input.Substring(parenStart + 1, parenEnd - parenStart - 1);
+            string afterParen = input[(parenEnd + 1)..].Trim();
+
+            int? accessor = null;
+            if (afterParen.Length >= 3 && afterParen.StartsWith('[') && afterParen.EndsWith(']'))
             {
-                var match = parameterMatch.Groups[2].ToString()!;
-                if (match.StartsWith("'") && match.EndsWith("'"))
+                string accessorContent = afterParen[1..^1].Trim();
+                if (int.TryParse(accessorContent, out int idx))
                 {
-                    model.Parameters.Add(new ConfigFunctionParameter
-                    {
-                        Value = match.Substring(1, match.Length - 2),
-                        Type = "string",
-                    });
-                    continue;
+                    accessor = idx;
                 }
+            }
 
-                if (decimal.TryParse(match, out var decimalValue))
+            var model = new ConfigFunctionModel { Name = name, Accessor = accessor };
+
+            if (!string.IsNullOrWhiteSpace(paramsStr))
+            {
+                foreach (var token in SplitTopLevelParameters(paramsStr))
                 {
-                    model.Parameters.Add(new ConfigFunctionParameter
+                    var trimmed = token.Trim();
+                    if (!string.IsNullOrEmpty(trimmed))
                     {
-                        Value = decimalValue,
-                        Type = "number",
-                    });
-                    continue;
+                        model.Parameters.Add(ParseParameter(trimmed));
+                    }
                 }
-
-                if (!match.Contains("(") && !match.Contains(")"))
-                {
-                    model.Parameters.Add(new ConfigFunctionParameter
-                    {
-                        Value = match,
-                        Type = "string",
-                    });
-                    continue;
-                }
-
-                var configFunctionModel = ParseFunction(match);
-                if (configFunctionModel != null)
-                {
-                    model.Parameters.Add(new ConfigFunctionParameter
-                    {
-                        Value = configFunctionModel,
-                        Type = "function",
-                    });
-                    continue;
-                }
-
-                model.Parameters.Add(new ConfigFunctionParameter
-                {
-                    Value = match,
-                    Type = "unknown",
-                });
             }
 
             return model;
+        }
+
+        private ConfigFunctionParameter ParseParameter(string token)
+        {
+            int colonIndex = FindTopLevelColon(token);
+            if (colonIndex > 0)
+            {
+                string paramName = token.Substring(0, colonIndex).Trim();
+                string paramValue = token.Substring(colonIndex + 1).Trim();
+
+                if (Expressions.IdentifierRegex.IsMatch(paramName))
+                {
+                    var (value, type) = ParseValue(paramValue);
+                    return new ConfigFunctionParameter { Name = paramName, Value = value, Type = type };
+                }
+            }
+
+            var (val, t) = ParseValue(token);
+            return new ConfigFunctionParameter { Value = val, Type = t };
+        }
+
+        private (object value, string type) ParseValue(string token)
+        {
+            if (token.StartsWith('\'') && token.EndsWith('\'') && token.Length >= 2)
+            {
+                return (token[1..^1], "string");
+            }
+
+            if (token.StartsWith('"') && token.EndsWith('"') && token.Length >= 2)
+            {
+                return (token[1..^1], "string");
+            }
+
+            if (int.TryParse(token, out int intVal))
+            {
+                return (intVal, "number");
+            }
+
+            if (decimal.TryParse(token, NumberStyles.Number, CultureInfo.InvariantCulture, out var dec))
+            {
+                return (dec, "number");
+            }
+
+            if (token.Equals("True", StringComparison.OrdinalIgnoreCase) ||
+                token.Equals("False", StringComparison.OrdinalIgnoreCase))
+            {
+                return (bool.Parse(token), "boolean");
+            }
+
+            if (token.Contains('('))
+            {
+                var nested = ParseFunction(token);
+                if (nested != null)
+                {
+                    return (nested, "function");
+                }
+            }
+
+            return (token, "string");
+        }
+
+        private int FindMatchingParen(string input, int openIndex)
+        {
+            int depth = 0;
+            bool inSingle = false;
+            bool inDouble = false;
+
+            for (int i = openIndex; i < input.Length; i++)
+            {
+                char c = input[i];
+
+                if (c == '\'' && !inDouble) { inSingle = !inSingle; continue; }
+                if (c == '"' && !inSingle) { inDouble = !inDouble; continue; }
+                if (inSingle || inDouble)
+                {
+                    continue;
+                }
+
+                if (c == '(')
+                {
+                    depth++;
+                }
+                else if (c == ')' && --depth == 0)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private List<string> SplitTopLevelParameters(string paramsStr)
+        {
+            var result = new List<string>();
+            int depth = 0;
+            bool inSingle = false;
+            bool inDouble = false;
+            int start = 0;
+
+            for (int i = 0; i < paramsStr.Length; i++)
+            {
+                char c = paramsStr[i];
+
+                if (c == '\'' && !inDouble) { inSingle = !inSingle; continue; }
+                if (c == '"' && !inSingle) { inDouble = !inDouble; continue; }
+                if (inSingle || inDouble)
+                {
+                    continue;
+                }
+
+                if (c == '(' || c == '[')
+                {
+                    depth++;
+                }
+                else if (c == ')' || c == ']')
+                {
+                    depth--;
+                }
+                else if (c == ',' && depth == 0)
+                {
+                    result.Add(paramsStr.Substring(start, i - start));
+                    start = i + 1;
+                }
+            }
+
+            result.Add(paramsStr.Substring(start));
+            return result;
+        }
+
+        private int FindTopLevelColon(string token)
+        {
+            bool inSingle = false;
+            bool inDouble = false;
+            int depth = 0;
+
+            for (int i = 0; i < token.Length; i++)
+            {
+                char c = token[i];
+
+                if (c == '\'' && !inDouble) { inSingle = !inSingle; continue; }
+                if (c == '"' && !inSingle) { inDouble = !inDouble; continue; }
+                if (inSingle || inDouble)
+                {
+                    continue;
+                }
+
+                if (c == '(' || c == '[')
+                {
+                    depth++;
+                }
+                else if (c == ')' || c == ']')
+                {
+                    depth--;
+                }
+                else if (c == ':' && depth == 0)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
