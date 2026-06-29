@@ -18,19 +18,38 @@ namespace SIF.Utils.Forms.JsonBuilder
         {
             ClearAll();
             foreach (var task in result.Tasks)
+            {
                 taskBuilderPanel1.AddTaskFromModel(task);
+            }
+
             foreach (var task in result.UninstallTasks)
+            {
                 uninstallTaskBuilderPanel.AddTaskFromModel(task);
+            }
+
             parametersForm1.LoadFromModels(result.Parameters);
             variablesForm1.LoadFromModels(result.Variables);
             includeFiles1.LoadFromModels(result.Includes);
             modulesControlPanel1.LoadFromModels(result.Modules);
             foreach (var rt in result.RegisteredTasks)
+            {
                 registerTasks.AddMethod(new RegisterMethodModel { PowershellFunction = rt.Command, RegisterAs = rt.Name });
+            }
+
             foreach (var cf in result.RegisteredConfigFunctions)
+            {
                 registerFunctions.AddMethod(new RegisterMethodModel { PowershellFunction = cf.Command, RegisterAs = cf.Name });
+            }
+
             if (result.Settings != null)
+            {
                 settingsForm1.LoadFromModel(result.Settings);
+            }
+
+            if (result.SectionOrder.Count > 0)
+            {
+                sectionOrderPanel1.ApplySectionOrder(result.SectionOrder);
+            }
         }
 
         private void ClearAll()
@@ -48,26 +67,40 @@ namespace SIF.Utils.Forms.JsonBuilder
 
         public string BuildJson(string? filePath = null)
         {
-            var taskObjects = taskBuilderPanel1.SelectedTasks;
+            var sections = BuildSections(filePath);
+            var resultJson = new JsonObject();
+
+            foreach (var key in sectionOrderPanel1.GetSectionOrder())
+            {
+                if (sections.TryGetValue(key, out var node))
+                {
+                    resultJson[key] = node;
+                }
+            }
+
+            return resultJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+        }
+
+        private Dictionary<string, JsonNode> BuildSections(string? filePath)
+        {
+            var sections = new Dictionary<string, JsonNode>();
+
             var tasksJson = new JsonObject();
-            foreach (var task in taskObjects)
+            foreach (var task in taskBuilderPanel1.SelectedTasks)
             {
                 var (taskName, taskJson) = task.ToJson();
                 tasksJson[taskName] = taskJson;
             }
-
-            var modulePaths = new JsonArray(modulesControlPanel1.ModulePaths.Select<string, JsonNode>(x => x).ToArray());
-
-            var resultJson = new JsonObject { ["Tasks"] = tasksJson };
+            sections["Tasks"] = tasksJson;
 
             if (parametersForm1.HasParameters())
             {
-                resultJson["Parameters"] = parametersForm1.GetJson();
+                sections["Parameters"] = parametersForm1.GetJson();
             }
 
             if (variablesForm1.HasVariables())
             {
-                resultJson["Variables"] = variablesForm1.GetJson();
+                sections["Variables"] = variablesForm1.GetJson();
             }
 
             if (uninstallTaskBuilderPanel.SelectedTasks.Count > 0)
@@ -78,41 +111,43 @@ namespace SIF.Utils.Forms.JsonBuilder
                     var (taskName, taskJson) = task.ToJson();
                     uninstallTasksJson[taskName] = taskJson;
                 }
-                resultJson["UninstallTasks"] = uninstallTasksJson;
+                sections["UninstallTasks"] = uninstallTasksJson;
             }
 
+            var modulePaths = new JsonArray(modulesControlPanel1.ModulePaths.Select<string, JsonNode>(x => x).ToArray());
             if (modulePaths.Count > 0)
             {
-                resultJson["Modules"] = modulePaths;
+                sections["Modules"] = modulePaths;
             }
 
             if (includeFiles1.Count > 0)
             {
-                resultJson["Includes"] = includeFiles1.GetJson(filePath);
+                sections["Includes"] = includeFiles1.GetJson(filePath);
             }
 
             if (registerTasks.HasRegisterMethods || registerFunctions.HasRegisterMethods)
             {
                 var registerJson = new JsonObject();
-                resultJson["Register"] = registerJson;
                 if (registerTasks.HasRegisterMethods)
                 {
                     registerJson["Tasks"] = registerTasks.GetJsonObject();
                 }
+
                 if (registerFunctions.HasRegisterMethods)
                 {
                     registerJson["ConfigFunction"] = registerFunctions.GetJsonObject();
                 }
+
+                sections["Register"] = registerJson;
             }
 
             var settingsJson = settingsForm1.GetJson();
-
             if (settingsJson.Count > 0)
             {
-                resultJson["Settings"] = settingsJson;
+                sections["Settings"] = settingsJson;
             }
 
-            return resultJson.ToJsonString(new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+            return sections;
         }
 
         private void taskBuilderPanel1_TaskAdded(object sender, EventArgs e)

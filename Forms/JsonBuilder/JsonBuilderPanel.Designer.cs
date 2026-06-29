@@ -1,5 +1,6 @@
 ﻿namespace SIF.Utils.Forms.JsonBuilder
 {
+    using SIF.Utils.Forms.JsonBuilder.SectionOrder;
     using SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
     partial class JsonBuilderPanel
@@ -49,6 +50,8 @@
             registerFunctions = new SIF.Utils.Forms.JsonBuilder.Register.RegisterMethodTable();
             viewJsonSettings = new TabPage();
             settingsForm1 = new SIF.Utils.Forms.JsonBuilder.Settings.SettingsForm();
+            viewJsonSectionOrder = new TabPage();
+            sectionOrderPanel1 = new SectionOrderPanel();
             viewJsonTabs.SuspendLayout();
             viewJsonTasks.SuspendLayout();
             viewJsonUninstallTasks.SuspendLayout();
@@ -59,6 +62,7 @@
             viewJsonRegisteredTasks.SuspendLayout();
             viewJsonRegisteredConfigFunctions.SuspendLayout();
             viewJsonSettings.SuspendLayout();
+            viewJsonSectionOrder.SuspendLayout();
             SuspendLayout();
             // 
             // viewJsonTabs
@@ -72,6 +76,7 @@
             viewJsonTabs.Controls.Add(viewJsonRegisteredTasks);
             viewJsonTabs.Controls.Add(viewJsonRegisteredConfigFunctions);
             viewJsonTabs.Controls.Add(viewJsonSettings);
+            viewJsonTabs.Controls.Add(viewJsonSectionOrder);
             viewJsonTabs.Dock = DockStyle.Fill;
             viewJsonTabs.Location = new Point(0, 0);
             viewJsonTabs.Name = "viewJsonTabs";
@@ -262,9 +267,28 @@
             settingsForm1.Name = "settingsForm1";
             settingsForm1.Size = new Size(921, 318);
             settingsForm1.TabIndex = 0;
-            // 
+            //
+            // viewJsonSectionOrder
+            //
+            viewJsonSectionOrder.Controls.Add(sectionOrderPanel1);
+            viewJsonSectionOrder.Location = new Point(4, 32);
+            viewJsonSectionOrder.Name = "viewJsonSectionOrder";
+            viewJsonSectionOrder.Padding = new Padding(3);
+            viewJsonSectionOrder.Size = new Size(927, 324);
+            viewJsonSectionOrder.TabIndex = 10;
+            viewJsonSectionOrder.Text = "Section Order";
+            viewJsonSectionOrder.UseVisualStyleBackColor = true;
+            //
+            // sectionOrderPanel1
+            //
+            sectionOrderPanel1.Dock = DockStyle.Fill;
+            sectionOrderPanel1.Location = new Point(3, 3);
+            sectionOrderPanel1.Name = "sectionOrderPanel1";
+            sectionOrderPanel1.Size = new Size(921, 318);
+            sectionOrderPanel1.TabIndex = 0;
+            //
             // JsonBuilderPanel
-            // 
+            //
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(viewJsonTabs);
@@ -280,6 +304,7 @@
             viewJsonRegisteredTasks.ResumeLayout(false);
             viewJsonRegisteredConfigFunctions.ResumeLayout(false);
             viewJsonSettings.ResumeLayout(false);
+            viewJsonSectionOrder.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -304,5 +329,7 @@
         private Includes.IncludeFiles includeFiles1;
         private TabPage viewJsonSettings;
         private Settings.SettingsForm settingsForm1;
+        private TabPage viewJsonSectionOrder;
+        private SectionOrderPanel sectionOrderPanel1;
     }
 }
