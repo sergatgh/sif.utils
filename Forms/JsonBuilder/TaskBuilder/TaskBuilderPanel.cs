@@ -87,6 +87,12 @@ public partial class TaskBuilderPanel : UserControl
 
     public void TaskBuilderPanel_Load(object sender, EventArgs e)
     {
+        listView1.AllowDrop = true;
+        listView1.ItemDrag += listView1_ItemDrag;
+        listView1.DragEnter += listView1_DragEnter;
+        listView1.DragOver += listView1_DragOver;
+        listView1.DragDrop += listView1_DragDrop;
+
         listView1.Items.Clear();
         defaultToolStripMenuItem.DropDownItems.Clear();
         powerShellToolStripMenuItem.DropDownItems.Clear();
@@ -152,7 +158,47 @@ public partial class TaskBuilderPanel : UserControl
         if (e.Button != MouseButtons.Left)
             return;
 
-        listView1.DoDragDrop(e.Item.ToString(), DragDropEffects.Move);
+        listView1.DoDragDrop(e.Item!, DragDropEffects.Move);
+    }
+
+    private void listView1_DragEnter(object sender, DragEventArgs e)
+    {
+        e.Effect = e.Data?.GetDataPresent(typeof(ListViewItem)) == true
+            ? DragDropEffects.Move
+            : DragDropEffects.None;
+    }
+
+    private void listView1_DragOver(object sender, DragEventArgs e)
+    {
+        e.Effect = e.Data?.GetDataPresent(typeof(ListViewItem)) == true
+            ? DragDropEffects.Move
+            : DragDropEffects.None;
+    }
+
+    private void listView1_DragDrop(object sender, DragEventArgs e)
+    {
+        if (e.Data?.GetDataPresent(typeof(ListViewItem)) != true)
+            return;
+
+        var draggedItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem))!;
+        var sourceIndex = draggedItem.Index;
+
+        var targetPoint = listView1.PointToClient(new Point(e.X, e.Y));
+        var targetItem = listView1.GetItemAt(targetPoint.X, targetPoint.Y);
+        var targetIndex = targetItem?.Index ?? listView1.Items.Count - 1;
+
+        if (sourceIndex == targetIndex)
+            return;
+
+        var task = SelectedTasks[sourceIndex];
+        SelectedTasks.RemoveAt(sourceIndex);
+        SelectedTasks.Insert(targetIndex, task);
+
+        var text = draggedItem.Text;
+        var imageKey = draggedItem.ImageKey;
+        listView1.Items.RemoveAt(sourceIndex);
+        var inserted = listView1.Items.Insert(targetIndex, text, imageKey);
+        inserted.Selected = true;
     }
 
     private void removeToolStripMenuItem_Click(object sender, EventArgs e)

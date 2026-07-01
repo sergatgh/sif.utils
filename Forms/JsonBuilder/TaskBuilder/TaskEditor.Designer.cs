@@ -45,14 +45,14 @@
             // descriptionInput
             // 
             descriptionInput.Dock = DockStyle.Top;
-            descriptionInput.Location = new Point(0, 38);
-            descriptionInput.Margin = new Padding(0, 0, 0, 7);
+            descriptionInput.Location = new Point(0, 58);
+            descriptionInput.Margin = new Padding(0, 0, 0, 11);
             descriptionInput.Multiline = true;
             descriptionInput.Name = "descriptionInput";
             descriptionInput.PathSelectionFilter = "";
             descriptionInput.PathSelectMode = PathSelectMode.Folder;
             descriptionInput.ShowPathSelector = false;
-            descriptionInput.Size = new Size(549, 62);
+            descriptionInput.Size = new Size(706, 95);
             descriptionInput.TabIndex = 4;
             descriptionInput.TextInput = "";
             descriptionInput.TextLabel = "Description";
@@ -61,14 +61,14 @@
             // skipInput
             // 
             skipInput.Dock = DockStyle.Top;
-            skipInput.Location = new Point(0, 153);
-            skipInput.Margin = new Padding(2, 1, 2, 1);
+            skipInput.Location = new Point(0, 234);
+            skipInput.Margin = new Padding(3, 2, 3, 2);
             skipInput.Multiline = false;
             skipInput.Name = "skipInput";
             skipInput.PathSelectionFilter = "";
             skipInput.PathSelectMode = PathSelectMode.Folder;
             skipInput.ShowPathSelector = false;
-            skipInput.Size = new Size(549, 38);
+            skipInput.Size = new Size(706, 58);
             skipInput.TabIndex = 5;
             skipInput.TextInput = "";
             skipInput.TextLabel = "Skip";
@@ -78,13 +78,13 @@
             // 
             nameInput.Dock = DockStyle.Top;
             nameInput.Location = new Point(0, 0);
-            nameInput.Margin = new Padding(2, 1, 2, 1);
+            nameInput.Margin = new Padding(3, 2, 3, 2);
             nameInput.Multiline = false;
             nameInput.Name = "nameInput";
             nameInput.PathSelectionFilter = "";
             nameInput.PathSelectMode = PathSelectMode.Folder;
             nameInput.ShowPathSelector = false;
-            nameInput.Size = new Size(549, 38);
+            nameInput.Size = new Size(706, 58);
             nameInput.TabIndex = 3;
             nameInput.TextInput = "";
             nameInput.TextLabel = "Name        ";
@@ -93,14 +93,14 @@
             // requiresInput
             // 
             requiresInput.Dock = DockStyle.Top;
-            requiresInput.Location = new Point(0, 191);
-            requiresInput.Margin = new Padding(2, 1, 2, 1);
+            requiresInput.Location = new Point(0, 292);
+            requiresInput.Margin = new Padding(3, 2, 3, 2);
             requiresInput.Multiline = false;
             requiresInput.Name = "requiresInput";
             requiresInput.PathSelectionFilter = "";
             requiresInput.PathSelectMode = PathSelectMode.Folder;
             requiresInput.ShowPathSelector = false;
-            requiresInput.Size = new Size(549, 38);
+            requiresInput.Size = new Size(706, 58);
             requiresInput.TabIndex = 6;
             requiresInput.TextInput = "";
             requiresInput.TextLabel = "Requires";
@@ -114,10 +114,9 @@
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
-            label1.Location = new Point(0, 100);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(0, 153);
             label1.Name = "label1";
-            label1.Size = new Size(66, 15);
+            label1.Size = new Size(95, 23);
             label1.TabIndex = 8;
             label1.Text = "Parameters";
             // 
@@ -147,18 +146,17 @@
             parametersDataGrid.DataSource = taskParameterModelBindingSource;
             parametersDataGrid.Dock = DockStyle.Top;
             parametersDataGrid.EditMode = DataGridViewEditMode.EditOnEnter;
-            parametersDataGrid.Location = new Point(0, 115);
-            parametersDataGrid.Margin = new Padding(2, 2, 2, 2);
+            parametersDataGrid.Location = new Point(0, 176);
             parametersDataGrid.Name = "parametersDataGrid";
             parametersDataGrid.RowHeadersWidth = 51;
-            parametersDataGrid.Size = new Size(549, 38);
+            parametersDataGrid.Size = new Size(706, 58);
             parametersDataGrid.TabIndex = 7;
             parametersDataGrid.RowsAdded += dataGridView1_RowsAdded;
             parametersDataGrid.RowsRemoved += dataGridView1_RowsRemoved;
             // 
             // TaskEditor
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             Controls.Add(requiresInput);
@@ -167,10 +165,9 @@
             Controls.Add(label1);
             Controls.Add(descriptionInput);
             Controls.Add(nameInput);
-            Margin = new Padding(2, 2, 2, 2);
-            MinimumSize = new Size(39, 33);
+            MinimumSize = new Size(50, 51);
             Name = "TaskEditor";
-            Size = new Size(549, 331);
+            Size = new Size(706, 508);
             ((System.ComponentModel.ISupportInitialize)taskParameterModelBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)parametersDataGrid).EndInit();
             ResumeLayout(false);

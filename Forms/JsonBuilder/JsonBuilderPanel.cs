@@ -53,6 +53,21 @@ namespace SIF.Utils.Forms.JsonBuilder
             }
         }
 
+        public bool HasContent()
+        {
+            return taskBuilderPanel1.SelectedTasks.Count > 0
+                || uninstallTaskBuilderPanel.SelectedTasks.Count > 0
+                || parametersForm1.HasParameters()
+                || variablesForm1.HasVariables()
+                || includeFiles1.Count > 0
+                || modulesControlPanel1.ModulePaths.Length > 0
+                || registerTasks.HasRegisterMethods
+                || registerFunctions.HasRegisterMethods
+                || settingsForm1.GetJson().Count > 0;
+        }
+
+        public void Clear() => ClearAll();
+
         private void ClearAll()
         {
             taskBuilderPanel1.Clear();

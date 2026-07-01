@@ -24,6 +24,7 @@ public partial class JsonBuilderForm : UserControl
         toolTip1.SetToolTip(previewButton, "Preview JSON");
         toolTip1.SetToolTip(saveJsonToFileButton, "Save as a JSON");
         toolTip1.SetToolTip(importJsonButton, "Import existing JSON (alpha)");
+        toolTip1.SetToolTip(newJsonButton, "Start over (clear all)");
     }
 
     public void LoadFromResult(SifJsonParsingResult result)
@@ -52,5 +53,30 @@ public partial class JsonBuilderForm : UserControl
     {
         string json = jsonBuilderPanel.BuildJson();
         new JsonViewer("SIF JSON Preview", json).ShowDialog();
+    }
+
+    private void newJsonButton_Click(object sender, EventArgs e)
+    {
+        if (jsonBuilderPanel.HasContent())
+        {
+            var answer = MessageBox.Show(
+                "All current content will be lost. Do you want to save before starting over?",
+                "Start Over",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button3);
+
+            if (answer == DialogResult.Cancel) return;
+
+            if (answer == DialogResult.Yes)
+            {
+                var saveResult = saveSifJson.ShowDialog();
+                if (saveResult != DialogResult.OK) return;
+                string json = jsonBuilderPanel.BuildJson(saveSifJson.FileName);
+                File.WriteAllText(saveSifJson.FileName, json);
+            }
+        }
+
+        jsonBuilderPanel.Clear();
     }
 }

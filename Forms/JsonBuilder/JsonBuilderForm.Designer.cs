@@ -34,6 +34,7 @@
             saveJsonToFileButton = new Button();
             previewButton = new Button();
             importJsonButton = new Button();
+            newJsonButton = new Button();
             jsonBuilderPanel = new JsonBuilderPanel();
             navigationPanel = new SIF.Utils.Forms.Common.NavigationPanel();
             saveSifJson = new SaveFileDialog();
@@ -60,6 +61,7 @@
             flowLayoutPanel1.Controls.Add(saveJsonToFileButton);
             flowLayoutPanel1.Controls.Add(previewButton);
             flowLayoutPanel1.Controls.Add(importJsonButton);
+            flowLayoutPanel1.Controls.Add(newJsonButton);
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
             flowLayoutPanel1.Location = new Point(700, 8);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -92,6 +94,19 @@
             importJsonButton.Text = "📥";
             importJsonButton.UseVisualStyleBackColor = false;
             importJsonButton.Click += importJsonButton_Click;
+            //
+            // newJsonButton
+            //
+            newJsonButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            newJsonButton.BackColor = Color.Transparent;
+            newJsonButton.Font = new Font("Segoe UI", 22F);
+            newJsonButton.Margin = new Padding(0);
+            newJsonButton.Name = "newJsonButton";
+            newJsonButton.Size = new Size(73, 56);
+            newJsonButton.TabIndex = 8;
+            newJsonButton.Text = "🆕";
+            newJsonButton.UseVisualStyleBackColor = false;
+            newJsonButton.Click += newJsonButton_Click;
             //
             // previewButton
             //
@@ -153,6 +168,7 @@
         internal Button previewButton;
         internal Button saveJsonToFileButton;
         internal Button importJsonButton;
+        internal Button newJsonButton;
         private SaveFileDialog saveSifJson;
         private FlowLayoutPanel flowLayoutPanel1;
         private ToolTip toolTip1;
