@@ -28,6 +28,7 @@ namespace SIF.Utils.Forms.JsonBuilder
             }
 
             parametersForm1.LoadFromModels(result.Parameters);
+            parametersForm1.SetIncludes(result.Includes);
             variablesForm1.LoadFromModels(result.Variables);
             includeFiles1.LoadFromModels(result.Includes);
             modulesControlPanel1.LoadFromModels(result.Modules);

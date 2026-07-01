@@ -130,7 +130,7 @@
             viewJsonParameters.Controls.Add(parametersForm1);
             viewJsonParameters.Location = new Point(4, 32);
             viewJsonParameters.Name = "viewJsonParameters";
-            viewJsonParameters.Size = new Size(192, 64);
+            viewJsonParameters.Size = new Size(927, 324);
             viewJsonParameters.TabIndex = 3;
             viewJsonParameters.Text = "Parameters";
             viewJsonParameters.ToolTipText = "Coming Soon";
@@ -142,7 +142,7 @@
             parametersForm1.Dock = DockStyle.Fill;
             parametersForm1.Location = new Point(0, 0);
             parametersForm1.Name = "parametersForm1";
-            parametersForm1.Size = new Size(192, 64);
+            parametersForm1.Size = new Size(927, 324);
             parametersForm1.TabIndex = 0;
             // 
             // viewJsonVariables
@@ -255,7 +255,7 @@
             viewJsonSettings.Location = new Point(4, 32);
             viewJsonSettings.Name = "viewJsonSettings";
             viewJsonSettings.Padding = new Padding(3);
-            viewJsonSettings.Size = new Size(927, 324);
+            viewJsonSettings.Size = new Size(192, 64);
             viewJsonSettings.TabIndex = 9;
             viewJsonSettings.Text = "Settings";
             viewJsonSettings.UseVisualStyleBackColor = true;
@@ -265,30 +265,30 @@
             settingsForm1.Dock = DockStyle.Fill;
             settingsForm1.Location = new Point(3, 3);
             settingsForm1.Name = "settingsForm1";
-            settingsForm1.Size = new Size(921, 318);
+            settingsForm1.Size = new Size(186, 58);
             settingsForm1.TabIndex = 0;
-            //
+            // 
             // viewJsonSectionOrder
-            //
+            // 
             viewJsonSectionOrder.Controls.Add(sectionOrderPanel1);
             viewJsonSectionOrder.Location = new Point(4, 32);
             viewJsonSectionOrder.Name = "viewJsonSectionOrder";
             viewJsonSectionOrder.Padding = new Padding(3);
-            viewJsonSectionOrder.Size = new Size(927, 324);
+            viewJsonSectionOrder.Size = new Size(192, 64);
             viewJsonSectionOrder.TabIndex = 10;
             viewJsonSectionOrder.Text = "Section Order";
             viewJsonSectionOrder.UseVisualStyleBackColor = true;
-            //
+            // 
             // sectionOrderPanel1
-            //
+            // 
             sectionOrderPanel1.Dock = DockStyle.Fill;
             sectionOrderPanel1.Location = new Point(3, 3);
             sectionOrderPanel1.Name = "sectionOrderPanel1";
-            sectionOrderPanel1.Size = new Size(921, 318);
+            sectionOrderPanel1.Size = new Size(186, 58);
             sectionOrderPanel1.TabIndex = 0;
-            //
+            // 
             // JsonBuilderPanel
-            //
+            // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(viewJsonTabs);
