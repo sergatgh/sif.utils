@@ -1,4 +1,5 @@
 ﻿using SIF.Utils.Logic.JsonParser;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
@@ -8,10 +9,37 @@ using SIF.Utils.Helpers;
 
 public partial class TaskEditor : UserControl
 {
+    private bool _enableSectionEditButton;
+
+    public event EventHandler<ParameterSectionEditEventArgs>? SectionEditRequested;
+
     public TaskEditor()
     {
         InitializeComponent();
         AddSection();
+    }
+
+    [Browsable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool EnableSectionEditButton
+    {
+        get => _enableSectionEditButton;
+        set
+        {
+            _enableSectionEditButton = value;
+            foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
+            {
+                section.ShowEditButton = value;
+            }
+        }
+    }
+
+    public void SetDefaultParameters(IReadOnlyDictionary<string, string> defaults)
+    {
+        var firstSection = parameterSectionsPanel.Controls.OfType<ParameterSectionControl>().FirstOrDefault();
+        if (firstSection == null || defaults.Count == 0) return;
+
+        firstSection.LoadParameters(defaults.Select(kv => new TaskParameterModel { Name = kv.Key, Value = kv.Value }));
     }
 
     public void LoadFromModel(SifJsonTaskModel model)
@@ -59,6 +87,7 @@ public partial class TaskEditor : UserControl
         foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>().ToList())
         {
             section.RemoveRequested -= Section_RemoveRequested;
+            section.EditRequested -= Section_EditRequested;
             parameterSectionsPanel.Controls.Remove(section);
             section.Dispose();
         }
@@ -68,7 +97,9 @@ public partial class TaskEditor : UserControl
     {
         var section = new ParameterSectionControl();
         section.LoadParameters(parameters ?? Enumerable.Empty<TaskParameterModel>());
+        section.ShowEditButton = _enableSectionEditButton;
         section.RemoveRequested += Section_RemoveRequested;
+        section.EditRequested += Section_EditRequested;
         parameterSectionsPanel.Controls.Add(section);
         SizeSectionToPanel(section);
         UpdateSectionHeaders();
@@ -80,9 +111,16 @@ public partial class TaskEditor : UserControl
         if (parameterSectionsPanel.Controls.Count <= 1) return;
 
         section.RemoveRequested -= Section_RemoveRequested;
+        section.EditRequested -= Section_EditRequested;
         parameterSectionsPanel.Controls.Remove(section);
         section.Dispose();
         UpdateSectionHeaders();
+    }
+
+    private void Section_EditRequested(object? sender, EventArgs e)
+    {
+        if (sender is not ParameterSectionControl section) return;
+        SectionEditRequested?.Invoke(this, new ParameterSectionEditEventArgs(section));
     }
 
     private void UpdateSectionHeaders()
@@ -151,4 +189,9 @@ public class TaskParameterModel
 {
     public string Name { get; set; } = string.Empty;
     public string Value { get; set; } = string.Empty;
+}
+
+public class ParameterSectionEditEventArgs(ParameterSectionControl section) : EventArgs
+{
+    public ParameterSectionControl Section { get; } = section;
 }

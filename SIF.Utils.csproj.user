@@ -22,6 +22,12 @@
     <Compile Update="Forms\JsonBuilder\SectionOrder\SectionOrderPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\EditSectionDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\Primitive\WriteHostTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonViewer\ReferencesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,9 +176,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebSiteTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\Primitive\WriteHostTask.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\TaskBuilderPanel.cs">

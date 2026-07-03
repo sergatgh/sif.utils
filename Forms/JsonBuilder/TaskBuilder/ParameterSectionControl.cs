@@ -5,6 +5,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 public partial class ParameterSectionControl : UserControl
 {
     public event EventHandler? RemoveRequested;
+    public event EventHandler? EditRequested;
 
     public ParameterSectionControl()
     {
@@ -26,6 +27,14 @@ public partial class ParameterSectionControl : UserControl
     {
         get => removeButton.Visible;
         set => removeButton.Visible = value;
+    }
+
+    [Browsable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowEditButton
+    {
+        get => editButton.Visible;
+        set => editButton.Visible = value;
     }
 
     public void LoadParameters(IEnumerable<TaskParameterModel> parameters)
@@ -54,6 +63,8 @@ public partial class ParameterSectionControl : UserControl
     }
 
     private void removeButton_Click(object sender, EventArgs e) => RemoveRequested?.Invoke(this, EventArgs.Empty);
+
+    private void editButton_Click(object sender, EventArgs e) => EditRequested?.Invoke(this, EventArgs.Empty);
 
     private void parametersDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e) => AdjustDataGridViewHeight((DataGridView)sender);
 

@@ -32,6 +32,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             taskParameterModelBindingSource = new BindingSource(components);
             headerPanel = new Panel();
             removeButton = new Button();
+            editButton = new Button();
             titleLabel = new Label();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             valueDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -48,6 +49,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             // headerPanel
             //
             headerPanel.Controls.Add(titleLabel);
+            headerPanel.Controls.Add(editButton);
             headerPanel.Controls.Add(removeButton);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
@@ -72,6 +74,24 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             removeButton.TextAlign = ContentAlignment.MiddleCenter;
             removeButton.UseVisualStyleBackColor = true;
             removeButton.Click += removeButton_Click;
+            //
+            // editButton
+            //
+            editButton.Dock = DockStyle.Right;
+            editButton.FlatAppearance.BorderSize = 0;
+            editButton.FlatStyle = FlatStyle.Flat;
+            editButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            editButton.Location = new Point(616, 4);
+            editButton.Margin = new Padding(0);
+            editButton.Name = "editButton";
+            editButton.Padding = new Padding(0);
+            editButton.Size = new Size(38, 30);
+            editButton.TabIndex = 3;
+            editButton.Text = "✎";
+            editButton.TextAlign = ContentAlignment.MiddleCenter;
+            editButton.UseVisualStyleBackColor = true;
+            editButton.Visible = false;
+            editButton.Click += editButton_Click;
             //
             // titleLabel
             //
@@ -142,6 +162,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
         private BindingSource taskParameterModelBindingSource;
         private Panel headerPanel;
         private Button removeButton;
+        private Button editButton;
         private Label titleLabel;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;

@@ -67,6 +67,8 @@ public partial class TaskBuilderPanel : UserControl
             editorControl.Dock = DockStyle.Fill;
             if (editorControl is AdvancedTask advancedTask)
                 advancedTask.LoadFromModel(model);
+            else if (editorControl is TaskEditor taskEditor)
+                taskEditor.LoadFromModel(model);
             SelectedTasks.Add(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl });
             var item = listView1.Items.Add(taskInfo.DisplayName, taskInfo.DisplayName);
             TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
