@@ -21,6 +21,7 @@ public partial class TaskBuilderPanel : UserControl
     public TaskBuilderPanel()
     {
         InitializeComponent();
+        InitializeTaskBuilder();
     }
 
     public void AddTypeSuggestion(string type)
@@ -87,7 +88,7 @@ public partial class TaskBuilderPanel : UserControl
         }
     }
 
-    public void TaskBuilderPanel_Load(object sender, EventArgs e)
+    private void InitializeTaskBuilder()
     {
         listView1.AllowDrop = true;
         listView1.ItemDrag += listView1_ItemDrag;

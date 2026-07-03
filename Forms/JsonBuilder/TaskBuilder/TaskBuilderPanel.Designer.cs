@@ -141,7 +141,6 @@
             Controls.Add(splitContainer1);
             Name = "TaskBuilderPanel";
             Size = new Size(828, 393);
-            Load += TaskBuilderPanel_Load;
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
