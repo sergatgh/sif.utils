@@ -331,14 +331,14 @@ public class ParseSifComponents : AutoProcessor
 
     private object GetRegisteredConfigFunctions([Required] JsonElement registerElement)
     {
-        if (!registerElement.TryGetProperty("ConfigFunctions", out var tasksElement))
+        if (!registerElement.TryGetProperty("ConfigFunction", out var tasksElement))
         {
             return Info("Custom functions are not registered.");
         }
 
         if (tasksElement.ValueKind != JsonValueKind.Object)
         {
-            return Warning("The 'ConfigFunctions' property in 'Register' is not an object.");
+            return Warning("The 'ConfigFunction' property in 'Register' is not an object.");
         }
 
         return tasksElement.EnumerateObject().Select(parameter =>
