@@ -11,41 +11,7 @@ public partial class TaskEditor : UserControl
     public TaskEditor()
     {
         InitializeComponent();
-        AdjustDataGridViewHeight(parametersDataGrid);
-    }
-
-    private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-    {
-        AdjustDataGridViewHeight((DataGridView)sender);
-    }
-
-    private void AdjustDataGridViewHeight(DataGridView dgv)
-    {
-        // Ensure the DataGridView has rows
-        if (dgv.Rows.Count == 0)
-        {
-            dgv.Height = dgv.ColumnHeadersHeight; // Just header height if no rows
-            return;
-        }
-
-        // Calculate the total height required
-        int totalHeight = dgv.ColumnHeadersHeight; // Start with header height
-
-        foreach (DataGridViewRow row in dgv.Rows)
-        {
-            totalHeight += row.Height; // Add the height of each row
-        }
-
-        // Optionally add a small buffer for aesthetics or scrollbar space
-        totalHeight += 5;
-
-        // Set the DataGridView's height
-        dgv.Height = totalHeight;
-    }
-
-    private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-    {
-        AdjustDataGridViewHeight((DataGridView)sender);
+        AddSection();
     }
 
     public void LoadFromModel(SifJsonTaskModel model)
@@ -55,13 +21,77 @@ public partial class TaskEditor : UserControl
         skipInput.TextInput = model.Skip ?? string.Empty;
         requiresInput.TextInput = model.Requires ?? string.Empty;
 
+        ClearSections();
         if (model.ParamsList.Any())
         {
-            var firstSetOfParams = model.ParamsList[0];
-            foreach (var param in firstSetOfParams)
+            foreach (var paramSet in model.ParamsList)
             {
-                taskParameterModelBindingSource.Add(new TaskParameterModel { Name = param.Name, Value = param.Value });
+                AddSection(paramSet.Select(p => new TaskParameterModel { Name = p.Name, Value = p.Value }));
             }
+        }
+        else
+        {
+            AddSection();
+        }
+    }
+
+    private void addSectionButton_Click(object sender, EventArgs e) => AddSection();
+
+    private void parameterSectionsPanel_Resize(object sender, EventArgs e)
+    {
+        foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
+        {
+            SizeSectionToPanel(section);
+        }
+    }
+
+    private void SizeSectionToPanel(ParameterSectionControl section)
+    {
+        var availableWidth = parameterSectionsPanel.ClientSize.Width - parameterSectionsPanel.Padding.Horizontal - section.Margin.Horizontal;
+        if (availableWidth > 0)
+        {
+            section.Width = availableWidth;
+        }
+    }
+
+    private void ClearSections()
+    {
+        foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>().ToList())
+        {
+            section.RemoveRequested -= Section_RemoveRequested;
+            parameterSectionsPanel.Controls.Remove(section);
+            section.Dispose();
+        }
+    }
+
+    private void AddSection(IEnumerable<TaskParameterModel>? parameters = null)
+    {
+        var section = new ParameterSectionControl();
+        section.LoadParameters(parameters ?? Enumerable.Empty<TaskParameterModel>());
+        section.RemoveRequested += Section_RemoveRequested;
+        parameterSectionsPanel.Controls.Add(section);
+        SizeSectionToPanel(section);
+        UpdateSectionHeaders();
+    }
+
+    private void Section_RemoveRequested(object? sender, EventArgs e)
+    {
+        if (sender is not ParameterSectionControl section) return;
+        if (parameterSectionsPanel.Controls.Count <= 1) return;
+
+        section.RemoveRequested -= Section_RemoveRequested;
+        parameterSectionsPanel.Controls.Remove(section);
+        section.Dispose();
+        UpdateSectionHeaders();
+    }
+
+    private void UpdateSectionHeaders()
+    {
+        var sections = parameterSectionsPanel.Controls.OfType<ParameterSectionControl>().ToList();
+        for (var i = 0; i < sections.Count; i++)
+        {
+            sections[i].SectionTitle = i == 0 ? "Params" : $"Params{i + 1}";
+            sections[i].ShowRemoveButton = sections.Count > 1;
         }
     }
 
@@ -69,18 +99,34 @@ public partial class TaskEditor : UserControl
     {
         var editor = this;
         var json = new JsonObject();
-        var parameters = new JsonObject();
-        foreach (DataGridViewRow row in editor.parametersDataGrid.Rows)
+
+        var sections = parameterSectionsPanel.Controls.OfType<ParameterSectionControl>()
+            .Select(s => s.GetParameters())
+            .ToList();
+
+        if (sections.Count <= 1)
         {
-            if (row.IsNewRow) continue;
-            var keyCell = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var valueCell = (row.Cells[1].Value?.ToString() ?? string.Empty).ParseConfigVariable();
-            if (!string.IsNullOrEmpty(keyCell))
+            var parameters = new JsonObject();
+            foreach (var param in sections.FirstOrDefault() ?? [])
             {
-                parameters[keyCell] = valueCell;
+                parameters[param.Name] = param.Value.ParseConfigVariable();
             }
+            json["Params"] = parameters;
         }
-        json["Params"] = parameters;
+        else
+        {
+            var parametersArray = new JsonArray();
+            foreach (var section in sections)
+            {
+                var parameters = new JsonObject();
+                foreach (var param in section)
+                {
+                    parameters[param.Name] = param.Value.ParseConfigVariable();
+                }
+                parametersArray.Add(parameters);
+            }
+            json["Params"] = parametersArray;
+        }
 
         if (!string.IsNullOrWhiteSpace(editor.descriptionInput.TextInput))
         {

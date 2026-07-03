@@ -33,13 +33,11 @@
             skipInput = new LabeledTextbox();
             nameInput = new LabeledTextbox();
             requiresInput = new LabeledTextbox();
-            taskParameterModelBindingSource = new BindingSource(components);
-            label1 = new Label();
-            valueDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            parametersDataGrid = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)taskParameterModelBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)parametersDataGrid).BeginInit();
+            parametersHeaderPanel = new Panel();
+            addSectionButton = new Button();
+            parametersLabel = new Label();
+            parameterSectionsPanel = new FlowLayoutPanel();
+            parametersHeaderPanel.SuspendLayout();
             SuspendLayout();
             // 
             // descriptionInput
@@ -106,80 +104,76 @@
             requiresInput.TextLabel = "Requires";
             requiresInput.Vertical = true;
             // 
-            // taskParameterModelBindingSource
-            // 
-            taskParameterModelBindingSource.DataSource = typeof(TaskParameterModel);
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Top;
-            label1.Location = new Point(0, 153);
-            label1.Name = "label1";
-            label1.Size = new Size(95, 23);
-            label1.TabIndex = 8;
-            label1.Text = "Parameters";
-            // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            valueDataGridViewTextBoxColumn.HeaderText = "Value";
-            valueDataGridViewTextBoxColumn.MinimumWidth = 6;
-            valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // parametersDataGrid
-            // 
-            parametersDataGrid.AutoGenerateColumns = false;
-            parametersDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            parametersDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            parametersDataGrid.BackgroundColor = SystemColors.Control;
-            parametersDataGrid.BorderStyle = BorderStyle.None;
-            parametersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            parametersDataGrid.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, valueDataGridViewTextBoxColumn });
-            parametersDataGrid.DataSource = taskParameterModelBindingSource;
-            parametersDataGrid.Dock = DockStyle.Top;
-            parametersDataGrid.EditMode = DataGridViewEditMode.EditOnEnter;
-            parametersDataGrid.Location = new Point(0, 176);
-            parametersDataGrid.Name = "parametersDataGrid";
-            parametersDataGrid.RowHeadersWidth = 51;
-            parametersDataGrid.Size = new Size(706, 58);
-            parametersDataGrid.TabIndex = 7;
-            parametersDataGrid.RowsAdded += dataGridView1_RowsAdded;
-            parametersDataGrid.RowsRemoved += dataGridView1_RowsRemoved;
-            // 
+            // parametersHeaderPanel
+            //
+            parametersHeaderPanel.Controls.Add(parametersLabel);
+            parametersHeaderPanel.Controls.Add(addSectionButton);
+            parametersHeaderPanel.Dock = DockStyle.Top;
+            parametersHeaderPanel.Location = new Point(0, 153);
+            parametersHeaderPanel.Name = "parametersHeaderPanel";
+            parametersHeaderPanel.Size = new Size(706, 30);
+            parametersHeaderPanel.TabIndex = 8;
+            //
+            // addSectionButton
+            //
+            addSectionButton.Dock = DockStyle.Right;
+            addSectionButton.FlatStyle = FlatStyle.Flat;
+            addSectionButton.FlatAppearance.BorderSize = 0;
+            addSectionButton.Name = "addSectionButton";
+            addSectionButton.Size = new Size(140, 30);
+            addSectionButton.TabIndex = 1;
+            addSectionButton.Text = "+ Add section";
+            addSectionButton.UseVisualStyleBackColor = true;
+            addSectionButton.Click += addSectionButton_Click;
+            //
+            // parametersLabel
+            //
+            parametersLabel.AutoSize = true;
+            parametersLabel.Dock = DockStyle.Left;
+            parametersLabel.Location = new Point(0, 0);
+            parametersLabel.Name = "parametersLabel";
+            parametersLabel.Size = new Size(148, 23);
+            parametersLabel.TabIndex = 0;
+            parametersLabel.Text = "Parameter sections";
+            //
+            // parameterSectionsPanel
+            //
+            parameterSectionsPanel.AutoSize = true;
+            parameterSectionsPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            parameterSectionsPanel.Dock = DockStyle.Top;
+            parameterSectionsPanel.FlowDirection = FlowDirection.TopDown;
+            parameterSectionsPanel.Location = new Point(0, 183);
+            parameterSectionsPanel.Name = "parameterSectionsPanel";
+            parameterSectionsPanel.Size = new Size(706, 0);
+            parameterSectionsPanel.TabIndex = 7;
+            parameterSectionsPanel.WrapContents = false;
+            parameterSectionsPanel.Resize += parameterSectionsPanel_Resize;
+            //
             // TaskEditor
-            // 
+            //
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             Controls.Add(requiresInput);
             Controls.Add(skipInput);
-            Controls.Add(parametersDataGrid);
-            Controls.Add(label1);
+            Controls.Add(parameterSectionsPanel);
+            Controls.Add(parametersHeaderPanel);
             Controls.Add(descriptionInput);
             Controls.Add(nameInput);
             MinimumSize = new Size(50, 51);
             Name = "TaskEditor";
             Size = new Size(706, 508);
-            ((System.ComponentModel.ISupportInitialize)taskParameterModelBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)parametersDataGrid).EndInit();
+            parametersHeaderPanel.ResumeLayout(false);
+            parametersHeaderPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Label label1;
-        private DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        internal BindingSource taskParameterModelBindingSource;
-        internal DataGridView parametersDataGrid;
+        private Panel parametersHeaderPanel;
+        private Label parametersLabel;
+        private Button addSectionButton;
+        internal FlowLayoutPanel parameterSectionsPanel;
         internal LabeledTextbox descriptionInput;
         internal LabeledTextbox skipInput;
         internal LabeledTextbox nameInput;

@@ -27,10 +27,25 @@ public class AdvancedTask : UserControl, IAdvancedTask
         var result = TaskEditor.GetJson();
         var baseJson = result.Item2;
 
-        var parametersNode = baseJson["Params"]!.AsObject();
-        foreach (var (key, value) in GetAdditionalJsonProperties())
+        var parametersNode = baseJson["Params"];
+        if (parametersNode is JsonArray parametersArray)
         {
-            parametersNode[key] = value;
+            foreach (var parameterSet in parametersArray)
+            {
+                var parameterSetObject = parameterSet!.AsObject();
+                foreach (var (key, value) in GetAdditionalJsonProperties())
+                {
+                    parameterSetObject[key] = value.DeepClone();
+                }
+            }
+        }
+        else
+        {
+            var parametersObject = parametersNode!.AsObject();
+            foreach (var (key, value) in GetAdditionalJsonProperties())
+            {
+                parametersObject[key] = value;
+            }
         }
 
         if (baseJson["Description"] == null || string.IsNullOrWhiteSpace(baseJson["Description"]!.GetValue<string>()))
