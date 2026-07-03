@@ -22,17 +22,8 @@ public class TaskBuilderModel
 
         if (EditorControl is TaskEditor editor)
         {
-            var jsonObject = editor.GetJson();
-            jsonObject.Item2["Type"] = Info.Name;
+            var jsonObject = editor.GetJson(Info.Name);
             return (jsonObject.Item1.Or(Info.Name), jsonObject.Item2);
-        }
-
-        if (EditorControl is AdvancedTask task)
-        {
-            var baseJson = task.GetJson();
-            baseJson.Item2["Type"] = Info.Name;
-
-            return baseJson;
         }
 
         return ("", new JsonObject());

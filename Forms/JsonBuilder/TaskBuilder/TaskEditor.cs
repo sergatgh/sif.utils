@@ -133,10 +133,20 @@ public partial class TaskEditor : UserControl
         }
     }
 
-    public (string, JsonObject) GetJson()
+    public (string, JsonObject) GetJson(string? type = null)
     {
         var editor = this;
         var json = new JsonObject();
+
+        if (!string.IsNullOrWhiteSpace(editor.descriptionInput.TextInput))
+        {
+            json["Description"] = editor.descriptionInput.TextInput;
+        }
+
+        if (type != null)
+        {
+            json["Type"] = type;
+        }
 
         var sections = parameterSectionsPanel.Controls.OfType<ParameterSectionControl>()
             .Select(s => s.GetParameters())
@@ -164,11 +174,6 @@ public partial class TaskEditor : UserControl
                 parametersArray.Add(parameters);
             }
             json["Params"] = parametersArray;
-        }
-
-        if (!string.IsNullOrWhiteSpace(editor.descriptionInput.TextInput))
-        {
-            json["Description"] = editor.descriptionInput.TextInput;
         }
 
         if (!string.IsNullOrWhiteSpace(editor.skipInput.TextInput))

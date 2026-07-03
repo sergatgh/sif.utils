@@ -48,18 +48,10 @@ public partial class ParameterSectionControl : UserControl
 
     public List<TaskParameterModel> GetParameters()
     {
-        var result = new List<TaskParameterModel>();
-        foreach (DataGridViewRow row in parametersDataGrid.Rows)
-        {
-            if (row.IsNewRow) continue;
-            var name = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var value = row.Cells[1].Value?.ToString() ?? string.Empty;
-            if (!string.IsNullOrEmpty(name))
-            {
-                result.Add(new TaskParameterModel { Name = name, Value = value });
-            }
-        }
-        return result;
+        return taskParameterModelBindingSource.Cast<TaskParameterModel>()
+            .Where(parameter => !string.IsNullOrEmpty(parameter.Name))
+            .Select(parameter => new TaskParameterModel { Name = parameter.Name, Value = parameter.Value })
+            .ToList();
     }
 
     private void removeButton_Click(object sender, EventArgs e) => RemoveRequested?.Invoke(this, EventArgs.Empty);

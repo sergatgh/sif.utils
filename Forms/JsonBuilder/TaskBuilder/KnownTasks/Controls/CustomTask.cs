@@ -29,8 +29,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls
 
         public (string, JsonObject) GetJson()
         {
-            var json = this.taskEditor1.GetJson();
-            json.Item2["Type"] = this.typeText.Text;
+            var json = this.taskEditor1.GetJson(this.typeText.Text);
 
             return (json.Item1.Or("CustomTask"), json.Item2);
         }
