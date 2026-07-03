@@ -28,6 +28,87 @@
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\Primitive\WriteHostTaskDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AppPoolTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CommandTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CopyTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CreateServiceTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\DownloadFileTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\EnsurePathTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\FilePermissionsTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\HostHeaderTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\HttpRequestTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\InsertXmlTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\IoXmlTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\ManageServiceTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\ManageSolrSchemaTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\NewRootCertificateTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\NewSignedCertificateTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveAppPoolTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveServiceTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveSqlDatabaseTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveXmlTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\SetXmlTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\SitecoreUrlTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\TransformXmlDocTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\UnpackTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\UpdateBindingRedirectsTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebDeployTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebRequestTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebSiteTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonViewer\ReferencesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,88 +175,7 @@
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AccessRightBuilderWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AppPoolTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CommandTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CopyTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\CreateServiceTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\DownloadFileTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\EnsurePathTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AdvancedTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\FilePermissionsTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\HostHeaderTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\HttpRequestTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\InsertXmlTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\IoXmlTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\ManageServiceTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\ManageSolrSchemaTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\NewRootCertificateTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\NewSignedCertificateTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveAppPoolTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveServiceTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveSqlDatabaseTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\RemoveXmlTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\SetXmlTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\SitecoreUrlTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\TransformXmlDocTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\UnpackTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\UpdateBindingRedirectsTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebDeployTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebRequestTask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebSiteTask.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\TaskBuilderPanel.cs">
