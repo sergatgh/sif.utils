@@ -68,7 +68,7 @@ namespace SIF.Utils.Forms.JsonViewer
             toolTip1.SetToolTip(changeFileButton, "Select another file");
             toolTip1.SetToolTip(openFolderButton, "Open folder containing this JSON file");
             toolTip1.SetToolTip(executeButton, "Execute this SIF file");
-            toolTip1.SetToolTip(openInBuilderButton, "Open in Builder (alpha)");
+            toolTip1.SetToolTip(openInBuilderButton, "Open in Builder");
 
             navigationPanel.controlsPanel.Controls.Add(executeButton);
             navigationPanel.controlsPanel.Controls.Add(changeFileButton);

@@ -23,7 +23,7 @@ public partial class JsonBuilderForm : UserControl
 
         toolTip1.SetToolTip(previewButton, "Preview JSON");
         toolTip1.SetToolTip(saveJsonToFileButton, "Save as a JSON");
-        toolTip1.SetToolTip(importJsonButton, "Import existing JSON (alpha)");
+        toolTip1.SetToolTip(importJsonButton, "Import existing JSON");
         toolTip1.SetToolTip(newJsonButton, "Start over (clear all)");
     }
 

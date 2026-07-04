@@ -22,5 +22,6 @@ public partial class SelectJsonFileDialog : Form
         };
 
         selectFileForm.UpdateRecentFiles();
+        selectFileForm.UpdateInstructionLabel();
     }
 }

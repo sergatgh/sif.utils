@@ -58,9 +58,22 @@ public partial class ParameterSectionControl : UserControl
 
     private void editButton_Click(object sender, EventArgs e) => EditRequested?.Invoke(this, EventArgs.Empty);
 
-    private void parametersDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e) => AdjustDataGridViewHeight((DataGridView)sender);
+    private void parametersDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e) => DeferAdjustDataGridViewHeight((DataGridView)sender);
 
-    private void parametersDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e) => AdjustDataGridViewHeight((DataGridView)sender);
+    private void parametersDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e) => DeferAdjustDataGridViewHeight((DataGridView)sender);
+
+    // RowsAdded/RowsRemoved fire during the grid's own internal layout pass (Fill-mode
+    // columns are re-measured whenever the row count changes, e.g. due to scrollbar
+    // visibility). Adjusting Height synchronously here re-enters that layout pass and
+    // throws "This operation cannot be performed while an auto-filled column is being
+    // resized." Deferring via BeginInvoke runs the adjustment after layout completes.
+    private void DeferAdjustDataGridViewHeight(DataGridView dgv)
+    {
+        if (IsHandleCreated)
+            BeginInvoke(() => AdjustDataGridViewHeight(dgv));
+        else
+            AdjustDataGridViewHeight(dgv);
+    }
 
     private void AdjustDataGridViewHeight(DataGridView dgv)
     {
