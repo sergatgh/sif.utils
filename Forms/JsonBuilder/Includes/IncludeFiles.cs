@@ -21,7 +21,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
                 var path = model.FullPath ?? model.OriginalValue;
                 if (!string.IsNullOrWhiteSpace(path))
                 {
-                    listView1.Items.Add(path);
+                    AddItem(path, model.Name);
                 }
             }
         }
@@ -38,11 +38,13 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
                     ? Path.GetRelativePath(Path.GetDirectoryName(jsonPath) ?? string.Empty, path)
                     : path;
 
-                var name = GetEasyNameNameFromFile(path);
+                var alias = item.SubItems[1].Text;
+                var baseName = !string.IsNullOrWhiteSpace(alias) ? alias : GetEasyNameNameFromFile(path);
+                var name = baseName;
                 int suffix = 1;
                 while (jsonObject.ContainsKey(name))
                 {
-                    name = $"{GetEasyNameNameFromFile(path)}_{suffix++}";
+                    name = $"{baseName}_{suffix++}";
                 }
 
                 jsonObject.Add(name, new JsonObject { ["Source"] = relativePath });
@@ -64,7 +66,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
                         continue;
                     }
 
-                    listView1.Items.Add(file);
+                    AddItem(file, string.Empty);
                 }
             }
         }
@@ -84,9 +86,34 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
             }
         }
 
+        private void editAliasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count != 1) return;
+            var item = listView1.SelectedItems[0];
+            using var dialog = new IncludeAliasDialog(item.SubItems[1].Text);
+            if (dialog.ShowDialog() != DialogResult.OK) return;
+            item.SubItems[1].Text = dialog.Alias;
+        }
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             removeToolStripMenuItem.Enabled = listView1.SelectedItems.Count > 0;
+            editAliasToolStripMenuItem.Enabled = listView1.SelectedItems.Count == 1;
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 1)
+            {
+                editAliasToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        private void AddItem(string path, string alias)
+        {
+            var item = new ListViewItem(path);
+            item.SubItems.Add(alias ?? string.Empty);
+            listView1.Items.Add(item);
         }
 
         protected string GetEasyNameNameFromFile(string path)

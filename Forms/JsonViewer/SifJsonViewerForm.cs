@@ -274,7 +274,7 @@ namespace SIF.Utils.Forms.JsonViewer
 
             var directory = CurrentResult?.Folder;
 
-            var includeFileName = item.SubItems[1].Text.Replace("\\\\", "\\");
+            var includeFileName = item.SubItems[1].Text;
             var includeFilePath = Path.Combine(directory!, includeFileName);
 
             if (!includeFilePath.EndsWith(".json"))

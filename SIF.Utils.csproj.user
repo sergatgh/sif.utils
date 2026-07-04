@@ -16,6 +16,9 @@
     <Compile Update="Forms\Common\HorizontalLine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\Includes\IncludeAliasDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\Parameters\ParameterEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -30,16 +30,18 @@
         {
             listView1 = new ListView();
             pathToInclude = new ColumnHeader();
+            aliasColumn = new ColumnHeader();
             menuStrip1 = new MenuStrip();
             addFilesToolStripMenuItem = new ToolStripMenuItem();
+            editAliasToolStripMenuItem = new ToolStripMenuItem();
             removeToolStripMenuItem = new ToolStripMenuItem();
             useRelativePathMenu = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
-            // 
+            //
             // listView1
-            // 
-            listView1.Columns.AddRange(new ColumnHeader[] { pathToInclude });
+            //
+            listView1.Columns.AddRange(new ColumnHeader[] { pathToInclude, aliasColumn });
             listView1.Dock = DockStyle.Fill;
             listView1.Location = new Point(0, 0);
             listView1.Name = "listView1";
@@ -48,38 +50,52 @@
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
-            // 
+            listView1.DoubleClick += listView1_DoubleClick;
+            //
             // pathToInclude
-            // 
+            //
             pathToInclude.Text = "Path";
-            pathToInclude.Width = 800;
-            // 
+            pathToInclude.Width = 600;
+            //
+            // aliasColumn
+            //
+            aliasColumn.Text = "Alias (Name)";
+            aliasColumn.Width = 200;
+            //
             // menuStrip1
-            // 
+            //
             menuStrip1.Dock = DockStyle.Bottom;
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { addFilesToolStripMenuItem, removeToolStripMenuItem, useRelativePathMenu });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { addFilesToolStripMenuItem, editAliasToolStripMenuItem, removeToolStripMenuItem, useRelativePathMenu });
             menuStrip1.Location = new Point(0, 503);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(833, 31);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
-            // 
+            //
             // addFilesToolStripMenuItem
-            // 
+            //
             addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
             addFilesToolStripMenuItem.Size = new Size(89, 27);
             addFilesToolStripMenuItem.Text = "Add files";
             addFilesToolStripMenuItem.Click += addFilesToolStripMenuItem_Click;
-            // 
+            //
+            // editAliasToolStripMenuItem
+            //
+            editAliasToolStripMenuItem.Enabled = false;
+            editAliasToolStripMenuItem.Name = "editAliasToolStripMenuItem";
+            editAliasToolStripMenuItem.Size = new Size(89, 27);
+            editAliasToolStripMenuItem.Text = "Edit Alias";
+            editAliasToolStripMenuItem.Click += editAliasToolStripMenuItem_Click;
+            //
             // removeToolStripMenuItem
-            // 
+            //
             removeToolStripMenuItem.Enabled = false;
             removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             removeToolStripMenuItem.Size = new Size(85, 27);
             removeToolStripMenuItem.Text = "Remove";
             removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
-            // 
+            //
             // useRelativePathMenu
             // 
             useRelativePathMenu.CheckOnClick = true;
@@ -105,8 +121,10 @@
 
         private ListView listView1;
         private ColumnHeader pathToInclude;
+        private ColumnHeader aliasColumn;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem addFilesToolStripMenuItem;
+        private ToolStripMenuItem editAliasToolStripMenuItem;
         private ToolStripMenuItem removeToolStripMenuItem;
         private ToolStripMenuItem useRelativePathMenu;
     }
