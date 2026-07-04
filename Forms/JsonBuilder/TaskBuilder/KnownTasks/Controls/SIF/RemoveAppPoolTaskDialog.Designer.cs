@@ -17,22 +17,18 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
 
         private void InitializeComponent()
         {
-            nameInput = new LabeledTextbox();
+            nameInput = new AppPoolListControl();
             SuspendLayout();
             //
             // nameInput
             //
             nameInput.Dock = DockStyle.Top;
             nameInput.Location = new Point(3, 3);
-            nameInput.Multiline = false;
             nameInput.Name = "nameInput";
-            nameInput.PathSelectMode = PathSelectMode.Folder;
-            nameInput.ShowPathSelector = false;
-            nameInput.Size = new Size(705, 70);
+            nameInput.Size = new Size(705, 38);
             nameInput.TabIndex = 0;
             nameInput.TextInput = "sc10.local";
             nameInput.TextLabel = "Name *";
-            nameInput.Vertical = true;
             //
             // RemoveAppPoolTaskDialog
             //
@@ -48,6 +44,6 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
 
         #endregion
 
-        public LabeledTextbox nameInput;
+        public AppPoolListControl nameInput;
     }
 }

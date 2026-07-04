@@ -31,6 +31,9 @@
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\Primitive\WriteHostTaskDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AppPoolListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\AppPoolTaskDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,6 +113,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonBuilder\TaskBuilder\KnownTasks\Controls\SIF\WebSiteTaskDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\JsonBuilder\TaskBuilder\ParameterSectionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Forms\JsonViewer\ReferencesDialog.cs">
