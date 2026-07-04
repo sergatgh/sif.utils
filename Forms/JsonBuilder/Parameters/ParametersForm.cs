@@ -45,7 +45,7 @@ namespace SIF.Utils.Forms.JsonBuilder.Parameters
                 {
                     ["Type"] = param.Type ?? "String"
                 };
-                if (!string.IsNullOrEmpty(param.DefaultValue)) paramJson["DefaultValue"] = param.DefaultValue;
+                if (param.DefaultValue is not null) paramJson["DefaultValue"] = ToTypedJsonValue(param.Type, param.DefaultValue);
                 if (!string.IsNullOrEmpty(param.Reference)) paramJson["Reference"] = param.Reference;
                 if (!string.IsNullOrEmpty(param.Validate)) paramJson["Validate"] = param.Validate;
                 if (!string.IsNullOrEmpty(param.Description)) paramJson["Description"] = param.Description;
@@ -53,6 +53,13 @@ namespace SIF.Utils.Forms.JsonBuilder.Parameters
             }
             return json;
         }
+
+        private static JsonNode? ToTypedJsonValue(string? type, string value) => type switch
+        {
+            "bool" or "Boolean" when bool.TryParse(value, out var boolValue) => JsonValue.Create(boolValue),
+            "int" or "Int32" when long.TryParse(value, out var longValue) => JsonValue.Create(longValue),
+            _ => JsonValue.Create(value)
+        };
 
         private void AddListItem(SifJsonParameterModel model)
         {

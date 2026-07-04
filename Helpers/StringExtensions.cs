@@ -37,9 +37,16 @@ public static class JsonHelper
     public static JsonNode ParseConfigVariable(this string value)
     {
 
-        if (value.StartsWith("\"") && value.EndsWith("\""))
+        if (value.StartsWith('"') && value.EndsWith('"'))
         {
-            return JsonValue.Create(value.Trim('"'));
+            try
+            {
+                return JsonValue.Create(System.Text.Json.JsonSerializer.Deserialize<string>(value) ?? string.Empty);
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                return JsonValue.Create(value.Trim('"'));
+            }
         }
 
         if (value.Equals("true", StringComparison.OrdinalIgnoreCase))

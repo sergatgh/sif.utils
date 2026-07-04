@@ -8,7 +8,7 @@ public static class JsonElementExtensions
     {
         if (element.Value.TryGetProperty(propertyName, out var prop))
         {
-            return prop.GetRawText().Trim('"');
+            return prop.ValueKind == JsonValueKind.String ? prop.GetString() : prop.GetRawText();
         }
         return null;
     }
@@ -17,7 +17,7 @@ public static class JsonElementExtensions
     {
         if (element.Value.TryGetProperty(propertyName, out var prop))
         {
-            return prop.GetRawText().Trim('"');
+            return (prop.ValueKind == JsonValueKind.String ? prop.GetString() : prop.GetRawText()) ?? defaultValue;
         }
         return defaultValue;
     }

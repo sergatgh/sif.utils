@@ -7,8 +7,13 @@ public partial class ParameterEditDialog : Form
     public ParameterEditDialog(IEnumerable<string> existingParamNames, IEnumerable<SifJsonIncludeModel> includes)
     {
         InitializeComponent();
-        typeComboBox.Items.AddRange(new object[] { "String", "Integer", "Boolean", "PSObject" });
+        typeComboBox.Items.AddRange(["string", "int", "bool"]);
         typeComboBox.SelectedIndex = 0;
+        toolTip1.SetToolTip(hasDefaultValueCheckBox,
+            "If left unchecked, this parameter has no default value and will be required: " +
+            "a value must be passed from the console when executing the SIF JSON file. " +
+            "Check this box to provide a default value, which may be an empty string.");
+        defaultValueTextBox.Enabled = hasDefaultValueCheckBox.Checked;
         BuildReferenceAutoComplete(existingParamNames, includes);
     }
 
@@ -32,7 +37,7 @@ public partial class ParameterEditDialog : Form
     {
         Name = nameTextBox.Text.Trim(),
         Type = typeComboBox.Text,
-        DefaultValue = NullIfEmpty(defaultValueTextBox.Text),
+        DefaultValue = hasDefaultValueCheckBox.Checked ? defaultValueTextBox.Text : null,
         Reference = NullIfEmpty(referenceTextBox.Text),
         Validate = NullIfEmpty(validateTextBox.Text),
         Description = NullIfEmpty(descriptionTextBox.Text),
@@ -42,10 +47,17 @@ public partial class ParameterEditDialog : Form
     {
         nameTextBox.Text = model.Name;
         typeComboBox.Text = string.IsNullOrEmpty(model.Type) ? "String" : model.Type;
+        hasDefaultValueCheckBox.Checked = model.DefaultValue is not null;
         defaultValueTextBox.Text = model.DefaultValue ?? "";
+        defaultValueTextBox.Enabled = hasDefaultValueCheckBox.Checked;
         referenceTextBox.Text = model.Reference ?? "";
         validateTextBox.Text = model.Validate ?? "";
         descriptionTextBox.Text = model.Description ?? "";
+    }
+
+    private void hasDefaultValueCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        defaultValueTextBox.Enabled = hasDefaultValueCheckBox.Checked;
     }
 
     private void okButton_Click(object sender, EventArgs e)
