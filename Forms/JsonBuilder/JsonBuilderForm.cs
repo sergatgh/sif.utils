@@ -32,21 +32,37 @@ public partial class JsonBuilderForm : UserControl
         jsonBuilderPanel.LoadFromResult(result);
     }
 
+    private string? _importedFileName;
+
     private void importJsonButton_Click(object sender, EventArgs e)
     {
         using var dialog = new SelectJsonFileDialog("Import JSON");
         dialog.ShowDialog(this);
         if (dialog.Result != null)
+        {
             LoadFromResult(dialog.Result);
+            _importedFileName = string.IsNullOrWhiteSpace(dialog.Result.FilePath)
+                ? null
+                : Path.GetFileNameWithoutExtension(dialog.Result.FilePath);
+        }
     }
 
     private void saveJsonButton_Click(object sender, EventArgs e)
     {
+        SaveJson();
+    }
+
+    private bool SaveJson()
+    {
+        if (!string.IsNullOrEmpty(_importedFileName))
+            saveSifJson.FileName = _importedFileName;
+
         var result = saveSifJson.ShowDialog();
-        if (result != DialogResult.OK) return;
+        if (result != DialogResult.OK) return false;
 
         string json = jsonBuilderPanel.BuildJson(saveSifJson.FileName);
         File.WriteAllText(saveSifJson.FileName, json);
+        return true;
     }
 
     private void previewJsonButton_Click(object sender, EventArgs e)
@@ -70,13 +86,11 @@ public partial class JsonBuilderForm : UserControl
 
             if (answer == DialogResult.Yes)
             {
-                var saveResult = saveSifJson.ShowDialog();
-                if (saveResult != DialogResult.OK) return;
-                string json = jsonBuilderPanel.BuildJson(saveSifJson.FileName);
-                File.WriteAllText(saveSifJson.FileName, json);
+                if (!SaveJson()) return;
             }
         }
 
         jsonBuilderPanel.Clear();
+        _importedFileName = null;
     }
 }
