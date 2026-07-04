@@ -52,6 +52,7 @@
             nameDataColumn.HeaderText = "Name";
             nameDataColumn.MinimumWidth = 6;
             nameDataColumn.Name = "nameDataColumn";
+            nameDataColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // valueDataGridColumn
             // 
@@ -59,6 +60,7 @@
             valueDataGridColumn.HeaderText = "Value";
             valueDataGridColumn.MinimumWidth = 6;
             valueDataGridColumn.Name = "valueDataGridColumn";
+            valueDataGridColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // VariablesForm
             // 

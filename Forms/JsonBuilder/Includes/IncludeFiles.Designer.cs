@@ -41,6 +41,7 @@
             //
             // listView1
             //
+            listView1.AllowDrop = true;
             listView1.Columns.AddRange(new ColumnHeader[] { pathToInclude, aliasColumn });
             listView1.Dock = DockStyle.Fill;
             listView1.Location = new Point(0, 0);
@@ -51,6 +52,10 @@
             listView1.View = View.Details;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
             listView1.DoubleClick += listView1_DoubleClick;
+            listView1.ItemDrag += listView1_ItemDrag;
+            listView1.DragEnter += listView1_DragEnter;
+            listView1.DragOver += listView1_DragOver;
+            listView1.DragDrop += listView1_DragDrop;
             //
             // pathToInclude
             //
@@ -85,7 +90,7 @@
             editAliasToolStripMenuItem.Enabled = false;
             editAliasToolStripMenuItem.Name = "editAliasToolStripMenuItem";
             editAliasToolStripMenuItem.Size = new Size(89, 27);
-            editAliasToolStripMenuItem.Text = "Edit Alias";
+            editAliasToolStripMenuItem.Text = "Edit";
             editAliasToolStripMenuItem.Click += editAliasToolStripMenuItem_Click;
             //
             // removeToolStripMenuItem

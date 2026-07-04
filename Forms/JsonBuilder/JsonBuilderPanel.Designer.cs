@@ -130,7 +130,7 @@
             viewJsonParameters.Controls.Add(parametersForm1);
             viewJsonParameters.Location = new Point(4, 32);
             viewJsonParameters.Name = "viewJsonParameters";
-            viewJsonParameters.Size = new Size(927, 324);
+            viewJsonParameters.Size = new Size(192, 64);
             viewJsonParameters.TabIndex = 3;
             viewJsonParameters.Text = "Parameters";
             viewJsonParameters.ToolTipText = "Coming Soon";
@@ -142,7 +142,7 @@
             parametersForm1.Dock = DockStyle.Fill;
             parametersForm1.Location = new Point(0, 0);
             parametersForm1.Name = "parametersForm1";
-            parametersForm1.Size = new Size(927, 324);
+            parametersForm1.Size = new Size(192, 64);
             parametersForm1.TabIndex = 0;
             // 
             // viewJsonVariables
@@ -171,7 +171,7 @@
             viewJsonIncludes.Controls.Add(includeFiles1);
             viewJsonIncludes.Location = new Point(4, 32);
             viewJsonIncludes.Name = "viewJsonIncludes";
-            viewJsonIncludes.Size = new Size(192, 64);
+            viewJsonIncludes.Size = new Size(927, 324);
             viewJsonIncludes.TabIndex = 5;
             viewJsonIncludes.Text = "Includes";
             viewJsonIncludes.ToolTipText = "Coming Soon";
@@ -182,7 +182,7 @@
             includeFiles1.Dock = DockStyle.Fill;
             includeFiles1.Location = new Point(0, 0);
             includeFiles1.Name = "includeFiles1";
-            includeFiles1.Size = new Size(192, 64);
+            includeFiles1.Size = new Size(927, 324);
             includeFiles1.TabIndex = 0;
             // 
             // viewJsonModules

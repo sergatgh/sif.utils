@@ -90,8 +90,10 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
         {
             if (listView1.SelectedItems.Count != 1) return;
             var item = listView1.SelectedItems[0];
-            using var dialog = new IncludeAliasDialog(item.SubItems[1].Text);
+            using var dialog = new IncludeAliasDialog(item.Text, item.SubItems[1].Text);
             if (dialog.ShowDialog() != DialogResult.OK) return;
+
+            item.Text = dialog.FilePath;
             item.SubItems[1].Text = dialog.Alias;
         }
 
@@ -106,6 +108,62 @@ namespace SIF.Utils.Forms.JsonBuilder.Includes
             if (listView1.SelectedItems.Count == 1)
             {
                 editAliasToolStripMenuItem_Click(sender, e);
+            }
+        }
+
+        private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+
+            listView1.DoDragDrop(listView1.SelectedItems, DragDropEffects.Move);
+        }
+
+        private void listView1_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data?.GetDataPresent(typeof(ListView.SelectedListViewItemCollection)) == true
+                ? DragDropEffects.Move
+                : DragDropEffects.None;
+        }
+
+        private void listView1_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data?.GetDataPresent(typeof(ListView.SelectedListViewItemCollection)) == true
+                ? DragDropEffects.Move
+                : DragDropEffects.None;
+        }
+
+        private void listView1_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data?.GetData(typeof(ListView.SelectedListViewItemCollection)) is not ListView.SelectedListViewItemCollection selection)
+            {
+                return;
+            }
+
+            var draggedItems = selection.Cast<ListViewItem>().ToList();
+            if (draggedItems.Count == 0) return;
+
+            var clientPoint = listView1.PointToClient(new Point(e.X, e.Y));
+            var targetItem = listView1.GetItemAt(clientPoint.X, clientPoint.Y);
+            var insertAfter = targetItem == null || clientPoint.Y > targetItem.Bounds.Top + targetItem.Bounds.Height / 2;
+
+            var anchorItem = targetItem != null && !draggedItems.Contains(targetItem) ? targetItem : null;
+
+            foreach (var item in draggedItems)
+            {
+                listView1.Items.Remove(item);
+            }
+
+            var insertIndex = anchorItem != null ? anchorItem.Index + (insertAfter ? 1 : 0) : listView1.Items.Count;
+            insertIndex = Math.Max(0, Math.Min(insertIndex, listView1.Items.Count));
+
+            for (int i = 0; i < draggedItems.Count; i++)
+            {
+                listView1.Items.Insert(insertIndex + i, draggedItems[i]);
+            }
+
+            foreach (var item in draggedItems)
+            {
+                item.Selected = true;
             }
         }
 
