@@ -34,6 +34,7 @@
             imageList1 = new ImageList(components);
             splitContainer1 = new SplitContainer();
             listView1 = new ListView();
+            columnHeader1 = new ColumnHeader();
             menuStrip1 = new MenuStrip();
             addToolStripMenuItem = new ToolStripMenuItem();
             powerShellToolStripMenuItem = new ToolStripMenuItem();
@@ -74,9 +75,10 @@
             // listView1
             // 
             listView1.Activation = ItemActivation.OneClick;
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
             listView1.Dock = DockStyle.Fill;
             listView1.FullRowSelect = true;
-            listView1.GridLines = true;
+            listView1.HeaderStyle = ColumnHeaderStyle.None;
             listView1.Items.AddRange(new ListViewItem[] { listViewItem1 });
             listView1.LargeImageList = imageList1;
             listView1.Location = new Point(0, 0);
@@ -86,9 +88,13 @@
             listView1.SmallImageList = imageList1;
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.List;
+            listView1.View = View.Details;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
-            // 
+            //
+            // columnHeader1
+            //
+            columnHeader1.Width = 272;
+            //
             // menuStrip1
             // 
             menuStrip1.Dock = DockStyle.Bottom;
@@ -155,6 +161,7 @@
         private ImageList imageList1;
         private SplitContainer splitContainer1;
         private ListView listView1;
+        private ColumnHeader columnHeader1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem addToolStripMenuItem;
         private ToolStripMenuItem removeToolStripMenuItem;

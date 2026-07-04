@@ -93,6 +93,7 @@ public partial class TaskBuilderPanel : UserControl
         listView1.DragEnter += listView1_DragEnter;
         listView1.DragOver += listView1_DragOver;
         listView1.DragDrop += listView1_DragDrop;
+        listView1.Resize += listView1_Resize;
 
         listView1.Items.Clear();
         defaultToolStripMenuItem.DropDownItems.Clear();
@@ -152,6 +153,12 @@ public partial class TaskBuilderPanel : UserControl
     private void splitContainer1_Panel2_DragDrop(object sender, DragEventArgs e)
     {
         string droppedData = e.Data?.GetData(DataFormats.Text)?.ToString() ?? string.Empty;
+    }
+
+    private void listView1_Resize(object sender, EventArgs e)
+    {
+        if (listView1.Columns.Count > 0)
+            listView1.Columns[0].Width = listView1.ClientSize.Width;
     }
 
     private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
