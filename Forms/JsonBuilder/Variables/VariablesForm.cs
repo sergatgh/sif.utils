@@ -37,6 +37,12 @@ namespace SIF.Utils.Forms.JsonBuilder.Variables
             return this.parametersDataGrid.Rows.Count > 1;
         }
 
+        public IEnumerable<string> GetVariableNames() => parametersDataGrid.Rows
+            .Cast<DataGridViewRow>()
+            .Select(r => r.Cells[nameDataColumn.Index].Value?.ToString())
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name!);
+
         public JsonObject GetJson()
         {
             JsonObject json = new JsonObject();

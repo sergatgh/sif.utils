@@ -101,7 +101,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit App Pool");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
+        section.UpdateParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
     }
 
     // Command
@@ -124,7 +124,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Command");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Path", Value = dialog.commandPathText.Text },
             new TaskParameterModel { Name = "Arguments", Value = EncodeArray(dialog.propertiesText.Lines) },
         ]);
@@ -146,7 +146,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Copy");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Source", Value = dialog.sourcePathText.Text },
             new TaskParameterModel { Name = "Destination", Value = dialog.destinationText.Text },
         ]);
@@ -179,7 +179,7 @@ public static class SifFrameworkTasks
         if (dialog.serviceType.Text.Length > 0) updated.Add(new TaskParameterModel { Name = "StartupType", Value = dialog.serviceType.Text });
         if (dialog.serviceDescription.TextInput.Length > 0) updated.Add(new TaskParameterModel { Name = "Description", Value = dialog.serviceDescription.TextInput });
         if (dialog.displayNameInput.TextInput.Length > 0) updated.Add(new TaskParameterModel { Name = "DisplayName", Value = dialog.displayNameInput.TextInput });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // DownloadFile
@@ -211,7 +211,7 @@ public static class SifFrameworkTasks
         if (dialog.destinationPathInput.HasText) updated.Add(new TaskParameterModel { Name = "DestinationPath", Value = dialog.destinationPathInput.TextInput });
         if (dialog.hashInput.HasText) updated.Add(new TaskParameterModel { Name = "Hash", Value = dialog.hashInput.TextInput });
         if (dialog.hashComboBox.SelectedItem != null) updated.Add(new TaskParameterModel { Name = "Algorithm", Value = dialog.hashComboBox.SelectedItem.ToString()! });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // EnsurePath
@@ -233,7 +233,7 @@ public static class SifFrameworkTasks
         var updated = new List<TaskParameterModel>();
         if (dialog.cleanText.Lines.Length > 0) updated.Add(new TaskParameterModel { Name = "Clean", Value = EncodeArray(dialog.cleanText.Lines) });
         if (dialog.ensureText.Lines.Length > 0) updated.Add(new TaskParameterModel { Name = "Exists", Value = EncodeArray(dialog.ensureText.Lines) });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // FilePermissions
@@ -266,7 +266,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit File Permissions");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Path", Value = dialog.filePathInput.TextInput },
             new TaskParameterModel { Name = "Rights", Value = JsonSerializer.Serialize(dialog.AccessRights) },
         ]);
@@ -302,7 +302,7 @@ public static class SifFrameworkTasks
         };
         if (dialog.ipAddressText.HasText) updated.Add(new TaskParameterModel { Name = "IPAddress", Value = dialog.ipAddressText.TextInput });
         updated.Add(new TaskParameterModel { Name = "Action", Value = dialog.addEntryButton.Checked ? "Add" : "Remove" });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // HttpRequest
@@ -352,7 +352,7 @@ public static class SifFrameworkTasks
         }
         if (updatedParameters.Count > 0) updated.Add(new TaskParameterModel { Name = "Parameters", Value = EncodeDictionary(updatedParameters) });
 
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // InsertXml
@@ -381,7 +381,7 @@ public static class SifFrameworkTasks
         if (dialog.filePathInput.HasText) updated.Add(new TaskParameterModel { Name = "FilePath", Value = dialog.filePathInput.TextInput });
         if (dialog.xpathTextInput.HasText) updated.Add(new TaskParameterModel { Name = "XPath", Value = dialog.xpathTextInput.TextInput });
         if (dialog.xmlInput.HasText) updated.Add(new TaskParameterModel { Name = "Xml", Value = dialog.xmlInput.TextInput });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // IoXml
@@ -404,7 +404,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit IO XML");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "RootDirectoryPath", Value = dialog.folderPathInput.TextInput },
             new TaskParameterModel { Name = "IoXmlPath", Value = dialog.xpathTextInput.TextInput },
         ]);
@@ -439,7 +439,7 @@ public static class SifFrameworkTasks
         if (!string.IsNullOrEmpty(dialog.postDelayNumber.Text)) updated.Add(new TaskParameterModel { Name = "PostDelay", Value = dialog.postDelayNumber.Text });
         if (!string.IsNullOrWhiteSpace(dialog.statusText.Text)) updated.Add(new TaskParameterModel { Name = "Status", Value = dialog.statusText.Text });
         if (!string.IsNullOrWhiteSpace(dialog.serviceType.Text)) updated.Add(new TaskParameterModel { Name = "StartupType", Value = dialog.serviceType.Text });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // ManageSolrSchema
@@ -471,7 +471,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Manage Solr Schema");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Address", Value = dialog.addressTextBox.TextInput },
             new TaskParameterModel { Name = "Core", Value = dialog.coreTextBox.TextInput },
             new TaskParameterModel { Name = "ArgumentsFile", Value = dialog.argumentsFileTextBox.TextInput },
@@ -523,7 +523,7 @@ public static class SifFrameworkTasks
         if (!string.IsNullOrWhiteSpace(dialog.fileName.TextInput)) updated.Add(new TaskParameterModel { Name = "Name", Value = dialog.fileName.TextInput });
         if (!string.IsNullOrWhiteSpace(dialog.passwordText.TextInput)) updated.Add(new TaskParameterModel { Name = "Password", Value = dialog.passwordText.TextInput });
         if (dialog.IncludePrivateKey.Checked) updated.Add(new TaskParameterModel { Name = "IncludePrivateKey", Value = "true" });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // NewSignedCertificate
@@ -577,7 +577,7 @@ public static class SifFrameworkTasks
         if (!string.IsNullOrWhiteSpace(dialog.fileName.TextInput)) updated.Add(new TaskParameterModel { Name = "Name", Value = dialog.fileName.TextInput });
         if (!string.IsNullOrWhiteSpace(dialog.passwordText.TextInput)) updated.Add(new TaskParameterModel { Name = "Password", Value = dialog.passwordText.TextInput });
         if (dialog.IncludePrivateKey.Checked) updated.Add(new TaskParameterModel { Name = "IncludePrivateKey", Value = "true" });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // RemoveAppPool
@@ -592,7 +592,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Remove App Pool");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
+        section.UpdateParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
     }
 
     // RemoveService
@@ -607,7 +607,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Remove Service");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
+        section.UpdateParameters([new TaskParameterModel { Name = "Name", Value = dialog.nameInput.TextInput }]);
     }
 
     // RemoveSqlDatabase
@@ -634,7 +634,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Remove SQL Database");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "ServerName", Value = dialog.nameInput.TextInput },
             new TaskParameterModel { Name = "DatabaseName", Value = EncodeArray(dialog.databasesInput.Lines) },
             new TaskParameterModel { Name = "UserName", Value = dialog.userNameInput.TextInput },
@@ -665,7 +665,7 @@ public static class SifFrameworkTasks
             new() { Name = "XPath", Value = dialog.xPathInput.TextInput },
         };
         if (dialog.ignoreNoMatchesCheckbox.Checked) updated.Add(new TaskParameterModel { Name = "IgnoreNoMatches", Value = "true" });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // SetXml
@@ -710,7 +710,7 @@ public static class SifFrameworkTasks
         }
         if (updatedAttributes.Count > 0) updated.Add(new TaskParameterModel { Name = "Attributes", Value = EncodeDictionary(updatedAttributes) });
 
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // SitecoreUrl
@@ -737,7 +737,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Sitecore URL");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "SitecoreInstanceRoot", Value = dialog.urlInput.TextInput },
             new TaskParameterModel { Name = "SitecoreActionPath", Value = dialog.pathInput.TextInput },
             new TaskParameterModel { Name = "Username", Value = dialog.usernameInput.TextInput },
@@ -761,7 +761,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Transform XML Doc");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "RootDirectoryPath", Value = dialog.filePathInput.TextInput },
             new TaskParameterModel { Name = "XdtDirectory", Value = dialog.xPathInput.TextInput },
         ]);
@@ -783,7 +783,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Unpack");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Source", Value = dialog.sourceInput.TextInput },
             new TaskParameterModel { Name = "Destination", Value = dialog.destinationInput.TextInput },
         ]);
@@ -816,7 +816,7 @@ public static class SifFrameworkTasks
         };
         if (!string.IsNullOrWhiteSpace(dialog.binFolder.TextInput)) updated.Add(new TaskParameterModel { Name = "BinariesFolder", Value = dialog.binFolder.TextInput });
         if (!string.IsNullOrWhiteSpace(dialog.configsFolder.TextInput)) updated.Add(new TaskParameterModel { Name = "ConfigFilesToPatch", Value = string.Join(";", dialog.configsFolder.Lines) });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // WebDeploy
@@ -842,7 +842,7 @@ public static class SifFrameworkTasks
         };
         if (!string.IsNullOrWhiteSpace(dialog.pathToDeploy.TextInput)) updated.Add(new TaskParameterModel { Name = "Path", Value = dialog.pathToDeploy.TextInput });
         if (!string.IsNullOrWhiteSpace(dialog.argsJson.TextInput)) updated.Add(new TaskParameterModel { Name = "Arguments", Value = dialog.argsJson.TextInput });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 
     // WebRequest
@@ -867,7 +867,7 @@ public static class SifFrameworkTasks
         using var form = new EditSectionDialogForm(dialog, "Edit Web Request");
         if (form.ShowDialog() != DialogResult.OK) return;
 
-        section.LoadParameters([
+        section.UpdateParameters([
             new TaskParameterModel { Name = "Uri", Value = dialog.addressTextBox.TextInput },
             new TaskParameterModel { Name = "RetryCount", Value = dialog.retryCount.Value.ToString() },
             new TaskParameterModel { Name = "RetryDelay", Value = dialog.retryDelay.Value.ToString() },
@@ -912,6 +912,6 @@ public static class SifFrameworkTasks
         };
         if (!string.IsNullOrEmpty(dialog.hostInput.TextInput)) updated.Add(new TaskParameterModel { Name = "HostName", Value = dialog.hostInput.TextInput });
         if (!string.IsNullOrEmpty(dialog.ipAddressInput.TextInput)) updated.Add(new TaskParameterModel { Name = "IPAddress", Value = dialog.ipAddressInput.TextInput });
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 }

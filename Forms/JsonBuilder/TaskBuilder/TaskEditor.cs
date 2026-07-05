@@ -1,4 +1,5 @@
-﻿using SIF.Utils.Logic.JsonParser;
+﻿using SIF.Utils.Forms.JsonBuilder.Register;
+using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 
@@ -10,6 +11,9 @@ using SIF.Utils.Helpers;
 public partial class TaskEditor : UserControl
 {
     private bool _enableSectionEditButton;
+    private Func<IEnumerable<string>>? _getAvailableVariableNames;
+    private Func<IEnumerable<string>>? _getAvailableParameterNames;
+    private Func<IEnumerable<RegisterMethodModel>>? _getRegisteredConfigFunctions;
 
     public event EventHandler<ParameterSectionEditEventArgs>? SectionEditRequested;
 
@@ -30,6 +34,54 @@ public partial class TaskEditor : UserControl
             foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
             {
                 section.ShowEditButton = value;
+            }
+        }
+    }
+
+    /// <summary>Supplies variable names live from the sibling Variables tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<string>>? GetAvailableVariableNames
+    {
+        get => _getAvailableVariableNames;
+        set
+        {
+            _getAvailableVariableNames = value;
+            foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
+            {
+                section.GetAvailableVariableNames = value;
+            }
+        }
+    }
+
+    /// <summary>Supplies parameter names live from the sibling Parameters tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<string>>? GetAvailableParameterNames
+    {
+        get => _getAvailableParameterNames;
+        set
+        {
+            _getAvailableParameterNames = value;
+            foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
+            {
+                section.GetAvailableParameterNames = value;
+            }
+        }
+    }
+
+    /// <summary>Supplies registered config function names live from the sibling Register tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<RegisterMethodModel>>? GetRegisteredConfigFunctions
+    {
+        get => _getRegisteredConfigFunctions;
+        set
+        {
+            _getRegisteredConfigFunctions = value;
+            foreach (var section in parameterSectionsPanel.Controls.OfType<ParameterSectionControl>())
+            {
+                section.GetRegisteredConfigFunctions = value;
             }
         }
     }
@@ -98,6 +150,9 @@ public partial class TaskEditor : UserControl
         var section = new ParameterSectionControl();
         section.LoadParameters(parameters ?? Enumerable.Empty<TaskParameterModel>());
         section.ShowEditButton = _enableSectionEditButton;
+        section.GetAvailableVariableNames = _getAvailableVariableNames;
+        section.GetAvailableParameterNames = _getAvailableParameterNames;
+        section.GetRegisteredConfigFunctions = _getRegisteredConfigFunctions;
         section.RemoveRequested += Section_RemoveRequested;
         section.EditRequested += Section_EditRequested;
         parameterSectionsPanel.Controls.Add(section);

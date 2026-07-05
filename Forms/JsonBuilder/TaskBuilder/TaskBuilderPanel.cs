@@ -1,4 +1,5 @@
-﻿using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
+﻿using SIF.Utils.Forms.JsonBuilder.Register;
+using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks;
 using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 using SIF.Utils.Helpers;
 using SIF.Utils.Logic.JsonParser;
@@ -18,6 +19,21 @@ public partial class TaskBuilderPanel : UserControl
 
     [Browsable(true)]
     public event EventHandler? TaskAdded;
+
+    /// <summary>Supplies variable names live from the sibling Variables tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<string>>? GetAvailableVariableNames { get; set; }
+
+    /// <summary>Supplies parameter names live from the sibling Parameters tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<string>>? GetAvailableParameterNames { get; set; }
+
+    /// <summary>Supplies registered config function names live from the sibling Register tab, for the expression builder.</summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Func<IEnumerable<RegisterMethodModel>>? GetRegisteredConfigFunctions { get; set; }
 
     public TaskBuilderPanel()
     {
@@ -68,7 +84,10 @@ public partial class TaskBuilderPanel : UserControl
             var editorControl = taskInfo.ControlFactory();
             editorControl.Dock = DockStyle.Fill;
             if (editorControl is TaskEditor taskEditor)
+            {
+                ApplyExpressionBuilderSources(taskEditor);
                 taskEditor.LoadFromModel(model);
+            }
             var item = InsertTask(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl }, taskInfo.DisplayName, taskInfo.DisplayName, insertIndex);
             TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
             item.Selected = true;
@@ -137,10 +156,19 @@ public partial class TaskBuilderPanel : UserControl
     {
         var editorControl = sender.ControlFactory();
         editorControl.Dock = DockStyle.Fill;
+        if (editorControl is TaskEditor taskEditor)
+            ApplyExpressionBuilderSources(taskEditor);
         SelectedTasks.Add(new TaskBuilderModel { Info = sender, EditorControl = editorControl });
         var item = listView1.Items.Add(sender.DisplayName, sender.DisplayName);
         TaskAdded?.Invoke(sender, EventArgs.Empty);
         item.Selected = true;
+    }
+
+    private void ApplyExpressionBuilderSources(TaskEditor taskEditor)
+    {
+        taskEditor.GetAvailableVariableNames = GetAvailableVariableNames;
+        taskEditor.GetAvailableParameterNames = GetAvailableParameterNames;
+        taskEditor.GetRegisteredConfigFunctions = GetRegisteredConfigFunctions;
     }
 
     private void splitContainer1_Panel2_DragEnter(object sender, DragEventArgs e)

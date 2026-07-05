@@ -10,7 +10,7 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
     /// </summary>
     public partial class ConfigFunctionArgumentEditor : UserControl
     {
-        private enum EditorKind { LiteralString, Number, Boolean, Variable, Parameter, Function, Raw }
+        private enum EditorKind { Parameter, Variable, Function, Raw, LiteralString, Number, Boolean }
 
         [Browsable(true)]
         public event EventHandler? Changed;
@@ -48,6 +48,7 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
             try
             {
                 var kind = DetermineKind(parameter);
+                EnsureReferenceModel(kind, parameter);
                 kindComboBox.SelectedIndex = (int)kind;
                 ShowPanelFor(kind);
                 PopulateControlsFor(kind, parameter);
@@ -58,9 +59,24 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
             }
         }
 
+        /// <summary>
+        /// DetermineKind can report Parameter/Variable for an empty, not-yet-shaped parameter (e.g. a
+        /// freshly added argument whose Type is still "string") purely to pick the default combo
+        /// selection. PopulateReferenceCombo requires the parameter's Value to already be the nested
+        /// ConfigFunctionModel that kind implies, so materialize it here before populating - otherwise
+        /// the cast in PopulateReferenceCombo throws for what is still a plain string value.
+        /// </summary>
+        private static void EnsureReferenceModel(EditorKind kind, ConfigFunctionParameter parameter)
+        {
+            if (kind is not (EditorKind.Variable or EditorKind.Parameter) || parameter.Value is ConfigFunctionModel) return;
+
+            parameter.Type = "function";
+            parameter.Value = BuildReferenceModel(kind);
+        }
+
         private void BuildLayout()
         {
-            kindComboBox.Items.AddRange(["Literal text", "Number", "Boolean", "Variable", "Parameter", "Function call", "Raw / custom syntax"]);
+            kindComboBox.Items.AddRange(["Parameter", "Variable", "Function call", "Raw / custom syntax", "Literal text", "Number", "Boolean"]);
             kindComboBox.SelectedIndexChanged += KindComboBox_SelectedIndexChanged;
 
             simpleValuePanel = new Panel { Dock = DockStyle.Fill };
@@ -100,6 +116,12 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
             functionPanel.Controls.Add(functionNameComboBox);
         }
 
+        private static ConfigFunctionModel BuildReferenceModel(EditorKind kind) => new()
+        {
+            Name = kind == EditorKind.Variable ? "variable" : "parameter",
+            Parameters = [new ConfigFunctionParameter { Type = "string", Value = string.Empty }],
+        };
+
         private static EditorKind DetermineKind(ConfigFunctionParameter parameter)
         {
             if (parameter.Type == "function" && parameter.Value is ConfigFunctionModel model)
@@ -116,6 +138,7 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
                 "number" => EditorKind.Number,
                 "boolean" => EditorKind.Boolean,
                 "raw" => EditorKind.Raw,
+                _ when string.IsNullOrEmpty(parameter.Value?.ToString()) => EditorKind.Parameter,
                 _ => EditorKind.LiteralString,
             };
         }
@@ -221,11 +244,7 @@ namespace SIF.Utils.Forms.Common.ConfigFunctionBuilder
                 case EditorKind.Variable:
                 case EditorKind.Parameter:
                     parameter.Type = "function";
-                    parameter.Value = new ConfigFunctionModel
-                    {
-                        Name = kind == EditorKind.Variable ? "variable" : "parameter",
-                        Parameters = [new ConfigFunctionParameter { Type = "string", Value = string.Empty }],
-                    };
+                    parameter.Value = BuildReferenceModel(kind);
                     break;
                 case EditorKind.Function:
                     parameter.Type = "function";

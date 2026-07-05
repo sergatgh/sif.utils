@@ -46,6 +46,6 @@ public static class PowershellTasks
             updated.Add(new TaskParameterModel { Name = "ForegroundColor", Value = dialog.colorSelector.Text });
         }
 
-        section.LoadParameters(updated);
+        section.UpdateParameters(updated);
     }
 }

@@ -14,6 +14,14 @@ namespace SIF.Utils.Forms.JsonBuilder
             InitializeComponent();
             variablesForm1.GetAvailableParameterNames = () => parametersForm1.GetParameterNames();
             variablesForm1.GetRegisteredConfigFunctions = () => registerFunctions.RegisterMethods;
+
+            taskBuilderPanel1.GetAvailableVariableNames = () => variablesForm1.GetVariableNames();
+            taskBuilderPanel1.GetAvailableParameterNames = () => parametersForm1.GetParameterNames();
+            taskBuilderPanel1.GetRegisteredConfigFunctions = () => registerFunctions.RegisterMethods;
+
+            uninstallTaskBuilderPanel.GetAvailableVariableNames = () => variablesForm1.GetVariableNames();
+            uninstallTaskBuilderPanel.GetAvailableParameterNames = () => parametersForm1.GetParameterNames();
+            uninstallTaskBuilderPanel.GetRegisteredConfigFunctions = () => registerFunctions.RegisterMethods;
         }
 
         public void LoadFromResult(SifJsonParsingResult result)
