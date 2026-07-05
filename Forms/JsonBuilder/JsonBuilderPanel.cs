@@ -12,6 +12,8 @@ namespace SIF.Utils.Forms.JsonBuilder
         public JsonBuilderPanel()
         {
             InitializeComponent();
+            variablesForm1.GetAvailableParameterNames = () => parametersForm1.GetParameterNames();
+            variablesForm1.GetRegisteredConfigFunctions = () => registerFunctions.RegisterMethods;
         }
 
         public void LoadFromResult(SifJsonParsingResult result)

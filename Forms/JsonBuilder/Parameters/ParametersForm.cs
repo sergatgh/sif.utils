@@ -35,6 +35,8 @@ namespace SIF.Utils.Forms.JsonBuilder.Parameters
 
         public bool HasParameters() => _parameters.Count > 0;
 
+        public IEnumerable<string> GetParameterNames() => GetParamNames();
+
         public JsonObject GetJson()
         {
             var json = new JsonObject();

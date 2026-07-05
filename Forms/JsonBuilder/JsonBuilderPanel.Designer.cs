@@ -171,7 +171,7 @@
             viewJsonIncludes.Controls.Add(includeFiles1);
             viewJsonIncludes.Location = new Point(4, 32);
             viewJsonIncludes.Name = "viewJsonIncludes";
-            viewJsonIncludes.Size = new Size(927, 324);
+            viewJsonIncludes.Size = new Size(192, 64);
             viewJsonIncludes.TabIndex = 5;
             viewJsonIncludes.Text = "Includes";
             viewJsonIncludes.ToolTipText = "Coming Soon";
@@ -182,7 +182,7 @@
             includeFiles1.Dock = DockStyle.Fill;
             includeFiles1.Location = new Point(0, 0);
             includeFiles1.Name = "includeFiles1";
-            includeFiles1.Size = new Size(927, 324);
+            includeFiles1.Size = new Size(192, 64);
             includeFiles1.TabIndex = 0;
             // 
             // viewJsonModules
@@ -235,7 +235,7 @@
             viewJsonRegisteredConfigFunctions.Location = new Point(4, 32);
             viewJsonRegisteredConfigFunctions.Name = "viewJsonRegisteredConfigFunctions";
             viewJsonRegisteredConfigFunctions.Padding = new Padding(3);
-            viewJsonRegisteredConfigFunctions.Size = new Size(192, 64);
+            viewJsonRegisteredConfigFunctions.Size = new Size(927, 324);
             viewJsonRegisteredConfigFunctions.TabIndex = 8;
             viewJsonRegisteredConfigFunctions.Text = "Registered Functions";
             viewJsonRegisteredConfigFunctions.ToolTipText = "Coming Soon";
@@ -246,7 +246,7 @@
             registerFunctions.Dock = DockStyle.Fill;
             registerFunctions.Location = new Point(3, 3);
             registerFunctions.Name = "registerFunctions";
-            registerFunctions.Size = new Size(186, 58);
+            registerFunctions.Size = new Size(921, 318);
             registerFunctions.TabIndex = 1;
             // 
             // viewJsonSettings
