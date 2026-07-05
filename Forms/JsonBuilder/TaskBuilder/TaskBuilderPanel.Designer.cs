@@ -41,10 +41,14 @@
             defaultToolStripMenuItem = new ToolStripMenuItem();
             customToolStripMenuItem = new ToolStripMenuItem();
             removeToolStripMenuItem = new ToolStripMenuItem();
+            listViewContextMenuStrip = new ContextMenuStrip(components);
+            duplicateToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuRemoveToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.SuspendLayout();
             menuStrip1.SuspendLayout();
+            listViewContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // imageList1
@@ -89,7 +93,9 @@
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
+            listView1.ContextMenuStrip = listViewContextMenuStrip;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
+            listView1.MouseDown += listView1_MouseDown;
             //
             // columnHeader1
             //
@@ -139,7 +145,28 @@
             removeToolStripMenuItem.Size = new Size(85, 27);
             removeToolStripMenuItem.Text = "Remove";
             removeToolStripMenuItem.Click += removeToolStripMenuItem_Click;
-            // 
+            //
+            // listViewContextMenuStrip
+            //
+            listViewContextMenuStrip.Items.AddRange(new ToolStripItem[] { duplicateToolStripMenuItem, contextMenuRemoveToolStripMenuItem });
+            listViewContextMenuStrip.Name = "listViewContextMenuStrip";
+            listViewContextMenuStrip.Size = new Size(133, 52);
+            listViewContextMenuStrip.Opening += listViewContextMenuStrip_Opening;
+            //
+            // duplicateToolStripMenuItem
+            //
+            duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
+            duplicateToolStripMenuItem.Size = new Size(132, 24);
+            duplicateToolStripMenuItem.Text = "Duplicate";
+            duplicateToolStripMenuItem.Click += duplicateToolStripMenuItem_Click;
+            //
+            // contextMenuRemoveToolStripMenuItem
+            //
+            contextMenuRemoveToolStripMenuItem.Name = "contextMenuRemoveToolStripMenuItem";
+            contextMenuRemoveToolStripMenuItem.Size = new Size(132, 24);
+            contextMenuRemoveToolStripMenuItem.Text = "Remove";
+            contextMenuRemoveToolStripMenuItem.Click += removeToolStripMenuItem_Click;
+            //
             // TaskBuilderPanel
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
@@ -153,6 +180,7 @@
             splitContainer1.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            listViewContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -168,5 +196,8 @@
         private ToolStripMenuItem powerShellToolStripMenuItem;
         private ToolStripMenuItem defaultToolStripMenuItem;
         private ToolStripMenuItem customToolStripMenuItem;
+        private ContextMenuStrip listViewContextMenuStrip;
+        private ToolStripMenuItem duplicateToolStripMenuItem;
+        private ToolStripMenuItem contextMenuRemoveToolStripMenuItem;
     }
 }

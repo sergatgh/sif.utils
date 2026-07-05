@@ -3,6 +3,7 @@ using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 using SIF.Utils.Helpers;
 using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
 
@@ -57,7 +58,7 @@ public partial class TaskBuilderPanel : UserControl
         splitContainer1.Panel2.Controls.Clear();
     }
 
-    public void AddTaskFromModel(SifJsonTaskModel model)
+    public void AddTaskFromModel(SifJsonTaskModel model, int? insertIndex = null)
     {
         var taskInfo = SifFrameworkTasks.Tasks.FirstOrDefault(t => t.Name == model.Type)
                     ?? PowershellTasks.Tasks.FirstOrDefault(t => t.Name == model.Type);
@@ -68,8 +69,7 @@ public partial class TaskBuilderPanel : UserControl
             editorControl.Dock = DockStyle.Fill;
             if (editorControl is TaskEditor taskEditor)
                 taskEditor.LoadFromModel(model);
-            SelectedTasks.Add(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl });
-            var item = listView1.Items.Add(taskInfo.DisplayName, taskInfo.DisplayName);
+            var item = InsertTask(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl }, taskInfo.DisplayName, taskInfo.DisplayName, insertIndex);
             TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
             item.Selected = true;
         }
@@ -79,11 +79,22 @@ public partial class TaskBuilderPanel : UserControl
             customTask.Dock = DockStyle.Fill;
             customTask.LoadFromModel(model);
             var info = new TaskInfo { Name = model.Type, DisplayName = model.Name.Or(model.Type) };
-            SelectedTasks.Add(new TaskBuilderModel { Info = info, EditorControl = customTask });
-            var item = listView1.Items.Add(info.DisplayName, "Custom Task");
+            var item = InsertTask(new TaskBuilderModel { Info = info, EditorControl = customTask }, info.DisplayName, "Custom Task", insertIndex);
             TaskAdded?.Invoke(info, EventArgs.Empty);
             item.Selected = true;
         }
+    }
+
+    private ListViewItem InsertTask(TaskBuilderModel task, string text, string imageKey, int? insertIndex)
+    {
+        if (insertIndex is int index && index >= 0 && index <= SelectedTasks.Count)
+        {
+            SelectedTasks.Insert(index, task);
+            return listView1.Items.Insert(index, text, imageKey);
+        }
+
+        SelectedTasks.Add(task);
+        return listView1.Items.Add(text, imageKey);
     }
 
     private void InitializeTaskBuilder()
@@ -207,6 +218,90 @@ public partial class TaskBuilderPanel : UserControl
         listView1.Items.RemoveAt(sourceIndex);
         var inserted = listView1.Items.Insert(targetIndex, text, imageKey);
         inserted.Selected = true;
+    }
+
+    private void listView1_MouseDown(object sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Right)
+            return;
+
+        var item = listView1.GetItemAt(e.X, e.Y);
+        if (item != null)
+        {
+            item.Selected = true;
+            item.Focused = true;
+        }
+    }
+
+    private void listViewContextMenuStrip_Opening(object sender, CancelEventArgs e)
+    {
+        var hasSelection = listView1.SelectedItems.Count > 0;
+        duplicateToolStripMenuItem.Enabled = hasSelection;
+        contextMenuRemoveToolStripMenuItem.Enabled = hasSelection;
+    }
+
+    private void duplicateToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (listView1.SelectedItems.Count != 1)
+            return;
+
+        var index = listView1.SelectedItems[0].Index;
+        var (name, json) = SelectedTasks[index].ToJson();
+        var model = BuildModelFromJson(GetUniqueTaskName(name), json);
+        AddTaskFromModel(model, index + 1);
+    }
+
+    private string GetUniqueTaskName(string baseName)
+    {
+        var existingNames = SelectedTasks.Select(t => t.ToJson().Item1).ToHashSet();
+        if (!existingNames.Contains(baseName))
+            return baseName;
+
+        var counter = 2;
+        string candidate;
+        do
+        {
+            candidate = $"{baseName} ({counter})";
+            counter++;
+        } while (existingNames.Contains(candidate));
+
+        return candidate;
+    }
+
+    private static SifJsonTaskModel BuildModelFromJson(string name, JsonObject json)
+    {
+        var model = new SifJsonTaskModel
+        {
+            Name = name,
+            Description = json["Description"]?.GetValue<string>(),
+            Type = json["Type"]?.GetValue<string>() ?? string.Empty,
+            Skip = json["Skip"]?.GetValue<string>(),
+            Requires = json["Requires"]?.GetValue<string>(),
+        };
+
+        switch (json["Params"])
+        {
+            case JsonObject singleRunParameters:
+                model.ParamsList.Add(ToParameterList(singleRunParameters));
+                break;
+            case JsonArray multipleRunParameters:
+                foreach (var runParameters in multipleRunParameters.OfType<JsonObject>())
+                {
+                    model.ParamsList.Add(ToParameterList(runParameters));
+                }
+                break;
+        }
+
+        return model;
+    }
+
+    private static List<SifJsonTaskParameterModel> ToParameterList(JsonObject parameters)
+    {
+        return parameters.Select(kv => new SifJsonTaskParameterModel
+        {
+            Name = kv.Key,
+            Value = kv.Value?.ToJsonString() ?? string.Empty,
+        }).ToList();
     }
 
     private void removeToolStripMenuItem_Click(object sender, EventArgs e)
