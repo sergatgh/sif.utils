@@ -3,6 +3,7 @@ using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 using SIF.Utils.Helpers;
 using SIF.Utils.Properties;
 using System.ComponentModel;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
@@ -63,7 +64,9 @@ public static class SifFrameworkTasks
         return value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 
-    private static string EncodeArray(IEnumerable<string> lines) => JsonSerializer.Serialize(lines.ToArray());
+    private static readonly JsonSerializerOptions EncodeOptions = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+    private static string EncodeArray(IEnumerable<string> lines) => JsonSerializer.Serialize(lines.ToArray(), EncodeOptions);
 
     private static Dictionary<string, string> DecodeDictionary(string value)
     {
@@ -78,7 +81,7 @@ public static class SifFrameworkTasks
         }
     }
 
-    private static string EncodeDictionary(Dictionary<string, string> dict) => JsonSerializer.Serialize(dict);
+    private static string EncodeDictionary(Dictionary<string, string> dict) => JsonSerializer.Serialize(dict, EncodeOptions);
 
     private static TaskEditor CreateEditor(IReadOnlyDictionary<string, string> defaults, EventHandler<ParameterSectionEditEventArgs> onEdit)
     {
