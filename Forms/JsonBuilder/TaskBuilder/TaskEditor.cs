@@ -140,12 +140,13 @@ public partial class TaskEditor : UserControl
         {
             section.RemoveRequested -= Section_RemoveRequested;
             section.EditRequested -= Section_EditRequested;
+            section.DuplicateRequested -= Section_DuplicateRequested;
             parameterSectionsPanel.Controls.Remove(section);
             section.Dispose();
         }
     }
 
-    private void AddSection(IEnumerable<TaskParameterModel>? parameters = null)
+    private void AddSection(IEnumerable<TaskParameterModel>? parameters = null, int? insertIndex = null)
     {
         var section = new ParameterSectionControl();
         section.LoadParameters(parameters ?? Enumerable.Empty<TaskParameterModel>());
@@ -155,7 +156,12 @@ public partial class TaskEditor : UserControl
         section.GetRegisteredConfigFunctions = _getRegisteredConfigFunctions;
         section.RemoveRequested += Section_RemoveRequested;
         section.EditRequested += Section_EditRequested;
+        section.DuplicateRequested += Section_DuplicateRequested;
         parameterSectionsPanel.Controls.Add(section);
+        if (insertIndex.HasValue)
+        {
+            parameterSectionsPanel.Controls.SetChildIndex(section, insertIndex.Value);
+        }
         SizeSectionToPanel(section);
         UpdateSectionHeaders();
     }
@@ -167,6 +173,7 @@ public partial class TaskEditor : UserControl
 
         section.RemoveRequested -= Section_RemoveRequested;
         section.EditRequested -= Section_EditRequested;
+        section.DuplicateRequested -= Section_DuplicateRequested;
         parameterSectionsPanel.Controls.Remove(section);
         section.Dispose();
         UpdateSectionHeaders();
@@ -176,6 +183,13 @@ public partial class TaskEditor : UserControl
     {
         if (sender is not ParameterSectionControl section) return;
         SectionEditRequested?.Invoke(this, new ParameterSectionEditEventArgs(section));
+    }
+
+    private void Section_DuplicateRequested(object? sender, EventArgs e)
+    {
+        if (sender is not ParameterSectionControl section) return;
+        var insertIndex = parameterSectionsPanel.Controls.GetChildIndex(section) + 1;
+        AddSection(section.GetParameters(), insertIndex);
     }
 
     private void UpdateSectionHeaders()

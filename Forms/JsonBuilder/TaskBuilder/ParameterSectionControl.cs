@@ -8,6 +8,7 @@ public partial class ParameterSectionControl : UserControl
 {
     public event EventHandler? RemoveRequested;
     public event EventHandler? EditRequested;
+    public event EventHandler? DuplicateRequested;
 
     /// <summary>Supplies variable names live from the sibling Variables tab, for the expression builder.</summary>
     [Browsable(false)]
@@ -28,6 +29,7 @@ public partial class ParameterSectionControl : UserControl
     {
         InitializeComponent();
         AdjustDataGridViewHeight(parametersDataGrid);
+        taskParameterModelBindingSource.ListChanged += (_, _) => UpdateDuplicateButtonVisibility();
     }
 
     [Browsable(true)]
@@ -106,6 +108,11 @@ public partial class ParameterSectionControl : UserControl
     private void removeButton_Click(object sender, EventArgs e) => RemoveRequested?.Invoke(this, EventArgs.Empty);
 
     private void editButton_Click(object sender, EventArgs e) => EditRequested?.Invoke(this, EventArgs.Empty);
+
+    private void duplicateButton_Click(object sender, EventArgs e) => DuplicateRequested?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>Duplicating an empty section serves no purpose, so the button only shows up once the section holds at least one parameter.</summary>
+    private void UpdateDuplicateButtonVisibility() => duplicateButton.Visible = taskParameterModelBindingSource.Count > 0;
 
     private void parametersDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {

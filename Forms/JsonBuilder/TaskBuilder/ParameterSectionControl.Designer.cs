@@ -32,6 +32,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             taskParameterModelBindingSource = new BindingSource(components);
             headerPanel = new Panel();
             titleLabel = new Label();
+            duplicateButton = new Button();
             editButton = new Button();
             removeButton = new Button();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -50,6 +51,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             // headerPanel
             // 
             headerPanel.Controls.Add(titleLabel);
+            headerPanel.Controls.Add(duplicateButton);
             headerPanel.Controls.Add(editButton);
             headerPanel.Controls.Add(removeButton);
             headerPanel.Dock = DockStyle.Top;
@@ -71,8 +73,24 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             titleLabel.Text = "Params";
             titleLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // duplicateButton
+            //
+            duplicateButton.Dock = DockStyle.Right;
+            duplicateButton.FlatAppearance.BorderSize = 0;
+            duplicateButton.FlatStyle = FlatStyle.Flat;
+            duplicateButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            duplicateButton.Location = new Point(578, 4);
+            duplicateButton.Margin = new Padding(0);
+            duplicateButton.Name = "duplicateButton";
+            duplicateButton.Size = new Size(38, 30);
+            duplicateButton.TabIndex = 4;
+            duplicateButton.Text = "⧉";
+            duplicateButton.UseVisualStyleBackColor = true;
+            duplicateButton.Visible = false;
+            duplicateButton.Click += duplicateButton_Click;
+            //
             // editButton
-            // 
+            //
             editButton.Dock = DockStyle.Right;
             editButton.FlatAppearance.BorderSize = 0;
             editButton.FlatStyle = FlatStyle.Flat;
@@ -170,6 +188,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
         private Panel headerPanel;
         private Button removeButton;
         private Button editButton;
+        private Button duplicateButton;
         private Label titleLabel;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
