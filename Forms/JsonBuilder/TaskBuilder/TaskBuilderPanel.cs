@@ -4,6 +4,7 @@ using SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF;
 using SIF.Utils.Helpers;
 using SIF.Utils.Logic.JsonParser;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 
 namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder;
@@ -18,6 +19,44 @@ public partial class TaskBuilderPanel : UserControl
     public List<TaskBuilderModel> SelectedTasks { get; } = [];
 
     private bool _isImporting;
+
+    // OLE drag-drop runs its own modal message loop, which swallows WM_MOUSEWHEEL before it
+    // reaches the ListView. A low-level mouse hook is the only way to observe wheel input
+    // while a drag is in progress, so we install one for the duration of each drag.
+    private const int WhMouseLl = 14;
+    private const int WmMousewheel = 0x020A;
+    private const int LvmScroll = 0x1000 + 20;
+
+    private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MsllHookStruct
+    {
+        public Point Pt;
+        public uint MouseData;
+        public uint Flags;
+        public uint Time;
+        public IntPtr DwExtraInfo;
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern IntPtr GetModuleHandle(string? lpModuleName);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+    private LowLevelMouseProc? _dragWheelProc;
+    private IntPtr _dragWheelHookId = IntPtr.Zero;
 
     [Browsable(true)]
     public event EventHandler? TaskAdded;
@@ -264,7 +303,55 @@ public partial class TaskBuilderPanel : UserControl
         if (e.Button != MouseButtons.Left)
             return;
 
-        listView1.DoDragDrop(e.Item!, DragDropEffects.Move);
+        _dragWheelProc = DragWheelHookCallback;
+        _dragWheelHookId = SetWindowsHookEx(WhMouseLl, _dragWheelProc, GetModuleHandle(null), 0);
+        try
+        {
+            listView1.DoDragDrop(e.Item!, DragDropEffects.Move);
+        }
+        finally
+        {
+            if (_dragWheelHookId != IntPtr.Zero)
+                UnhookWindowsHookEx(_dragWheelHookId);
+
+            _dragWheelHookId = IntPtr.Zero;
+            _dragWheelProc = null;
+        }
+    }
+
+    private IntPtr DragWheelHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+    {
+        try
+        {
+            if (nCode >= 0 && wParam == (IntPtr)WmMousewheel)
+            {
+                var hookStruct = Marshal.PtrToStructure<MsllHookStruct>(lParam);
+                var wheelDelta = unchecked((short)((hookStruct.MouseData >> 16) & 0xFFFF));
+                ScrollTaskListDuringDrag(wheelDelta);
+                return (IntPtr)1;
+            }
+        }
+        catch
+        {
+            // Never let a hook callback fault take down the system-wide mouse hook.
+        }
+
+        return CallNextHookEx(_dragWheelHookId, nCode, wParam, lParam);
+    }
+
+    private void ScrollTaskListDuringDrag(int wheelDelta)
+    {
+        if (!listView1.IsHandleCreated || listView1.Items.Count == 0)
+            return;
+
+        var itemHeight = listView1.GetItemRect(0).Height;
+        if (itemHeight <= 0)
+            return;
+
+        var lines = Math.Max(SystemInformation.MouseWheelScrollLines, 1);
+        var pixels = -(wheelDelta / 120) * lines * itemHeight;
+
+        SendMessage(listView1.Handle, LvmScroll, IntPtr.Zero, (IntPtr)pixels);
     }
 
     private void listView1_DragEnter(object sender, DragEventArgs e)
