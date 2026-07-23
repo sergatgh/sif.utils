@@ -20,6 +20,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
             parametersDataGrid = new DataGridView();
             nameColumn = new DataGridViewTextBoxColumn();
             valueColumn = new DataGridViewTextBoxColumn();
+            buildExpressionDataGridColumn = new DataGridViewButtonColumn();
             label1 = new Label();
             valueInput = new LabeledTextbox();
             elementText = new LabeledTextbox();
@@ -35,7 +36,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
             parametersDataGrid.BackgroundColor = SystemColors.Control;
             parametersDataGrid.BorderStyle = BorderStyle.None;
             parametersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            parametersDataGrid.Columns.AddRange(new DataGridViewColumn[] { nameColumn, valueColumn });
+            parametersDataGrid.Columns.AddRange(new DataGridViewColumn[] { nameColumn, valueColumn, buildExpressionDataGridColumn });
             parametersDataGrid.Dock = DockStyle.Fill;
             parametersDataGrid.EditMode = DataGridViewEditMode.EditOnEnter;
             parametersDataGrid.Location = new Point(3, 256);
@@ -43,19 +44,30 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
             parametersDataGrid.RowHeadersWidth = 51;
             parametersDataGrid.Size = new Size(690, 336);
             parametersDataGrid.TabIndex = 9;
-            // 
+            parametersDataGrid.CellContentClick += parametersDataGrid_CellContentClick;
+            //
             // nameColumn
-            // 
+            //
             nameColumn.HeaderText = "Attribute";
             nameColumn.MinimumWidth = 6;
             nameColumn.Name = "nameColumn";
-            // 
+            //
             // valueColumn
-            // 
+            //
             valueColumn.HeaderText = "Value";
             valueColumn.MinimumWidth = 6;
             valueColumn.Name = "valueColumn";
-            // 
+            //
+            // buildExpressionDataGridColumn
+            //
+            buildExpressionDataGridColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            buildExpressionDataGridColumn.HeaderText = "";
+            buildExpressionDataGridColumn.MinimumWidth = 6;
+            buildExpressionDataGridColumn.Name = "buildExpressionDataGridColumn";
+            buildExpressionDataGridColumn.Text = "...";
+            buildExpressionDataGridColumn.UseColumnTextForButtonValue = true;
+            buildExpressionDataGridColumn.Width = 30;
+            //
             // label1
             // 
             label1.AutoSize = true;
@@ -159,5 +171,6 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls.SIF
         public LabeledTextbox elementText;
         private DataGridViewTextBoxColumn nameColumn;
         private DataGridViewTextBoxColumn valueColumn;
+        private DataGridViewButtonColumn buildExpressionDataGridColumn;
     }
 }

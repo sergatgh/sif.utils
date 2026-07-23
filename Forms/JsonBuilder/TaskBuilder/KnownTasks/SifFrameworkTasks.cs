@@ -83,6 +83,13 @@ public static class SifFrameworkTasks
 
     private static string EncodeDictionary(Dictionary<string, string> dict) => JsonSerializer.Serialize(dict, EncodeOptions);
 
+    /// <summary>Config function values from ConfigFunctionBuilderDialog come back quoted as JSON string
+    /// literals (e.g. "hello"). Attribute dictionary values are stored raw and later re-encoded via
+    /// EncodeDictionary, which would otherwise escape those quotes instead of treating them as delimiters.
+    /// Stripping them here keeps a plain literal value plain.</summary>
+    private static string StripSurroundingQuotes(string value) =>
+        value.Length >= 2 && value.StartsWith('"') && value.EndsWith('"') ? value[1..^1] : value;
+
     private static TaskEditor CreateEditor(IReadOnlyDictionary<string, string> defaults, EventHandler<ParameterSectionEditEventArgs> onEdit)
     {
         var editor = new TaskEditor();
@@ -685,6 +692,9 @@ public static class SifFrameworkTasks
             xPathInput = { TextInput = GetParam(parameters, "XPath") },
             elementText = { TextInput = GetParam(parameters, "Element") },
             valueInput = { TextInput = GetParam(parameters, "Value") },
+            GetAvailableVariableNames = section.GetAvailableVariableNames,
+            GetAvailableParameterNames = section.GetAvailableParameterNames,
+            GetRegisteredConfigFunctions = section.GetRegisteredConfigFunctions,
         };
         var attributes = DecodeDictionary(GetParam(parameters, "Attributes"));
         foreach (var (key, value) in attributes)
@@ -708,7 +718,7 @@ public static class SifFrameworkTasks
         {
             if (row.IsNewRow) continue;
             var key = row.Cells[0].Value?.ToString() ?? string.Empty;
-            var value = row.Cells[1].Value?.ToString() ?? string.Empty;
+            var value = StripSurroundingQuotes(row.Cells[1].Value?.ToString() ?? string.Empty);
             if (!string.IsNullOrEmpty(key)) updatedAttributes[key] = value;
         }
         if (updatedAttributes.Count > 0) updated.Add(new TaskParameterModel { Name = "Attributes", Value = EncodeDictionary(updatedAttributes) });

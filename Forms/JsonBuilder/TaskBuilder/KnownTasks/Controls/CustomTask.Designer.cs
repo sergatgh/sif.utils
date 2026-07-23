@@ -38,11 +38,12 @@
             taskEditor1.AutoScroll = true;
             taskEditor1.AutoSize = true;
             taskEditor1.Dock = DockStyle.Top;
+            taskEditor1.EnableSectionEditButton = false;
             taskEditor1.Location = new Point(0, 53);
             taskEditor1.Margin = new Padding(3, 2, 3, 2);
             taskEditor1.MinimumSize = new Size(50, 51);
             taskEditor1.Name = "taskEditor1";
-            taskEditor1.Size = new Size(581, 360);
+            taskEditor1.Size = new Size(581, 425);
             taskEditor1.TabIndex = 0;
             // 
             // typeLabel
