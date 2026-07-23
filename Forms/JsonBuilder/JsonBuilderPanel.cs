@@ -27,15 +27,20 @@ namespace SIF.Utils.Forms.JsonBuilder
         public void LoadFromResult(SifJsonParsingResult result)
         {
             ClearAll();
+
+            taskBuilderPanel1.BeginImport(result.Tasks.Count);
             foreach (var task in result.Tasks)
             {
                 taskBuilderPanel1.AddTaskFromModel(task);
             }
+            taskBuilderPanel1.EndImport();
 
+            uninstallTaskBuilderPanel.BeginImport(result.UninstallTasks.Count);
             foreach (var task in result.UninstallTasks)
             {
                 uninstallTaskBuilderPanel.AddTaskFromModel(task);
             }
+            uninstallTaskBuilderPanel.EndImport();
 
             parametersForm1.LoadFromModels(result.Parameters);
             parametersForm1.SetIncludes(result.Includes);

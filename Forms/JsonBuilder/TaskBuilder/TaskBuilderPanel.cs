@@ -17,6 +17,8 @@ public partial class TaskBuilderPanel : UserControl
 
     public List<TaskBuilderModel> SelectedTasks { get; } = [];
 
+    private bool _isImporting;
+
     [Browsable(true)]
     public event EventHandler? TaskAdded;
 
@@ -39,6 +41,50 @@ public partial class TaskBuilderPanel : UserControl
     {
         InitializeComponent();
         InitializeTaskBuilder();
+        splitContainer1.Panel2.Resize += (_, _) => CenterImportOverlay();
+    }
+
+    /// <summary>Shows a progress bar over the editor pane and suppresses per-item selection/flicker while a batch of tasks is added via <see cref="AddTaskFromModel"/>.</summary>
+    public void BeginImport(int totalCount)
+    {
+        _isImporting = true;
+        listView1.BeginUpdate();
+        listView1.Enabled = false;
+
+        importProgressBar.Minimum = 0;
+        importProgressBar.Maximum = Math.Max(totalCount, 1);
+        importProgressBar.Value = 0;
+        importStatusLabel.Text = totalCount > 0 ? $"Importing tasks… 0/{totalCount}" : "Importing tasks…";
+
+        splitContainer1.Panel2.Controls.Clear();
+        splitContainer1.Panel2.Controls.Add(importOverlayPanel);
+        CenterImportOverlay();
+        importOverlayPanel.Visible = true;
+        importOverlayPanel.BringToFront();
+        Application.DoEvents();
+    }
+
+    public void EndImport()
+    {
+        _isImporting = false;
+        listView1.Enabled = true;
+        listView1.EndUpdate();
+
+        importOverlayPanel.Visible = false;
+        splitContainer1.Panel2.Controls.Remove(importOverlayPanel);
+
+        if (listView1.Items.Count > 0)
+        {
+            listView1.Items[0].Selected = true;
+            listView1.Items[0].Focused = true;
+        }
+    }
+
+    private void CenterImportOverlay()
+    {
+        var bounds = splitContainer1.Panel2.ClientSize;
+        importStatusLabel.Location = new Point((bounds.Width - importStatusLabel.Width) / 2, (bounds.Height / 2) - 24);
+        importProgressBar.Location = new Point((bounds.Width - importProgressBar.Width) / 2, (bounds.Height / 2));
     }
 
     public void AddTypeSuggestion(string type)
@@ -90,7 +136,8 @@ public partial class TaskBuilderPanel : UserControl
             }
             var item = InsertTask(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl }, taskInfo.DisplayName, taskInfo.DisplayName, insertIndex);
             TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
-            item.Selected = true;
+            if (!_isImporting)
+                item.Selected = true;
         }
         else
         {
@@ -100,8 +147,20 @@ public partial class TaskBuilderPanel : UserControl
             var info = new TaskInfo { Name = model.Type, DisplayName = model.Name.Or(model.Type) };
             var item = InsertTask(new TaskBuilderModel { Info = info, EditorControl = customTask }, info.DisplayName, "Custom Task", insertIndex);
             TaskAdded?.Invoke(info, EventArgs.Empty);
-            item.Selected = true;
+            if (!_isImporting)
+                item.Selected = true;
         }
+
+        if (_isImporting)
+            ReportImportProgress();
+    }
+
+    private void ReportImportProgress()
+    {
+        importProgressBar.Value = Math.Min(importProgressBar.Value + 1, importProgressBar.Maximum);
+        importStatusLabel.Text = $"Importing tasks… {importProgressBar.Value}/{importProgressBar.Maximum}";
+        CenterImportOverlay();
+        Application.DoEvents();
     }
 
     private ListViewItem InsertTask(TaskBuilderModel task, string text, string imageKey, int? insertIndex)

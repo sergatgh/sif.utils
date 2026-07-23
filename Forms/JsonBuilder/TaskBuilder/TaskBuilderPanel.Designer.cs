@@ -44,6 +44,9 @@
             listViewContextMenuStrip = new ContextMenuStrip(components);
             duplicateToolStripMenuItem = new ToolStripMenuItem();
             contextMenuRemoveToolStripMenuItem = new ToolStripMenuItem();
+            importOverlayPanel = new Panel();
+            importProgressBar = new ProgressBar();
+            importStatusLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.SuspendLayout();
@@ -70,8 +73,9 @@
             splitContainer1.Panel1.Controls.Add(menuStrip1);
             // 
             // splitContainer1.Panel2
-            // 
+            //
             splitContainer1.Panel2.AutoScroll = true;
+            splitContainer1.Panel2.Controls.Add(importOverlayPanel);
             splitContainer1.Size = new Size(828, 393);
             splitContainer1.SplitterDistance = 276;
             splitContainer1.TabIndex = 1;
@@ -167,8 +171,39 @@
             contextMenuRemoveToolStripMenuItem.Text = "Remove";
             contextMenuRemoveToolStripMenuItem.Click += removeToolStripMenuItem_Click;
             //
+            // importOverlayPanel
+            //
+            importOverlayPanel.BackColor = SystemColors.Window;
+            importOverlayPanel.Controls.Add(importProgressBar);
+            importOverlayPanel.Controls.Add(importStatusLabel);
+            importOverlayPanel.Dock = DockStyle.Fill;
+            importOverlayPanel.Name = "importOverlayPanel";
+            importOverlayPanel.Size = new Size(548, 393);
+            importOverlayPanel.TabIndex = 0;
+            importOverlayPanel.Visible = false;
+            //
+            // importProgressBar
+            //
+            importProgressBar.Anchor = AnchorStyles.None;
+            importProgressBar.Location = new Point(174, 196);
+            importProgressBar.MarqueeAnimationSpeed = 30;
+            importProgressBar.Name = "importProgressBar";
+            importProgressBar.Size = new Size(260, 20);
+            importProgressBar.Style = ProgressBarStyle.Continuous;
+            importProgressBar.TabIndex = 0;
+            //
+            // importStatusLabel
+            //
+            importStatusLabel.Anchor = AnchorStyles.None;
+            importStatusLabel.AutoSize = true;
+            importStatusLabel.Location = new Point(180, 172);
+            importStatusLabel.Name = "importStatusLabel";
+            importStatusLabel.Size = new Size(130, 20);
+            importStatusLabel.TabIndex = 1;
+            importStatusLabel.Text = "Importing tasks…";
+            //
             // TaskBuilderPanel
-            // 
+            //
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(splitContainer1);
@@ -199,5 +234,8 @@
         private ContextMenuStrip listViewContextMenuStrip;
         private ToolStripMenuItem duplicateToolStripMenuItem;
         private ToolStripMenuItem contextMenuRemoveToolStripMenuItem;
+        private Panel importOverlayPanel;
+        private ProgressBar importProgressBar;
+        private Label importStatusLabel;
     }
 }

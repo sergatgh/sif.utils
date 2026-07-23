@@ -132,7 +132,7 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder
             parametersDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             parametersDataGrid.BackgroundColor = SystemColors.Control;
             parametersDataGrid.BorderStyle = BorderStyle.None;
-            parametersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            parametersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             parametersDataGrid.Columns.AddRange(new DataGridViewColumn[] { nameDataGridViewTextBoxColumn, valueDataGridViewTextBoxColumn, buildExpressionDataGridColumn });
             parametersDataGrid.DataSource = taskParameterModelBindingSource;
             parametersDataGrid.Dock = DockStyle.Top;
