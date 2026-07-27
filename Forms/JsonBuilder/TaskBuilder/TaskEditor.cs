@@ -86,6 +86,8 @@ public partial class TaskEditor : UserControl
         }
     }
 
+    public void FocusNameInput() => nameInput.FocusInput();
+
     public void SetDefaultParameters(IReadOnlyDictionary<string, string> defaults)
     {
         var firstSection = parameterSectionsPanel.Controls.OfType<ParameterSectionControl>().FirstOrDefault();

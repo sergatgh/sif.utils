@@ -76,6 +76,8 @@ namespace SIF.Utils.Forms.JsonBuilder
 
         public bool HasText => !string.IsNullOrWhiteSpace(this.TextInput);
 
+        public void FocusInput() => textBox.Focus();
+
         public LabeledTextbox()
         {
             InitializeComponent();

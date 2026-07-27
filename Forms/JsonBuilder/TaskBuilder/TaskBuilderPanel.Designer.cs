@@ -121,7 +121,7 @@
             addToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { powerShellToolStripMenuItem, defaultToolStripMenuItem, customToolStripMenuItem });
             addToolStripMenuItem.Name = "addToolStripMenuItem";
             addToolStripMenuItem.Size = new Size(130, 27);
-            addToolStripMenuItem.Text = "Add New Task";
+            addToolStripMenuItem.Text = "Insert New Task";
             // 
             // powerShellToolStripMenuItem
             // 

@@ -176,7 +176,10 @@ public partial class TaskBuilderPanel : UserControl
             var item = InsertTask(new TaskBuilderModel { Info = taskInfo, EditorControl = editorControl }, taskInfo.DisplayName, taskInfo.DisplayName, insertIndex);
             TaskAdded?.Invoke(taskInfo, EventArgs.Empty);
             if (!_isImporting)
+            {
                 item.Selected = true;
+                ScrollToAndFocusTask(item, editorControl);
+            }
         }
         else
         {
@@ -187,7 +190,10 @@ public partial class TaskBuilderPanel : UserControl
             var item = InsertTask(new TaskBuilderModel { Info = info, EditorControl = customTask }, info.DisplayName, "Custom Task", insertIndex);
             TaskAdded?.Invoke(info, EventArgs.Empty);
             if (!_isImporting)
+            {
                 item.Selected = true;
+                ScrollToAndFocusTask(item, customTask);
+            }
         }
 
         if (_isImporting)
@@ -256,10 +262,32 @@ public partial class TaskBuilderPanel : UserControl
         editorControl.Dock = DockStyle.Fill;
         if (editorControl is TaskEditor taskEditor)
             ApplyExpressionBuilderSources(taskEditor);
-        SelectedTasks.Add(new TaskBuilderModel { Info = sender, EditorControl = editorControl });
-        var item = listView1.Items.Add(sender.DisplayName, sender.DisplayName);
+
+        var insertIndex = listView1.SelectedItems.Count > 0
+            ? listView1.SelectedItems[0].Index + 1
+            : (int?)null;
+
+        var item = InsertTask(new TaskBuilderModel { Info = sender, EditorControl = editorControl }, sender.DisplayName, sender.DisplayName, insertIndex);
         TaskAdded?.Invoke(sender, EventArgs.Empty);
         item.Selected = true;
+        ScrollToAndFocusTask(item, editorControl);
+    }
+
+    /// <summary>Scrolls the newly added item into view and focuses its first editable property, regardless of
+    /// whether the task landed at the start, middle, or end of the list.</summary>
+    private static void ScrollToAndFocusTask(ListViewItem item, Control editorControl)
+    {
+        item.EnsureVisible();
+
+        switch (editorControl)
+        {
+            case TaskEditor taskEditor:
+                taskEditor.FocusNameInput();
+                break;
+            case CustomTask customTask:
+                customTask.FocusTypeInput();
+                break;
+        }
     }
 
     private void ApplyExpressionBuilderSources(TaskEditor taskEditor)

@@ -27,6 +27,8 @@ namespace SIF.Utils.Forms.JsonBuilder.TaskBuilder.KnownTasks.Controls
             this.typeText.AutoCompleteCustomSource.AddRange(suggestions);
         }
 
+        public void FocusTypeInput() => typeText.Focus();
+
         public (string, JsonObject) GetJson()
         {
             var json = this.taskEditor1.GetJson(this.typeText.Text);
